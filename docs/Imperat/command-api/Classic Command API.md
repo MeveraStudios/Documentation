@@ -1,0 +1,105 @@
+---
+sidebar_position: 1
+---
+A command in Imperat is represented internally by the class `dev.velix.imperat.command.Command` which holds every command's data and needed usages. 
+
+Sub-commands at the other hand, are themselves `Command`, simply there's no class called `Subcommand` or something like that, Subcommands are treated as commands and can be easily combined together in the form of a chain by merging the main-usage of a command to the 
+subcommand's usage. Moreover, A `Command` is also treated as a `CommandParameter` that can be added to a `CommandUsage`.
+
+We will be learning every possible way of modifying the `Command` object you create (**Classic**)
+But first let's get to know the [mutable](https://www.javatpoint.com/mutable-and-immutable-in-java#:~:text=What%20are%20Mutable%20Objects&text=The%20mutable%20objects%20are%20objects,For%20example%2C%20Java.) components of a `Command`.
+Every single `Command` object has the following mutable components :-
+
+- **Name** *(The Only Immutable component)*
+- **Aliases** (other names could be used for a command)
+- **Permission** 
+- **Description**
+- **AutoCompleter** (Created automatically)
+- **Default-usage** (`/<command>` without any arguments )
+- **Sorted set of Usages** ([FIFO](https://www.geeksforgeeks.org/fifo-first-in-first-out-approach-in-programming/)) 
+## Example 
+
+Here we will be creating our command :
+```java
+var command = Command.createCommand("example");
+```
+### Adding aliases 
+
+We want our command to have more than one identifiable name.
+```java
+command.addAliases("example2", "example3", "example4", "example5");
+```
+
+### Setting Command Permission
+We can easily define a permission for our command as the example below:
+```java
+command.setPermission("command.example.permission");
+```
+
+### Setting Command Description
+Same as before but using different method
+```java
+command.setDescription("This is an example command !");
+```
+
+### Setting default-usage-executor
+Now we want to define what happens when the command sender executes the command in the command-line without any arguments.
+```java
+command.setDefaultUsageExecution((source, context)-> {  
+  source.reply("This is just an example with no arguments entered");  
+});
+```
+
+### Adding Command Usages
+A normal usage usually has no special `CommandParameter` types(such as `Command`), 
+which can be added  easily as below:
+```java
+command.addUsage(CommandUsage.builder()  
+	.parameters(
+	  CommandParameter.requiredInt("firstArg")  
+	).execute((source, context) -> {  
+	 Integer firstArg  = context.getArgument("firstArg");  
+	 source.reply("Entered required number= " + firstArg);  
+	}) 
+	.build()  
+);
+```
+
+However, what if you wanted to add subcommands, you cant add a subcommand directly through
+creating it manually(it's possible) as it will require a lot of processing and will be ugly looking.
+Therefore, The `Command` object is made with such automated processing and chaining of subcommands through the method `Command#addSubCommandUsage` as the example below :-
+
+```java
+command.addSubCommandUsage("sub1", CommandUsage.builder()  
+	.parameters(
+	CommandParameter.optional("value", Double.class,OptionalValueSupplier.of(-1D))
+	).execute((source, context)-> {
+	 //you can get previously used arguments from the main command usage  
+	 Integer firstArg = context.getArgument("firstArg");  
+	 source.reply("Entered firstArg= " + firstArg);  
+	 Double value = context.getArgument("value");  
+	 assert value != null; //optional arg cant be null, it has a default value supplier  
+	 source.reply("Double value entered= " + value);  
+	}).build());
+```
+
+After the example above, a new usage internally will be created and 
+shall look like `/example <firstArg> sub1 [value]`.
+#### Extras
+There are multiple extra options to consider when adding a subcommand to a command :-
+- `aliases`
+- `attachDirectly` -> Whether the subcommand usage will be merged with the command's default usage (not main usage), and it's `false` by default, as it will cause  some ambiguity 
+
+You can also declare a usage to be executed asynchronously by using the method `CommandUsage.Builder#coordinator` which takes a `CommandCoordinator` instance.
+as shown below:
+```java
+CommandUsage.builder().coordinator(CommandCoordinator.async()).build();
+```
+<br/>
+
+:::danger[CRITICAL]
+- **NEVER CALL** `Command#setPosition` for any reason (even if you were [Joshua Bloch](https://en.wikipedia.org/wiki/Joshua_Bloch))
+- If you don't know what is an `ambiguity` between 2 different usages,
+  please check out [UsageVerifier](../Dispatcher%20API.md#usageverifier)
+
+:::

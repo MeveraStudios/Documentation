@@ -1,0 +1,109 @@
+---
+title: Imperat
+slug: /Imperat
+id: Introduction
+sidebar_position: 1
+---
+import DocCardList from '@theme/DocCardList';
+
+# Introduction
+Imperat is a powerful command dispatching framework, it allows you to create 
+commands and converts them into the form of multiple data-condensed objects like `Command`,  `CommandUsage` and `CommandParameter`
+These objects are registered/injected into the class `Imperat` which handles all information about each command and then dispatches/executes the command requested.
+
+# Creating Command Dispatcher
+
+**Frequently asked question:** ***What's a command dispatcher/Imperat ??*** <br/>
+**Answer:** It's the Ultimate class handling all data needed when processing and registering
+commands objects (`Command`) you have to create **new instance** of the command dispatcher
+on the **start** of your application/program/spigot plugin.
+
+Creation of an instance of your `PlatformImperat` depends mainly on which platform
+you are using. For more details, Check out [Supported-Platforms](Supported-Platforms.md)
+
+# Modifying The Command Dispatcher
+
+If you wanted to register a [Context Resolver](Context%20Resolver.md) or a [Value Resolver](Value%20Resolver.md) , or even 
+set a [Suggestion Resolver](Suggestion%20Resolver.md) for tab-completion in commands, You would have to 
+call some methods using your platform's dispatcher instance/
+For a complete detailed guide on this, please check out [Dispatcher API](Dispatcher%20API.md)
+
+:::note
+It must be done **BEFORE** registering any command.<br/>
+:::
+
+:::warning
+If you ever wanted to create your own implementation of `Imperat` interface, 
+you will not receive any support and your issue will be instantly ignored/discarded
+:::
+
+# Creation of Commands
+There's mainly 2 ways of creating commands
+- [Classic (Built-in `Command.create(commandName)`)](command-api/Classic%20Command%20API.md)
+- [Annotations Command API](command-api/Annotations%20Command%20API.md) 
+
+## Classic
+The main original (OG) way of creating a command is by using our built-in `Command.create(commandName)` method for creation <br/>
+Here's a quick example :
+
+```java
+Command<YourPlatformCommandSender> command = Command.createCommand("example");
+```
+
+For more details about what type of `CommandSender` you should use, please check out 
+You may modify the `command` object however you would like by checking out [Classic Command API](command-api/Classic%20Command%20API.md) which explains every possible way to modify any command object you create.
+
+*Quick example:*
+```java
+command.addUsage(
+  CommandUsage.builder().parameters(
+		CommandParameter.requiredInt("firstArg")  
+	).execute((source, context) -> {  
+		Integer firstArg  = context.getArgument("firstArg");  
+		source.reply("Entered required number= " + firstArg);  
+	}).build()  
+);
+```
+## Annotated Commands
+Creating commands with annotations is easy with 2 steps only:
+1. Create a class that will represent your command class
+2. Add unique annotations to it that allows the dispatcher to identify it as a command class
+
+*Quick example (Same results as the one above, but with annotations):*
+```java
+@Command("example")  
+public final class ExampleCommand {
+
+  @DefaultUsage  
+  public void defaultUsage(Source source) {  
+   source.reply("This is just an example with no arguments entered");  
+  }  
+
+  @Usage  
+  public void exampleOneArg(
+	  Source source, 
+	  @Named("firstArg") int firstArg
+  ) { 
+   source.reply("Entered required number= " + firstArg);  
+  }
+}
+```
+# Register your commands
+Finally after constructing and modifying your `command` object, it's now easy 
+to register it by calling the method `Imperat#registerCommand(command)` 
+**Note:** the method is called from the `Imperat` instance that you should have created
+
+*Here's a quick example below if you're using the `Command.create` built-in way:*
+```java
+myCommandDispatcher.registerCommand(command);
+```
+
+Another example below with [Annotations Command API](command-api/Annotations%20Command%20API.md) :
+```java
+myCommandDispatcher.registerCommand(new ExampleCommand())
+```
+
+# Tutorials
+Check out all the Imperat tutorials here!
+
+<DocCardList />
