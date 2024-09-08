@@ -199,8 +199,8 @@ You can do exactly the same for your Paginated help template
 **how to create your own help displaying and customize it:-**
 ##### For normal help-template
 
-![[Pasted image 20240824203527.png]]
+![Default Help Template Result](/img/Imperat/default-help-command.png)
 
 ##### For paginated help-template
 
-![[Pasted image 20240824202318.png]]
+![Paginated Help Template Result](/img/Imperat/paginated-help-command.png)
