@@ -73,11 +73,6 @@ const config = {
             label: 'Imperat',
           },
           {
-            to: '/VPractice',
-            position: 'left',
-            label: 'VPractice',
-          },
-          {
             href: 'https://github.com/VelixDevelopments/Documentation',
             label: 'GitHub',
             position: 'right',
