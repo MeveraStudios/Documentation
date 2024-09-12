@@ -144,20 +144,21 @@ Here's an example of a command that uses some of the features mentioned above.
 @Command("ban")  
 @Permission("command.ban")  
 @Description("Main command for banning players")  
-public final class BanCommand {  
-  
+public final class BanCommand {
+
     @DefaultUsage  
-    public void showUsage(BukkitSource source) {  
+    public void showUsage(BukkitSource source) {
         source.reply("/ban <player> [-silent] [duration] [reason...]");  
-    }  
+    }
+
     @Usage  
     public void banPlayer(  
             BukkitSource source,  
             @Named("player") OfflinePlayer player,  
             @Switch({"silent", "s"}) boolean silent,  
             @Named("duration") @Optional @Nullable String duration,  
-            @Named("reason") @Optional @DefaultValue("Breaking server laws"),                  @Greedy String reason  
-    ) {  
+            @Named("reason") @DefaultValue("Breaking server laws") @Greedy String reason
+    ) {
         //TODO actual ban logic  
         String durationFormat = duration == null ? "FOREVER" : "for " + duration;  
         String msg = "Banning " + player.getName() + " " 
