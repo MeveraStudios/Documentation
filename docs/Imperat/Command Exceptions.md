@@ -1,4 +1,6 @@
 ---
+slug: /Imperat/Throwables
+title: Throwable Handlers
 sidebar_position: 4
 ---
 # ThrowableHandler
