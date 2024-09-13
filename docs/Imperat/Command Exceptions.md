@@ -1,7 +1,7 @@
 ---
 sidebar_position: 4
 ---
-# `ThrowableHandler`
+# ThrowableHandler
 
 The `ThrowableHandler` is a core component in the Imperat framework, designed to manage exceptions that occur during command execution.
 It handles two types of exceptions:
