@@ -50,7 +50,7 @@ public final class GroupCommand {
 
 A help template is an interface that allows you to customize how the help-menu is displayed to the command-sender, there's already a `DefaultHelpTemplate` that looks like this when you execute `/group <group> help`:
 
-![[Pasted image 20240824143226.png]]
+![[default-help-command.png]]
 
 :::note
 the `N/A` represents an unknown description, if it is annoying you, you can set a description per subcommand/usage whether using the classic way or the annotations or just make your own template which doesn't include the description in the `UsageFormatter`
@@ -128,8 +128,8 @@ public class ExampleUsageFormatter implements UsageFormatter {
 Then inside of your custom help-template, you should just replace `new DefaultFormatter()` with `new ExampleUsageFormatter` *(or whatever the name of your class that implements the `UsageFormatter`)*.
 
 :::info
-UsageDisplayer has already 2 premade implementations that you should be using (unless you want to make your own implementation), which are `TreeDisplayer` and `PlainDisplayer`,  Currently, the `TreeDisplayer` is experimental and might give you some issues.
-We recommend using the `PlainDisplayer` through the method `UsageDisplayer.plain()`.
+UsageDisplayer has already a premade implementation that you should be using (unless you want to make your own implementation) `PlainDisplayer`,
+We recommend fetching the instance of `PlainDisplayer` through the method `UsageDisplayer.plain()`.
 :::
 
 ### Paginated Help Template
@@ -195,8 +195,8 @@ You can do exactly the same for your Paginated help template
 **how to create your own help displaying and customize it:-**
 ##### For normal help-template
 
-![Default Help Template Result](./assets/default-help-command.png)
+![Default Help Template Result](./assets/example-help-command.png)
 
 ##### For paginated help-template
 
-![Paginated Help Template Result](./assets/paginated-help-command.png)
+![Paginated Help Template Result](./assets/example-paginated-help-command.png)
