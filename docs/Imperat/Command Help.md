@@ -34,7 +34,7 @@ public final class GroupCommand {
 		source.reply("entered group name= " + group.name());  
 	}
 
-	@Usage //help usage -> /group <group> help
+	@SubCommand("help") //help usage -> /group <group> help
 	public void groupHelp(  
 		BukkitSource source,  
 		@Named("group") Group group,  
