@@ -18,7 +18,6 @@ The `Imperat` interface is made of several components that are flexible *(change
 - [Suggestion Resolver](Suggestion%20Resolver.md)
 - [Command Help](Command%20Help.md)
 - UsageVerifier
-- Captions
 ## AnnotationParser
 
 It's a flexible abstract class in Imperat, which parses the annotated command classes.
@@ -157,74 +156,4 @@ class MyUsageVerifier implements UsageVerifier<YourPlatformCommandSender> {
 #### Setting your usage verifier
 ```java
 dispatcher.setUsageVerifier(new MyUsageVerifier);
-```
-
-## Captions
-
-A caption represents a response that is needed to be sent to the command source/sender when something (un)expected happens.
-for example when you try to input a syntax that doesn't exist or isn't registered in the `Imperat` interface it will send you the message that tells you about the invalid syntax you entered or even the missing syntaxes.
-
-:::info
-Responses are currently based on [MiniMessage](https://docs.advntr.dev/minimessage/format.html) format
-:::
-
-Each caption has a unique key/identifier(`CaptionKey`) that makes it unique and easy to identify the purpose of this response/caption.
-
-**There's already built-in captions** *(with their keys of course !)* **such as :**
-- `InvalidSyntaxCaption` -> sent when the usage input is invalid (whether it's totally invalid or has some missing arguments to be completed)
-
-- `NoHelpCaption` -> sent when the user executes a command help and there's no help template available OR there's no pages (usages of the command are probably empty) to display (incase of using `PaginatedHelpTemplate`)
-
-- `NoHelpPageCaption` -> sent when an invalid page is being requested upon using the paginated help template through the interface`PaginatedHelpTemplate`
-
-- `NoPermissionCaption` -> sent when the user doesn't have permission for the command OR the command usage being executed (because you can set permissions per usage/subcommand you create)
-
-- `CooldownCaption` -> sent when a `CommandUsage` has a cooldown while the user triggers this usage's execution during its cooldown period.
-### Creating your own caption
-
-If you ever wanted to create your own captions/responses, you just need to create a new `CaptionKey` constant field in some other class and then make a new class and make it implement `Caption<YourPlatformCommandSender>` and implement the methods `getKey()` and `getMessage()` as of the example below: 
-
-```java
-class MyCaptionKeys {
-	public final static CaptionKey MY_CAPTION_KEY = ()-> "my_caption"
-
-}
-
-class MyCaption implements Caption<YourPlatformCommandSender> {
-	@Override  
-	public @NotNull CaptionKey getKey() {  
-		return CaptionKey.MY_CAPTION_KEY;  
-	}
-
- 
-	@Override  
-	public @NotNull String getMessage(  
-			@NotNull Imperat<C> dispatcher,  
-			@NotNull Context<C> context,  
-			@Nullable Exception exception  
-	) {
-		//Imperat has a built-in MiniMessage formatter method
-		String senderName = commandSource.getOrigin().getName();
-		return "This is my caption/response to command-sender: '" + senderName + "';
-	}
-}
-```
-
-
-### Register your caption:
-
-Easy ! just call `dispatcher.registerCaption(Caption)`
-
-### Sending your caption to a user
-
-:::warning
-For annotation users, there's currently no way for you to send captions.
-unless you do some tricky work-around.
-:::
-For classic-way users, you can call the command dispatcher you made and call the method `dispatcher.sendCaption(CaptionKey, Context)`.
-
-***Quick example:*** 
-
-```java
-dispatcher.sendCaption(MyCaptionKeys.MY_CAPTION_KEY, context);
 ```
