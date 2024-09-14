@@ -17,7 +17,7 @@ Every single Command object has the following mutable components :-
 - **Aliases** (other names could be used for a command)
 - **Permission** 
 - **Description**
-- **Default-usage** (/<command> without any arguments )
+- **Default-usage** (`/<command>` without any arguments )
 - **Usages**
 - **Processors** 
 
@@ -102,7 +102,7 @@ command.subCommand("sub1",
 ```
 
 After the example above, a new usage internally will be created and 
-shall look like /example <firstArg> sub1 [value].
+shall look like `/example <firstArg> sub1 [value]`.
 #### Extras
 There are multiple extra options to consider when adding a subcommand to a command :-
 - `aliases`
