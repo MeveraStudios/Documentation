@@ -24,24 +24,32 @@ Since the `Source` is a part of the Context of a command, therefore we call that
 So instead of repeating ourselves in each sub-command's execution, we will just have to create a `ContextResolver` for the type `Guild` as in the example below:
 
 ```java
-public final class GuildContextResolver implements BukkitContextResolver<Guild> {  
-
-  @Override  
-  public @Nullable Guild resolve(  
-		@NotNull Context<CommandSender> context,  
-		@Nullable Parameter parameter  //null if classic way is used
-  ) throws CommandException {  
-
-   var source = context.getSource();  
-   if(source.isConsole()) {  
-	throw new ContextResolveException("Only a player can do this !");  
-   }
-
-   Player player = source.as(Player.class);  
-   return GuildRegistry.getInstance().getUserGuild(player.getUniqueId());
-
-  }
-
+public final class GuildContextResolver implements BukkitContextResolver<Guild> {
+    
+    /**
+     * Resolves a parameter's default value
+     * if it has been not input by the user
+     *
+     * @param context   the context
+     * @param parameter the parameter (null if used the classic way)
+     * @return the resolved default-value
+     */
+    @Override
+    public @NotNull Guild resolve(
+            @NotNull Context<BukkitSource> context,
+            @Nullable ParameterElement parameter
+    ) throws ImperatException {
+        var source = context.getSource();
+        if (source.isConsole()) {
+            throw new SourceException("Only a player can do this !");
+        }
+        Player player = source.as(Player.class);
+        Guild guild = GuildRegistry.getInstance().getUserGuild(player.getUniqueId());
+        if(guild == null) {
+            throw new SourceException("You don't have a guild !");
+        }
+        return guild;
+    }
 }
 ```
 
@@ -61,21 +69,17 @@ It differs depending on which way you're creating your commands **(classic or an
 You should be able to automatically get the context resolved value from the `Context` object provided to you during command execution as follows:
 
 ```java
-guildCmd.addSubCommandUsage("disband", CommandUsage.<CommandSender>builder()  
+guildCommand.subCommand(
+	"disband", 
+	CommandUsage.<BukkitSource>builder()  
 		.parameters() //no parameters in usage '/guild disband'  
 		.execute((source, context)-> {  
 		  //getting our context resolved Guild object's instance  
 		  Guild guild = context.getContextResolvedArgument(Guild.class);  
-		  if (guild == null) {  
-			//user has no guild  
-			// do something,
-			// or you can process it
-			// to do something in the ContextResolver by making use of exceptions
-			return;  
-		  }
 		  guild.disband();  
 		  source.reply("You have disbanded your guild successfully !!");  
-		}).build()
+		})
+);
 ```
 
 ##### Annotations
@@ -85,15 +89,7 @@ as in the example below:
 
 ```java
 @SubCommand("disband")  
-public void disband(BukkitSource source, Guild guild /*Context resolved*/) {  
-	if (guild == null) {
-		source.reply("HAHA YOU HAVE NO GUILD !");  
-		//user has no guild  
-		//do something,
-		// or you can process it   
-		// to do something in the ContextResolver by making use of exceptions
-		return;  
-	}
+public void disband(BukkitSource source, @NotNull Guild guild /*Context resolved*/) {  
 	guild.disband();  
 	source.reply("You have disbanded your guild successfully !!");  
 }

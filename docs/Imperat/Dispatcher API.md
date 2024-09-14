@@ -47,10 +47,10 @@ for more info about method parameters for creation of Imperat instances from var
 
 *Quick **Bukkit** example:*
 ```java
-class MyBukkitPermissionResolver implements PermissionResolver<CommandSender> {
+class MyBukkitPermissionResolver implements PermissionResolver<BukkitSource> {
   @Override
   public boolean hasPermission(
-		@NotNull Source<CommandSender> source,
+		@NotNull BukkitSource source,
 		@Nullable String permission
   ) {
 	CommandSender originalSender = source.getOrigin();
@@ -59,11 +59,11 @@ class MyBukkitPermissionResolver implements PermissionResolver<CommandSender> {
 }
 
 class MyPlugin extends JavaPlugin {
-  private BukkitImperat dispatcher;
+  private BukkitImperat imperat;
   @Override
   public void onEnable() {
-	//now you injected the your own instance of permission resolver into the   Command Dispatcher
-	dispatcher = BukkitImperat.create(plugin, new MyBukkitPermissionResolver());
+	  //now you injected the your own instance of permission resolver into the   Command Dispatcher
+	  imperat = BukkitImperat.create(plugin, new MyBukkitPermissionResolver());
   }
 }
 ```
@@ -134,20 +134,21 @@ If you create and use your own implementation of `UsageVerifier` interface,
 
 Quick example on implementing your own `UsageVerifier`:
 ```java
-class MyUsageVerifier implements UsageVerifier<YourPlatformCommandSender> {
+class MyUsageVerifier implements UsageVerifier<YourPlatformSource> {
  
   @Override
-  public boolean verify(CommandUsage<YourPlatformCommandSender> usage) {
+  public boolean verify(CommandUsage<YourPlatformSource> usage) {
 	//prevents any usage to be accepted if it has a flag
 	return usage.getParameter(CommandParameter::isFlag) != null;
   }
   
   @Override
   public boolean areAmbigious(
-	  CommandUsage<YourPlatformCommandSender> usage1,
-	  CommandUsage<YourPlatformCommandSender> usage2
+	  CommandUsage<YourPlatformSource> usage1,
+	  CommandUsage<YourPlatformSource> usage2
   ) {
 	//check if the two usages are duplicates
+  //this is not accurate but it's just a demonstration
 	return usage1.equals(usage2);
   }
 }

@@ -12,26 +12,21 @@ what we call a `SuggestionResolver` which is an interface that simply provide a 
 You should create a new class and implement `YourPlatformSuggestionResolver` , as shown below using the custom class `Group` in **Bukkit** platform:
 
 ```java
-public class GroupSuggestionResolver implements BukkitSuggestionResolver<Group> {  
-
-	@Override
-	public Class<Group> getType() {
-		return Group.class;  
-	}
-
-	@Override  
-	public List<String> autoComplete(
-		Command<CommandSender> command,
-		CommandSender source,  
-		ArgumentQueue queue,
-		CommandParameter parameterToComplete,
-		@Nullable CompletionArg argToComplete
-	) {
-		//we iterate over all groups objects and convert them into their names
-		return GroupRegistry.getInstance().getAll()  
-				.stream().map(Group::name)  
-				.collect(Collectors.toList());  
-	}
+public class GroupSuggestionResolver implements BukkitSuggestionResolver<Group> {
+    
+    @Override
+    public TypeWrap<Group> getType() {
+        return TypeWrap.of(Group.class);
+    }
+    
+    @Override
+    public List<String> autoComplete(SuggestionContext<BukkitSource> context, CommandParameter parameterToComplete) {
+        return GroupRegistry.getInstance().getAll()
+                .stream().map(Group::name)
+                .collect(Collectors.toList());
+    }
+    
+    
 }
 ```
 

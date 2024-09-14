@@ -10,58 +10,69 @@ We will be learning every possible way of modifying the `Command` object you cre
 But first let's get to know the [mutable](https://www.javatpoint.com/mutable-and-immutable-in-java#:~:text=What%20are%20Mutable%20Objects&text=The%20mutable%20objects%20are%20objects,For%20example%2C%20Java.) components of a `Command`.
 Every single `Command` object has the following mutable components :-
 
-- **Name** *(The Only Immutable component)*
 - **Aliases** (other names could be used for a command)
 - **Permission** 
 - **Description**
-- **AutoCompleter** (Created automatically)
 - **Default-usage** (`/<command>` without any arguments )
-- **Sorted set of Usages** ([FIFO](https://www.geeksforgeeks.org/fifo-first-in-first-out-approach-in-programming/)) 
+- **Usages**
+- **Processors** 
+
 ## Example 
 
-Here we will be creating our command :
+Here we will be creating our command builder instance :
 ```java
-var command = Command.createCommand("example");
+var command = Command.<YourPlatformSource>createCommand("example");
 ```
 ### Adding aliases 
 
 We want our command to have more than one identifiable name.
 ```java
-command.addAliases("example2", "example3", "example4", "example5");
+command.aliases("example2", "example3", "example4", "example5");
 ```
 
 ### Setting Command Permission
 We can easily define a permission for our command as the example below:
 ```java
-command.setPermission("command.example.permission");
+command.permission("command.example.permission");
 ```
 
 ### Setting Command Description
 Same as before but using different method
 ```java
-command.setDescription("This is an example command !");
+command.description("This is an example command !");
 ```
 
 ### Setting default-usage-executor
 Now we want to define what happens when the command sender executes the command in the command-line without any arguments.
 ```java
-command.setDefaultUsageExecution((source, context)-> {  
+command.defaultExecution((source, context)-> {  
   source.reply("This is just an example with no arguments entered");  
 });
+```
+
+### Adding your Processors
+:::caution[WARNING]
+If you don't know what is a `CommandProcessor`, please check out [Command Processors](Command%Processors.md)
+
+:::
+
+It's easy to add post and pre processors as example below
+```java
+command.preprocessor(new YourCommandPreProcessor())
+	   .postProcessor(new YourCommandPostProcessor());
 ```
 
 ### Adding Command Usages
 A normal usage usually has no special `CommandParameter` types(such as `Command`), 
 which can be added  easily as below:
 ```java
-command.addUsage(CommandUsage.builder()  
+command.usage(CommandUsage.<YourPlatformSource>builder()  
 	.parameters(
-	  CommandParameter.requiredInt("firstArg")  
+	  	CommandParameter.requiredInt("firstArg")  
 	).execute((source, context) -> {  
-	 Integer firstArg  = context.getArgument("firstArg");  
-	 source.reply("Entered required number= " + firstArg);  
-	}) 
-	.build()  
+	 	Integer firstArg  = context.getArgument("firstArg");  
+	 	source.reply("Entered required number= " + firstArg);  
+	})  
 );
 ```
 
@@ -70,17 +81,19 @@ creating it manually(it's possible) as it will require a lot of processing and w
 Therefore, The `Command` object is made with such automated processing and chaining of subcommands through the method `Command#addSubCommandUsage` as the example below :-
 
 ```java
-command.addSubCommandUsage("sub1", CommandUsage.builder()  
+command.subCommand("sub1",
+ 	CommandUsage.<YourPlatformSource>builder()  
 	.parameters(
-	CommandParameter.optional("value", Double.class,OptionalValueSupplier.of(-1D))
+		CommandParameter.optional("value", Double.class,OptionalValueSupplier.of(-1D))
 	).execute((source, context)-> {
-	 //you can get previously used arguments from the main command usage  
-	 Integer firstArg = context.getArgument("firstArg");  
-	 source.reply("Entered firstArg= " + firstArg);  
-	 Double value = context.getArgument("value");  
-	 assert value != null; //optional arg cant be null, it has a default value supplier  
-	 source.reply("Double value entered= " + value);  
-	}).build());
+	 	//you can get previously used arguments from the main command usage  
+	 	Integer firstArg = context.getArgument("firstArg");  
+	 	source.reply("Entered firstArg= " + firstArg);  
+	 	Double value = context.getArgument("value");  
+	 	assert value != null; //optional arg cant be null, it has a default value supplier  
+	 	source.reply("Double value entered= " + value);  
+	})
+);
 ```
 
 After the example above, a new usage internally will be created and 
@@ -90,14 +103,20 @@ There are multiple extra options to consider when adding a subcommand to a comma
 - `aliases`
 - `attachDirectly` -> Whether the subcommand usage will be merged with the command's default usage (not main usage), and it's `false` by default, as it will cause  some ambiguity 
 
-You can also declare a usage to be executed asynchronously by using the method `CommandUsage.Builder#coordinator` which takes a `CommandCoordinator` instance.
+- You can also declare a usage to be executed asynchronously by using the method `CommandUsage.Builder#coordinator` which takes a `CommandCoordinator` instance.
 as shown below:
 ```java
-CommandUsage.builder().coordinator(CommandCoordinator.async()).build();
+usageBuilder.coordinator(CommandCoordinator.async());
+```
+
+- You can add a cooldown per command usage as the example below:
+```java
+usageBuilder.cooldown(1, TimeUnit.SECONDS); //cooldown of 1 second
 ```
 <br/>
 
 :::danger[CRITICAL]
+- DO NOT USE CommandUsage.Builder#build to add an instance of a usage, it might break some internals, please return the builders.
 - **NEVER CALL** `Command#setPosition` for any reason (even if you were [Joshua Bloch](https://en.wikipedia.org/wiki/Joshua_Bloch))
 - If you don't know what is an `ambiguity` between 2 different usages,
   please check out [UsageVerifier](../Dispatcher%20API.md#usageverifier)

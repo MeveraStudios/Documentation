@@ -44,24 +44,28 @@ There's mainly 2 ways of creating commands
 
 ## Classic
 The main original (OG) way of creating a command is by using our built-in `Command.create(commandName)` method for creation <br/>
+It returns a built-in builder for the command
 Here's a quick example :
 
 ```java
-Command<YourPlatformCommandSender> command = Command.createCommand("example");
+var command = Command.<YourPlatformSource>createCommand("example").usage(...).othermethods(...)
 ```
+By using the builder from `Command#createCommand`, you should use the methods in it to build and establish your command. 
 
-For more details about what type of `CommandSender` you should use, please check out 
+For more details about what type of `Source` you should use, please check out [Supported platforms](Supported-Platforms.md)
 You may modify the `command` object however you would like by checking out [Classic Command API](command-api/Classic%20Command%20API.md) which explains every possible way to modify any command object you create.
 
 *Quick example:*
 ```java
-command.addUsage(
-  CommandUsage.builder().parameters(
-		CommandParameter.requiredInt("firstArg")  
-	).execute((source, context) -> {  
-		Integer firstArg  = context.getArgument("firstArg");  
-		source.reply("Entered required number= " + firstArg);  
-	}).build()  
+command.usage(
+  CommandUsage.<YourPlatformSource>builder()
+    .parameters(
+		  CommandParameter.requiredInt("firstArg")  
+	  )
+    .execute((source, context) -> {  
+		  Integer firstArg  = context.getArgument("firstArg");  
+		  source.reply("Entered required number= " + firstArg);  
+	  });  
 );
 ```
 ## Annotated Commands
@@ -74,14 +78,14 @@ Creating commands with annotations is easy with 2 steps only:
 @Command("example")  
 public final class ExampleCommand {
 
-  @DefaultUsage  
-  public void defaultUsage(Source source) {  
+  @Usage  
+  public void defaultUsage(YourPlatformSource source) {  
    source.reply("This is just an example with no arguments entered");  
   }  
 
   @Usage  
   public void exampleOneArg(
-	  Source source, 
+	  YourPlatformSource source, 
 	  @Named("firstArg") int firstArg
   ) { 
    source.reply("Entered required number= " + firstArg);  

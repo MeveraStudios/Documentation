@@ -28,10 +28,8 @@ can be a class, a method, or even a parameter.
 ## Method-level annotations
 
 We currently have six built-in annotations that are meant to be used on methods only, which are:
-- `@DefaultUsage` -> Declares a default usage method (command usage with no args)
-- `@Usage` -> Declares a command's main usage
+- `@Usage` -> Declares a command usage
 - `@SubCommand` -> Declares a subcommand usage method
-- `@Help` -> Declares a help-subcommand method for `/<command> help`
 - `@Cooldown` -> Declares a cooldown for this usage
 - `@Async` -> Declares that the usage will be executed asynchronously
 
@@ -42,7 +40,7 @@ It refers to the command-sender/source that is executing the command.
 :::
 
 :::tip
-A help-usage method (annotated with `@Help`) MUST have one parameter of type `YourPlatformCommandHelp`.
+A help-usage method MUST have one parameter of type `CommandHelp`.
 
 :::
 
@@ -50,8 +48,8 @@ A help-usage method (annotated with `@Help`) MUST have one parameter of type `Yo
 We currently have 10 built-in annotations that are designed to be used only on parameters :-
 - `@Named`
 - `@Optional`
-- `@DefaultValue`
-- `@DefaultValueProvider`
+- `@Default`
+- `@DefaultProvider`
 - `@Greedy`
 - `@Suggest`
 - `@SuggestionProvider`
@@ -60,7 +58,7 @@ We currently have 10 built-in annotations that are designed to be used only on p
 - `@Switch`
 
 :::note
-Every parameter-level annotation is optional NOT required.
+Every parameter-level annotation is NOT required.
 
 :::
 
@@ -146,7 +144,7 @@ Here's an example of a command that uses some of the features mentioned above.
 @Description("Main command for banning players")  
 public final class BanCommand {
 
-    @DefaultUsage  
+    @Usage  
     public void showUsage(BukkitSource source) {
         source.reply("/ban <player> [-silent] [duration] [reason...]");  
     }

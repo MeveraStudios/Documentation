@@ -1,11 +1,13 @@
 ---
 sidebar_position: 5
 ---
-It's an interface that aims to define how the raw argument entered by the command-source/sender
-is parsed and converted into a value of specific type; That specific type is defined by the generic type parameter `<T>` , if the raw input entered doesn't match the logic you set , then a `CommandException` shall be thrown inside of the `ValueResolver` 
+# Value Resolver
 
->If you want to create your own exceptions you should check [Command Exceptions](Command%20Exceptions) ,
->Otherwise we will be using the built-in `ContextResolveException` in our examples.
+It's an interface that aims to define how the raw argument entered by the command-source/sender
+is parsed and converted into a value of specific type; That specific type is defined by the generic type parameter `<T>` , if the raw input entered doesn't match the logic you set , then an exception shall be thrown inside of the `ValueResolver#resolve` 
+
+>If you want to create your own exceptions you should check [Throwables](Throwables) ,
+>Otherwise we will be using the built-in `SourceException` in our examples.
 
 So if you want to add parameters to usages with custom types, you will need to create a value resolver for each custom type.
 
@@ -20,23 +22,30 @@ public record Group(String name) {}
 
 we create the value resolver for type `Group` as below:
 ```java
-public final class GroupValueResolver implements BukkitValueResolver<Group> {  
-   @Override  
-  public Group resolve(  
-      Source<CommandSender> source,  
-      Context<CommandSender> context,  
-      String raw,
-      Pivot pivot,
-      CommandParameter parameter
-  ) throws CommandException {  
-	   var sender = context.getSource();  
-	   if(sender.isConsole()) {  
-		throw new ContextResolveException("Invalid group '%s'", raw);  
-	   }   
-	   return GroupRegistry.getInstance().getGroup(
-				sender.as(Player.class).getUniqueId()
-		);  
-   }
+public final class GroupValueResolver implements BukkitValueResolver<Group> {
+    
+    @Override
+    public Group resolve(
+            Context<BukkitSource> context,
+            CommandParameter parameter,
+            Cursor cursor,
+            String raw
+    ) throws ImperatException {
+        
+        var sender = context.getSource();
+        if (sender.isConsole()) {
+            throw new SourceException("Only players can do this !");
+        }
+        
+        var playerGroup = GroupRegistry.getInstance()
+                .getGroup(sender.as(Player.class).getUniqueId());
+        
+        if(playerGroup == null) {
+            throw new SourceException("Invalid group '%s'", raw);
+        }
+        
+        return playerGroup;
+    }
 }
 ```
 
@@ -58,9 +67,9 @@ senderCommand.addUsage(
 	CommandUsage.<CommandSender>builder()  
 	 .parameters(CommandParameter.required("group", Group.class))  
 	 .execute((source, context)-> {  
-	  Group group = context.getArgument("group");  
-	  assert group != null;  
-	  source.reply("entered group name= " + group.name());  
+	    Group group = context.getArgument("group");  
+	    assert group != null;  
+	    source.reply("entered group name= " + group.name());  
 	 })
 	 .build()
 );
@@ -71,7 +80,7 @@ senderCommand.addUsage(
 @Command("group")  
 public final class GroupCommand {  
 
-	@DefaultUsage  
+	@Usage  
 	public void defaultUsage(BukkitSource source) {  
 		//default execution = no args  
 		source.reply("/group <group>");  
