@@ -12,11 +12,7 @@ The `CommandHelp` object is created automatically for you, to specify a command 
 `context.getContextResolvedArgument(CommandHelp.class)` or in the annotations by adding a parameter with type `CommandHelp` and it will be context resolved automatically.
 
 ## Usage
-You are not required to create a subcommand manually for the help, this is done for you automatically, when you use it whether through **Classic** or **Annotations** ways.
-
-we will create a `/group <group> help` by using the annotation and you must also include
-a parameter of type `YourPlatformCommandHelp` in this case of using `Bukkit` we will set it as `BukkitCommandHelp`
-
+we will create a `/group <group> help` by using the annotations and you must also include a parameter of type `CommandHelp`.
 The class below is an example that we will be working on using annotations:
 
 ```java
