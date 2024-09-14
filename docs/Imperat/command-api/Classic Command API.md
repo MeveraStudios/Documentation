@@ -1,20 +1,23 @@
 ---
 sidebar_position: 1
 ---
-A command in Imperat is represented internally by the class `dev.velix.imperat.command.Command` which holds every command's data and needed usages. 
+# Classic Command API
 
-Sub-commands at the other hand, are themselves `Command`, simply there's no class called `Subcommand` or something like that, Subcommands are treated as commands and can be easily combined together in the form of a chain by merging the main-usage of a command to the 
-subcommand's usage. Moreover, A `Command` is also treated as a `CommandParameter` that can be added to a `CommandUsage`.
+A command in Imperat is represented internally by the class dev.velix.imperat.command.Command which holds every command's data and needed usages. 
 
-We will be learning every possible way of modifying the `Command` object you create (**Classic**)
+Sub-commands at the other hand, are themselves `Command`, simply there's no class called Subcommand or something like that, Subcommands are treated as commands and can be easily combined together in the form of a chain by merging the main-usage of a command to the subcommand's usage.
+
+Moreover, A Command is also treated as a CommandParameter that can be added to a CommandUsage.
+
+We will be learning every possible way of modifying the Command object you create (**Classic**)
 But first let's get to know the Mutable components of a command.
 
-Every single `Command` object has the following mutable components :-
+Every single Command object has the following mutable components :-
 
 - **Aliases** (other names could be used for a command)
 - **Permission** 
 - **Description**
-- **Default-usage** (`/<command>` without any arguments )
+- **Default-usage** (/<command> without any arguments )
 - **Usages**
 - **Processors** 
 
@@ -53,7 +56,7 @@ command.defaultExecution((source, context)-> {
 
 ### Adding your Processors
 :::caution[WARNING]
-If you don't know what is a `CommandProcessor`, please check out [Command Processors](Command%Processors.md)
+If you don't know what is a CommandProcessor, please check out [Command Processors](Command%20Processors.md)
 
 :::
 
@@ -64,7 +67,7 @@ command.preprocessor(new YourCommandPreProcessor())
 ```
 
 ### Adding Command Usages
-A normal usage usually has no special `CommandParameter` types(such as `Command`), 
+A normal usage usually has no special CommandParameter types(such as Command), 
 which can be added  easily as below:
 ```java
 command.usage(CommandUsage.<YourPlatformSource>builder()  
@@ -79,7 +82,8 @@ command.usage(CommandUsage.<YourPlatformSource>builder()
 
 However, what if you wanted to add subcommands, you cant add a subcommand directly through
 creating it manually(it's possible) as it will require a lot of processing and will be ugly looking.
-Therefore, The `Command` object is made with such automated processing and chaining of subcommands through the method `Command#addSubCommandUsage` as the example below :-
+
+Therefore, The Command object is made with such automated processing and chaining of subcommands through the method Command#addSubCommandUsage as the example below :-
 
 ```java
 command.subCommand("sub1",
@@ -98,13 +102,13 @@ command.subCommand("sub1",
 ```
 
 After the example above, a new usage internally will be created and 
-shall look like `/example <firstArg> sub1 [value]`.
+shall look like /example <firstArg> sub1 [value].
 #### Extras
 There are multiple extra options to consider when adding a subcommand to a command :-
 - `aliases`
-- `attachDirectly` -> Whether the subcommand usage will be merged with the command's default usage (not main usage), and it's `false` by default, as it will cause  some ambiguity 
+- `attachDirectly` -> Whether the subcommand usage will be merged with the command's default usage (not main usage), and it's false by default, as it will cause  some ambiguity 
 
-- You can also declare a usage to be executed asynchronously by using the method `CommandUsage.Builder#coordinator` which takes a `CommandCoordinator` instance.
+- You can also declare a usage to be executed asynchronously by using the method CommandUsage.Builder#coordinator which takes a CommandCoordinator instance.
 as shown below:
 ```java
 usageBuilder.coordinator(CommandCoordinator.async());
@@ -114,12 +118,13 @@ usageBuilder.coordinator(CommandCoordinator.async());
 ```java
 usageBuilder.cooldown(1, TimeUnit.SECONDS); //cooldown of 1 second
 ```
+
 <br/>
 
 :::danger[CRITICAL]
 - DO NOT USE CommandUsage.Builder#build to add an instance of a usage, it might break some internals, please return the builders.
-- **NEVER CALL** `Command#setPosition` for any reason (even if you were [Joshua Bloch](https://en.wikipedia.org/wiki/Joshua_Bloch))
-- If you don't know what is an `ambiguity` between 2 different usages,
+- **NEVER CALL** Command#setPosition for any reason (even if you were [Joshua Bloch](https://en.wikipedia.org/wiki/Joshua_Bloch))
+- If you don't know what is an ambiguity between 2 different usages,
   please check out [UsageVerifier](../Dispatcher%20API.md#usageverifier)
 
 :::
