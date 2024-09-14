@@ -7,7 +7,8 @@ Sub-commands at the other hand, are themselves `Command`, simply there's no clas
 subcommand's usage. Moreover, A `Command` is also treated as a `CommandParameter` that can be added to a `CommandUsage`.
 
 We will be learning every possible way of modifying the `Command` object you create (**Classic**)
-But first let's get to know the [mutable](https://www.javatpoint.com/mutable-and-immutable-in-java#:~:text=What%20are%20Mutable%20Objects&text=The%20mutable%20objects%20are%20objects,For%20example%2C%20Java.) components of a `Command`.
+But first let's get to know the Mutable components of a command.
+
 Every single `Command` object has the following mutable components :-
 
 - **Aliases** (other names could be used for a command)
