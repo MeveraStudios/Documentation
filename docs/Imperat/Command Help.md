@@ -50,7 +50,7 @@ public final class GroupCommand {
 
 A help template is an interface that allows you to customize how the help-menu is displayed to the command-sender, there's already a `DefaultHelpTemplate` that looks like this when you execute `/group <group> help`:
 
-![[default-help-command.png]]
+![default-help-command.png](./assets/default-help-command.png)
 
 :::note
 the `N/A` represents an unknown description, if it is annoying you, you can set a description per subcommand/usage whether using the classic way or the annotations or just make your own template which doesn't include the description in the `UsageFormatter`
