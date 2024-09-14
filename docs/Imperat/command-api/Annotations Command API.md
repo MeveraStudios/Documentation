@@ -87,7 +87,7 @@ public final class BooleanValueSupplier implements OptionalValueSupplier<Boolean
         return Boolean.class;  
     }  
     
-	@Override  
+  @Override  
     public <C> Boolean supply(Context<C> context) {  
         return false;  
     }  
@@ -96,8 +96,15 @@ public final class BooleanValueSupplier implements OptionalValueSupplier<Boolean
 
 Another example of how the annotation would look like on the parameter:
 ```java
-@DefaultValue(BooleanValueSupplier.class) boolean parameter
+@Default(BooleanValueSupplier.class) boolean parameter
 ```
+
+:::tip[Pro%20Tip]
+You can use @Default or @DefaultProvider if you want to specify an optional argument with a default value
+you can add one of those `@Default` & `@DefaultProvider` without explicitly adding `@Optional`
+If you want an optional argument with null as it's default value, then use `@Optional` only
+
+:::
 
 :::danger[CRITICAL]
 Make sure that any sub-class of `OptionalValueSupplier` have an empty public constructor
