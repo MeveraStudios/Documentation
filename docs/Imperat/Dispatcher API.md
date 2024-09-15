@@ -13,6 +13,7 @@ The `Imperat` interface is made of several components that are flexible *(change
 - AnnotationParser
 - PermissionResolver
 - ContextFactory
+- [Processors](Processors.md)
 - [Value Resolver](Value%20Resolver.md)
 - [Context Resolver](Context%20Resolver.md) 
 - [Suggestion Resolver](Suggestion%20Resolver.md)
@@ -77,7 +78,32 @@ class MyPlugin extends JavaPlugin {
  It holds the information that must be processed and resolved to execute the command with the proper argument values and order(including flags)
 
 :::
-### Life Cycle of the context object in command execution:
+
+There are 3 main types of `Context` 
+- **Context** (plain)
+- **SuggestionContext**
+- **ResolvedContext**
+
+### Plain Context
+It's the context object created during the beginning of the command execution
+it's used to hold all the necessary information regarding the command to execute.
+
+### SuggestionContext
+It's the context object created during tab-completion of a command, it holds t he necessary information
+that would assist you in creating suggestions for arguments using [SuggestionResolver](Suggestion%20Resolver)
+
+### ResolvedContext
+It's the context object created to resolve the arguments input by the user into values to be used during `CommandExecution`
+It's also used in `CommandPostProcessors`
+
+:::info[Advanced%20Detail]
+There's a 4th type of context which is `ExecutionContext` it acts as a middle interface between the plain
+context and the ResolvedContext, it's used inside of `CommandExecution` to provide you with the methods you need
+for executing your command properly.
+
+:::
+
+### Life Cycle of Context:
 
 1. The context is created during the execution process of a command, to cache the raw input by the command source/sender into `ArgumentQueue` and the command being executed.
 
@@ -87,9 +113,9 @@ class MyPlugin extends JavaPlugin {
 
 ## Context Factory
 
-Simply, It's a built-in interface that defines how the `Context` and the `ResolvedContext` instances are created during the command-execution lifecycle
+Simply, It's a built-in interface that defines how the `Context`, `SuggestionContext` and the `ResolvedContext` instances are created during the command-execution lifecycle
 
-Creating and injecting your own `ContextFactory<C>` is easy , you just create a new class that implements `ContextFactory<YourPlatformCommandSender>` then implement its two methods that define the creation of both `Context` and `ResolvedContext`, then you inject/register your context factory instance by calling `dispatcher#setContextFactory`
+Creating and injecting your own `ContextFactory<C>` is easy , you just create a new class that implements `ContextFactory<YourPlatformSource>` then implement its three methods that define the creation of `Context` , `SuggestionContext`, and `ResolvedContext`, then you inject/register your context factory instance by calling `dispatcher#setContextFactory`
 
 ***Quick example:***
 ```java

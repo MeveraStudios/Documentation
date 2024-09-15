@@ -21,13 +21,30 @@ can be a class, a method, or even a parameter.
 
 ## Class-level annotations:
 
-`@Command` Declares a root command, and it has 2 main components:
-- `String[] values` -> an array of names for the command, the first element is treated as the unique name for this command, while the rest (if present) is treated as aliases
-- `boolean ignoreAutoCompletionPermission` -> if false (by default), it will always check if the player auto-completing any of the usages of this command , has the permission for this command or not, if he doesn't have the permission, it will not auto-complete for him.
+- `@Command` Declares a root command, and it has 2 main components:
+    - `String[] values` -> an array of names for the command, the first element is treated as the unique name for this command, while the rest (if present) is treated as aliases
+    - `boolean ignoreAutoCompletionPermission` -> if false (by default), it will always check if the player auto-completing any of the usages of this command , has the permission for this command or not, if he doesn't have the permission, it will not auto-complete for him.
+
+- `@SubCommand` Declares a subcommand-class 
+    - same as `@Command` but with extra option `boolean attachDirectly` which decides whether this sub command will be attached directly to the parent-command or not.
+
+- `@Inherit` Declares that the current command class , inherits a subcommand class as it's child,
+it's made for developers who would prefer their subcommands to be separated into different classes.
+
+:::info[Advanced%Detail]
+Inner classes are also parsed by default as commands and/or subcommands
+without the need for @Inherit.
+
+:::
+
 
 ## Method-level annotations
 
 We currently have six built-in annotations that are meant to be used on methods only, which are:
+- `@Command` -> declares a standalone command separately from the root command (as the root command doesn't have to be present)
+
+- `@PreProcessor` -> declares a pre-processor to be added to the command
+- `@PostProcessor` -> declares a post-processor to be added to the command
 - `@Usage` -> Declares a command usage
 - `@SubCommand` -> Declares a subcommand usage method
 - `@Cooldown` -> Declares a cooldown for this usage

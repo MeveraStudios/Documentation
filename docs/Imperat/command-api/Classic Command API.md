@@ -103,10 +103,17 @@ command.subCommand("sub1",
 
 After the example above, a new usage internally will be created and 
 shall look like `/example <firstArg> sub1 [value]`.
+
+### Setting processors
+It's easy just follow your instinct and you will find the following example useful.
+```java
+command.preProcessor(new MyPreProcessor()).postProcessor(new MyPostProcessor());
+```
+
 #### Extras
 There are multiple extra options to consider when adding a subcommand to a command :-
 - `aliases`
-- `attachDirectly` -> Whether the subcommand usage will be merged with the command's default usage (not main usage), and it's false by default, as it will cause  some ambiguity 
+- `attachDirectly`(false by default) -> Whether the subcommand usage will be merged with the command's default usage (not main usage), so if true it will be `/example sub1 [value]` 
 
 - You can also declare a usage to be executed asynchronously by using the method CommandUsage.Builder#coordinator which takes a CommandCoordinator instance.
 as shown below:
