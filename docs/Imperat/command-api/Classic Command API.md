@@ -56,7 +56,7 @@ command.defaultExecution((source, context)-> {
 
 ### Adding your Processors
 :::caution[WARNING]
-If you don't know what is a CommandProcessor, please check out [Command Processors](Command%20Processors.md)
+If you don't know what is a CommandProcessor, please check out [Command Processors](Processors.md)
 
 :::
 
