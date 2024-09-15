@@ -1,6 +1,10 @@
 ---
 sidebar_position: 10
 ---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Platforms
 Imperat is a generic command dispatching framework, It can work almost on every platform possible if implemented properly.
 so to depend on any of the platforms you must first declare our repoistory in your build tool configuration file as follows:
