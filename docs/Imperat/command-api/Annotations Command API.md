@@ -50,13 +50,13 @@ We currently have six built-in annotations that are meant to be used on methods 
 - `@Cooldown` -> Declares a cooldown for this usage
 - `@Async` -> Declares that the usage will be executed asynchronously
 
-:::info
+:::info[Info]
 Every usage method should include `YourPlatformSource` as their first parameter.
 It refers to the command-sender/source that is executing the command.
 
 :::
 
-:::tip
+:::tip[Tip]
 A help-usage method MUST have one parameter of type `CommandHelp`.
 
 :::
@@ -116,7 +116,7 @@ Another example of how the annotation would look like on the parameter:
 @Default(BooleanValueSupplier.class) boolean parameter
 ```
 
-:::tip[Pro%20Tip]
+:::tip[Pro Tip]
 You can use @Default or @DefaultProvider if you want to specify an optional argument with a default value
 you can add one of those `@Default` & `@DefaultProvider` without explicitly adding `@Optional`
 If you want an optional argument with null as it's default value, then use `@Optional` only

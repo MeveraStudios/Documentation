@@ -1,6 +1,8 @@
 ---
 sidebar_position: 8
 ---
+# Command Help
+
 A command help is an object that is responsible for showing all the help usages of a command you make, it's easy to customize how will your help-menu will be displayed.
 The `CommandHelp` requires 3 main objects so that a new instance of it can be made :
 - The command being executed

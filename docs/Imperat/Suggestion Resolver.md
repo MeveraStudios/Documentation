@@ -1,6 +1,8 @@
 ---
 sidebar_position: 7
 ---
+# Suggestion Resolver
+
 Imperat has it's own `AutoCompleter` algorithm that works pretty good.
 Each command created, has with it an instance of `AutoCompleter` which basically auto-completes
 the arguments during tab-completion for suggestions for each argument.
@@ -69,7 +71,7 @@ Registering your suggestion resolver with it's unique name :-
 ```java
 dispatcher.registerNamedSuggestionResolver("groups", new GroupSuggestionResolver());
 ```
-Check [Annotations Command API](command-api/Annotations%20Command%20API) section for more details.
+Check [Annotations Command API](command-api/Annotations%20Command%20API.md) section for more details.
 ### Per type
 Moreover, you can also register suggestions per type of parameter
 directly through the dispatcher as the example below:

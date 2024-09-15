@@ -5,7 +5,7 @@ sidebar_position: 9
 
 :::caution[WARNING]
 We have already talked about the life cycle of `Context` object during the command's execution
-If you haven't read that yet, please try reading about the [Context-LifeCycle](Dispatcher%20API#Life%20Cycle%20of%20Context).
+If you haven't read that yet, please try reading about the [Context-LifeCycle](Dispatcher%20API.md#Life-Cycle-of-Context).
 as the explanation below will be fully based on this.
 
 :::
@@ -37,7 +37,7 @@ therefore, it has `ResolvedContext` instead of just `Context` inside of it's met
 
 
 
-:::tip[Pro%20Tip]
+:::tip[Pro Tip]
 You can create a validation check , and when it fails you can stop the runtime of the command execution 
 by throwing a exception.
 for more details on exceptions, check [Throwables](Throwables.md)

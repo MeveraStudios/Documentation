@@ -6,7 +6,7 @@ sidebar_position: 5
 It's an interface that aims to define how the raw argument entered by the command-source/sender
 is parsed and converted into a value of specific type; That specific type is defined by the generic type parameter `<T>` , if the raw input entered doesn't match the logic you set , then an exception shall be thrown inside of the `ValueResolver#resolve` 
 
->If you want to create your own exceptions you should check [Throwables](Throwables) ,
+>If you want to create your own exceptions you should check [Throwables](Throwables.md) ,
 >Otherwise we will be using the built-in `SourceException` in our examples.
 
 So if you want to add parameters to usages with custom types, you will need to create a value resolver for each custom type.
@@ -97,4 +97,4 @@ public final class GroupCommand {
 }
 ```
 
-then we start registering our command, please refer to [Introduction](Imperat/Introduction.md) to know how to register your commands whether they were made using annotated or classic ways .
+then we start registering our command, please refer to [Introduction](Introduction.md) to know how to register your commands whether they were made using annotated or classic ways .

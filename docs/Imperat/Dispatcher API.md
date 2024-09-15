@@ -69,7 +69,7 @@ class MyPlugin extends JavaPlugin {
 }
 ```
 ## Context
-> *I know it sounds complex and difficult to understand, but it's really simple and easy once you understand what it is, so please be patient it will be worth it , trust me ;).
+> *I know it sounds complex and difficult to understand, but it's really simple and easy once you understand what it is, so please be patient it will be worth it , trust me ;).*
 
 **Frequently asked question:** What's a context (regarding commands) ?
 **Answer:** It's an object that holds all information related to the current command being executed.
@@ -96,7 +96,7 @@ that would assist you in creating suggestions for arguments using [SuggestionRes
 It's the context object created to resolve the arguments input by the user into values to be used during `CommandExecution`
 It's also used in `CommandPostProcessors`
 
-:::info[Advanced%20Detail]
+:::info[Advanced Detail]
 There's a 4th type of context which is `ExecutionContext` it acts as a middle interface between the plain
 context and the ResolvedContext, it's used inside of `CommandExecution` to provide you with the methods you need
 for executing your command properly.

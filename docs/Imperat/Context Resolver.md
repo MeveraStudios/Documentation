@@ -5,7 +5,7 @@ Unlike the [Value Resolver](Value%20Resolver.md), the context resolver resolves 
 
 :::tip
 If you don't know what is a context or any other keywords used in this section, 
-please refer to [Introduction](Imperat/Introduction.md) then [Dispatcher API](Dispatcher%20API.md) to become well-oriented of the framework's necessary basics.
+please refer to [Introduction](Introduction.md) then [Dispatcher API](Dispatcher%20API.md) to become well-oriented of the framework's necessary basics.
 :::
 
 Therefore, instead of writing a lot of local variables to use inside of your command-execution repeatedly, you will be able to obtain them automatically without the need for boiler-plate code. 
