@@ -5,7 +5,7 @@ sidebar_position: 9
 
 :::caution[WARNING]
 We have already talked about the life cycle of `Context` object during the command's execution
-If you haven't read that yet, please try reading about the [Context-LifeCycle](Dispatcher%20API.md#Life-Cycle-of-Context).
+If you haven't read that yet, please try reading about the [Context-LifeCycle](Dispatcher%20API.md#life-cycle-of-context).
 as the explanation below will be fully based on this.
 
 :::
