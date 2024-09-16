@@ -73,7 +73,7 @@ const config = {
             label: 'Imperat',
           },
           {
-            href: 'https://github.com/VelixDevelopments/Documentation',
+            href: 'https://github.com/VelixDevelopments',
             label: 'GitHub',
             position: 'right',
           },
