@@ -10,11 +10,13 @@ Imperat is a generic command dispatching framework, It can work almost on every 
 so to depend on any of the platforms you must first declare our repoistory in your build tool configuration file as follows:
 <Tabs>
     <TabItem value="maven" label="Maven pom.xml" default>
-       MAVEN REPO
+       Maven central (default)
     </TabItem>
 
     <TabItem value="gradle" label="Gradle build.gradle">
-        GRADLE REPO
+        repositories {
+            mavenCentral();
+        }
     </TabItem>
 </Tabs>
 
@@ -22,11 +24,17 @@ In order to add the dependency of any platform, you should first add the depende
 platform's dependency as below:
 <Tabs>
     <TabItem value="maven" label="Maven" default> 
-        MAVEN DEPENDENCIES
+    
+    <dependency>
+        <groupId>dev.velix</groupId>
+            <artifactId>imperat-PLATFORM</artifactId>
+        <version>VERSION</version>
+    </dependency>
+        
     </TabItem>
 
-    <TabItem value="gradle" label="Gradle">
-        GRADLE DEPENDENCIES
+    <TabItem value="gradle" label="Gradle (short)">
+        implementation "dev.velix:imperat-PLATFORM:VERSION"
     </TabItem>
 </Tabs>
 
@@ -39,6 +47,15 @@ Imperat currently has implementations for the current minecraft-related platform
 - Bukkit/Spigot/Paper
 - Bungeecord
 
+:::tip[Pro Tip]
+You can use and integrate Imperat with Mojang's Brigadier
+you can do the following after initializing Imperat and BEFORE registering any commands.
+```java
+imperat.applyBrigadier();
+```
+
+:::
+
 ### Bukkit
 The `BukkitImperat` is the impl for Imperat on bukkit platform.
 The command source in bukkit is called `BukkitSource`.
@@ -49,6 +66,7 @@ You are free to make use of them.
 
 ### Bungee
 SAME AS BUKKIT but the prefix is `Bungee`
+
 
 ## Other platforms
 Coming soon...
