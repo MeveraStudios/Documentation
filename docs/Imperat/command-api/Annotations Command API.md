@@ -31,7 +31,7 @@ can be a class, a method, or even a parameter.
 - `@Inherit` Declares that the current command class , inherits a subcommand class as it's child,
 it's made for developers who would prefer their subcommands to be separated into different classes.
 
-:::info[Advanced%Detail]
+:::info[Advanced Detail]
 Inner classes are also parsed by default as commands and/or subcommands
 without the need for @Inherit.
 
@@ -159,7 +159,7 @@ A true flag comes with an input next to it, example: `-yourFlag <value-input>` ,
 They are annotations that can be used on all levels (classes, methods and parameters).
 There is currently two built-in annotations of that type which are :-
 - `@Permission` -> specifies the permission of a command/usage/parameter(for tab-completion).
-- `@Descriptiton` -> specifies the description of a command/usage/parameter(for tab-completion).
+- `@Description` -> specifies the description of a command/usage/parameter(for tab-completion).
 ## Example
 Here's an example of a command that uses some of the features mentioned above.
 ```java
