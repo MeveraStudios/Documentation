@@ -14,9 +14,11 @@ so to depend on any of the platforms you must first declare our repoistory in yo
     </TabItem>
 
     <TabItem value="gradle" label="Gradle build.gradle">
-        repositories {
-            mavenCentral();
-        }
+        ```
+            repositories {
+                mavenCentral();
+            }
+        ```
     </TabItem>
 </Tabs>
 
@@ -25,16 +27,17 @@ platform's dependency as below:
 <Tabs>
     <TabItem value="maven" label="Maven" default> 
     
+    ```xml 
     <dependency>
         <groupId>dev.velix</groupId>
             <artifactId>imperat-PLATFORM</artifactId>
         <version>VERSION</version>
     </dependency>
-        
+    ```
     </TabItem>
 
     <TabItem value="gradle" label="Gradle (short)">
-        implementation "dev.velix:imperat-PLATFORM:VERSION"
+        `implementation "dev.velix:imperat-PLATFORM:VERSION"`
     </TabItem>
 </Tabs>
 
