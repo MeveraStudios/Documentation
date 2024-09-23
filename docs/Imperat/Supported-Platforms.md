@@ -47,7 +47,7 @@ Platforms are classified into:
 
 ## Minecraft platforms
 Imperat currently has implementations for the current minecraft-related platforms:
-- Bukkit/Spigot/Paper
+- Bukkit
 - Bungeecord
 
 :::tip[Pro Tip]
@@ -72,5 +72,6 @@ SAME AS BUKKIT but the prefix is `Bungee`
 
 
 ## Other platforms
-Coming soon...
+- **CLI** for command-line applications
+More coming soon...
 

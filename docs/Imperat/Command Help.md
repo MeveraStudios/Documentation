@@ -48,157 +48,112 @@ public final class GroupCommand {
 	}
 }
 ```
-### Help template
+### Help provider
+A help provider is an interface whose only responsibility is to provide help-menu per command
+and it needs `ExecutionContext` as a parameter to do so.
+Help provider is cached in `Imperat`(the dispatcher) acting as a global help providing service.
 
-A help template is an interface that allows you to customize how the help-menu is displayed to the command-sender, there's already a `DefaultHelpTemplate` that looks like this when you execute `/group <group> help`:
+You can implement your own help-provider and register it, to define how the help message is displayed as below:
+```java
+public final class ExampleHelpProvider implements HelpProvider<YourPlatformSource> {
+    @Override
+    public void provide(ExecutionContext<YourPlatformSource> context) throws ImperatException {
+        var src = context.source();
+        var cmd = context.command();
+        
+        if(cmd.usages().isEmpty()) {
+            throw new NoHelpException();
+        }
+        
+        src.reply("sending the help for command '" + cmd.name() + "'");
+        for(var usage : cmd.usages()) {
+            src.reply("[+] /" + CommandUsage.format(cmd, usage) + " - " + usage.description());
+        }
+    }
+}
 
-![default-help-command.png](./assets/default-help-command.png)
+```
 
-:::note
-the `N/A` represents an unknown description, if it is annoying you, you can set a description per subcommand/usage whether using the classic way or the annotations or just make your own template which doesn't include the description in the `UsageFormatter`
+and then registering your help provider
+```java
+    imperat.setHelpProvider(new ExampleHelpProvider());
+```
+
+### Templates
+Some people would prefer to have their help displayed in the old format
+Any help template has 3 main components:
+- **Two Hyphens** (header and footer)
+- **UsageFormatter** -> defines the formatting of each single `CommandUsage` 
+
+In imperat, there's an abstract class called `HelpTemplate`, it implements `HelpProvider` which contains these components,
+and another abstract class called `PaginatedHelpTemplate` (the name describes it's purpose) which extends `HelpTemplate` adding 
+the ability to display command usages in the form of pages.
+Both classes are sealed, meaning that you can't extend them to make your own templates.
+You are forced to use our built-in builders for creation of templates as below
+
+```java
+imperat.setHelpProvider(
+    HelpProvider.<YourPlatformSource>template()
+        .header(content -> "------- " + content.command().name() + "'s help --------")
+        .footer(content -> "-----------------")
+        .formatter(yourOwnFormatter)
+        .displayer((context, usages)-> {
+            //define how usages are displayed here
+        })
+        .build()
+);
+```
+
+As you can see above, you can define header, footer, `UsageFormatter` and displayer consumer to override the default display algorithm.
+
+:::note[Notice]
+You are not required to create your displayer; By default, it's a simple for-loop showing the usages linearly
+along with their description on the right.
 
 :::
 
-Any help template has 4 main components:
-- Header -> the header of the menu at the top
-- Footer -> the footer of the menu at the bottom
-- **UsageFormatter** -> controls the formatting of each single `CommandUsage` 
-- **UsageDisplayer** -> controls how the **formatted usages** are displayed together 
+the header and footer are hyphens for help (`HelpHyphen`) which has some data/content cached with it (`HyphenContent`) which contains:
+- Command owning the usages
+- current page and max-pages (they are `1` by default if the template isn't paginated)
 
-#### Example Help Template
-Here we will be building and creating our custom help-template that will define how the help-menu is displayed, let's call it `ExampleHelpTemplate` as below :-
-
+Here's a quick example below on creating and registering a paginated template
 ```java
-public class ExampleHelpTemplate implements HelpTemplate {
-    
-    private UsageDisplayer displayer = UsageDisplayer.plain();
-    private UsageFormatter formatter = new DefaultFormatter();
-    
-    @Override
-    public String getHeader(Command<?> command) {
-        return
-                "&8&l&m===================&r &6"
-                        + command.name() + "'s help&r &8&l&m===================";
-    }
-    
-    
-    @Override
-    public String getFooter(Command<?> command) {
-        return "&8&l&m=================================";
-    }
-    
-    @Override
-    public UsageFormatter getUsageFormatter() {
-        return formatter;
-    }
-    
-    @Override
-    public void setUsageFormatter(UsageFormatter formatter) {
-        this.formatter = formatter;
-    }
-    
-    @Override
-    public UsageDisplayer getUsagesDisplayer() {
-        return displayer;
-    }
-    
-    @Override
-    public void setUsageDisplayer(UsageDisplayer displayer) {
-        this.displayer = displayer;
-    }
-    
-}
+imperat.setHelpProvider(
+    HelpProvider.<YourPlatformSource>paginated(10)
+            .header(
+                content -> "--------" + content.command().name() + "'s help (" 
+                    + content.currentPage() + "/" + content.maxPages() + ") ------"
+            )
+            .footer((content) -> "------------")
+            .build()
+);
 ```
 
-You can use the default `UsageFormatter` as you can see above, but it's okay to make  your own 
-`UsageFormatter` instead of the `DefaultFormatter`, here's an example of
+You can use the default `UsageFormatter`, but it's okay to make your own 
+`UsageFormatter` instead of the default built-in formatter`, here's an example of
 implementing your own `UsageFormatter`:-
 
 ```java
 public class ExampleUsageFormatter implements UsageFormatter {
-    
+
     
     @Override
-    public <S extends Source> String formatUsageLine(Command<S> command, CommandUsage<S> usage, boolean isLast) {
+    public <S extends Source> String formatUsageLine(Command<S> command, CommandUsage<S> usage, int index) {
         String format = "/" + CommandUsage.format(command, usage);
-        return "&a" + format + " &r&l-&r &e<yellow>" + usage.description();
+        return  format + " - " + usage.description();
     }
     
 }
 ```
 
-Then inside of your custom help-template, you should just replace `new DefaultFormatter()` with `new ExampleUsageFormatter` *(or whatever the name of your class that implements the `UsageFormatter`)*.
-
-:::info
-UsageDisplayer has already a premade implementation that you should be using (unless you want to make your own implementation) `PlainDisplayer`,
-We recommend fetching the instance of `PlainDisplayer` through the method `UsageDisplayer.plain()`.
+:::info[Notice]
+paginated help templates forces you to specify the number of usages to be displayed per one page.
+which is `10` usages per page as specified in the example above.
+Moreover, the paginated template builder has the same methods as that of the normal template builder.
 :::
 
-### Paginated Help Template
-
-It's exactly the same as a normal `HelpTemplate` but with two extra methods :
-- `int syntaxesPerPage()` -> defines how many syntax should displayed per one page 
-- `String pagesHeaderComponent(int page, int maxPages)` -> controls how the pages header will be displayed as a singular part of the full header.
-
-
-:::note
-In `PaginatedHelpTemplate` , there's a default method that combines 2 methods to form the total header of the help-menu that will be displayed, which are:-
-- `getHeader` (from the normal `HelpTemplate` interface)
-- `pagesHeaderComponent()` (from the `PaginatedHelpTemplate`) which for example shows how the `%currentPage%/%max_pages%` are displayed for a `PaginatedHelpTemplate`
-:::
-
-#### Example Paginated Help Template
-
-We will be creating our own paginated help template by creating 
-a class and calling it for example `ExamplePaginatedHelpTemplate` :-
-
-```java
-public final class ExamplePaginatedHelpTemplate
-        extends ExampleHelpTemplate implements PaginatedHelpTemplate {
-    
-    @Override
-    public int syntaxesPerPage() {
-        return 5;
-    }
-    
-    @Override
-    public String fullHeader(Command<?> command, int page, int maxPages) {
-        return "&8&l&m===================&r &2"
-                + command.name() + "'s help " + pagesHeaderComponent(page, maxPages) + "&r &8&l&m===================";
-    }
-    
-    
-    private String pagesHeaderComponent(int page, int maxPages) {
-        return "&8( &a" + page + "&7/" + maxPages + " &8)";
-    }
-    
-}
-```
-
-### Registering your help-template
-
-We should register our help template so that it can be applied 
-on any help usage(s) as the example below :
-
-```java
-dispatcher.setHelpTemplate(new ExampleHelpTemplate());
-```
-
-
-:::tip
-You can do exactly the same for your Paginated help template 
-(in this case: `ExamplePaginatedHelpTemplate`) , so for example :
-`dispatcher.setHelpTemplate(new ExamplePaginatedHelpTemplate())`
+:::tip[Tip]
+If no usage description is supplied during command creation it will return `N/A` by default.
+The `N/A` represents an unknown description, if it is annoying you, you can set a description per subcommand/usage whether using the classic way or the annotations.
 
 :::
-### Results
-
-**Here i will show you the results of your patience and hard work for learning**
-**how to create your own help displaying and customize it:-**
-##### For normal help-template
-
-![Default Help Template Result](./assets/example-help-command.png)
-
-##### For paginated help-template
-
-![Paginated Help Template Result](./assets/example-paginated-help-command.png)
