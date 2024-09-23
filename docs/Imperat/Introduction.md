@@ -11,17 +11,22 @@ Imperat is a powerful command dispatching framework, it allows you to create
 commands and converts them into the form of multiple data-condensed objects like `Command`,  `CommandUsage` and `CommandParameter`
 These objects are registered/injected into the class `Imperat` which handles all information about each command and then dispatches/executes the command requested.
 
-# Creating Command Dispatcher
+# Initiazling your Imperat
 
 **Frequently asked question:** ***What's a command dispatcher/Imperat ??*** <br/>
 **Answer:** It's the Ultimate class handling all data needed when processing and registering
-commands objects (`Command`) you have to create **new instance** of the command dispatcher
-on the **start** of your application/program/spigot plugin.
+commands objects (`Command`).
+You have to create **new instance** of the imperat.
+on the **start** of your platform by calling `YourPlatformImperat#create` (the method is static) to create
+and initialize a new instance of `Imperat` type.
 
+:::tip[TIP]
 Creation of an instance of your `PlatformImperat` depends mainly on which platform
 you are using. For more details, Check out [Supported-Platforms](Supported-Platforms.md)
 
-# Modifying The Command Dispatcher
+:::
+
+# Customizing Imperat
 
 If you wanted to register a [Context Resolver](Context%20Resolver.md) or a [Value Resolver](Value%20Resolver.md) , or even 
 set a [Suggestion Resolver](Suggestion%20Resolver.md) for tab-completion in commands, You would have to 

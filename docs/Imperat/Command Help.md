@@ -4,11 +4,6 @@ sidebar_position: 8
 # Command Help
 
 A command help is an object that is responsible for showing all the help usages of a command you make, it's easy to customize how will your help-menu will be displayed.
-The `CommandHelp` requires 3 main objects so that a new instance of it can be made :
-- The command being executed
-- The context of the command being executed
-- The detected usage that has been issued by the command-sender. <br/>
-and it's created through the `Context#createCommandHelp` during the lifecycle of command-execution period, so it's not required from you to create one manually unless you know exactly what are you doing. <br/>
 
 The `CommandHelp` object is created automatically for you, to specify a command help object in classic, just call in the execution 
 `context.getContextResolvedArgument(CommandHelp.class)` or in the annotations by adding a parameter with type `CommandHelp` and it will be context resolved automatically.
@@ -44,7 +39,7 @@ public final class GroupCommand {
 	) {  
 		source.reply("Group entered= " + group.name());  
 		//showing help to the user
-		help.display(source);  
+		help.display();  
 	}
 }
 ```

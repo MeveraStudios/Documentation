@@ -72,6 +72,10 @@ SAME AS BUKKIT but the prefix is `Bungee`
 
 
 ## Other platforms
-- **CLI** for command-line applications
-More coming soon...
+### CLI
+**CLI** for command-line applications, The `CommandLineImperat` is the impl for Imperat on CLI platform.
+the command source in CLI is called `ConsoleSource`.
+
+### Others
+coming soon...
 
