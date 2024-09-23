@@ -39,7 +39,7 @@ public final class GuildContextResolver implements BukkitContextResolver<Guild> 
             @NotNull Context<BukkitSource> context,
             @Nullable ParameterElement parameter
     ) throws ImperatException {
-        var source = context.getSource();
+        var source = context.source();
         if (source.isConsole()) {
             throw new SourceException("Only a player can do this !");
         }

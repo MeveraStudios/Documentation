@@ -32,7 +32,7 @@ public final class GroupValueResolver implements BukkitValueResolver<Group> {
             String raw
     ) throws ImperatException {
         
-        var sender = context.getSource();
+        var sender = context.source();
         if (sender.isConsole()) {
             throw new SourceException("Only players can do this !");
         }

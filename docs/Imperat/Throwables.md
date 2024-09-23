@@ -3,7 +3,7 @@ title: Throwable Handlers
 sidebar_position: 4
 ---
 # ThrowableHandler
-
+~
 The `ThrowableHandler` is a core component in the Imperat framework, designed to manage exceptions that occur during command execution.
 It handles two types of exceptions:
 
@@ -29,7 +29,7 @@ public final class ExampleCustomException extends SelfHandledException {
 
     @Override
     public <S extends Source> void handle(Imperat<S> imperat, Context<S> context) {
-        var source = context.getSource();
+        var source = context.source();
         source.reply("<red>" + message);
     }
 }
@@ -54,7 +54,7 @@ To register a `ThrowableResolver` for a non-SelfHandled exception, use the `setT
 ```java
 imperat.setThrowableResolver( 
     PermissionDeniedException.class,
-    (exception, imperat, context) -> context.getSource().error("You don't have permission to use this command!")
+    (exception, imperat, context) -> context.source().error("You don't have permission to use this command!")
 );
 ```
 
