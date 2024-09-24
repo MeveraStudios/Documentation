@@ -1,5 +1,5 @@
 ---
-sidebar_position: 10
+sidebar_position: 11
 ---
 
 import Tabs from '@theme/Tabs';
@@ -41,6 +41,10 @@ platform's dependency as below:
     </TabItem>
 </Tabs>
 
+:::tip[CAUTION]
+Replace `PLATFORM` with your platform's name in lowercase.
+:::
+
 Platforms are classified into:
 - **Minecraft Platforms**
 - **Non-Minecraft Platforms**
@@ -49,8 +53,14 @@ Platforms are classified into:
 Imperat currently has implementations for the current minecraft-related platforms:
 - Bukkit
 - Bungeecord
+- Velocity
 
-:::tip[Pro Tip]
+:::note[NOTICE]
+`VelocityImperat` is automatically integrated with brigadier
+
+:::
+
+:::tip[PRO TIP]
 You can use and integrate Imperat with Mojang's Brigadier
 you can do the following after initializing Imperat and BEFORE registering any commands.
 ```java
@@ -63,15 +73,14 @@ imperat.applyBrigadier();
 The `BukkitImperat` is the impl for Imperat on bukkit platform.
 The command source in bukkit is called `BukkitSource`.
 
-All resolvers have a middle interface that starts the prefix `Bukkit`,
-for example: `BukkitValueResolver`, `BukkitContextResolver`, `BukkitSuggestionResolver`
-You are free to make use of them.
-
 ### Bungee
 SAME AS BUKKIT but the prefix is `Bungee`
 
+### Velocity
+SAME AS BUKKIT, but the prefix is `Velocity`
 
 ## Other platforms
+
 ### CLI
 **CLI** for command-line applications, The `CommandLineImperat` is the impl for Imperat on CLI platform.
 the command source in CLI is called `ConsoleSource`.
