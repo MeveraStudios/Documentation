@@ -17,6 +17,7 @@ The `Imperat` interface is made of several components that are flexible *(change
 - [Value Resolver](Value%20Resolver.md)
 - [Context Resolver](Context%20Resolver.md) 
 - [Suggestion Resolver](Suggestion%20Resolver.md)
+- [Source Resolver](Source%20Resolver.md)
 - [Command Help](Command%20Help.md)
 - UsageVerifier
 ## AnnotationParser
