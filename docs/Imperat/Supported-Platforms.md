@@ -55,11 +55,6 @@ Imperat currently has implementations for the current minecraft-related platform
 - Bungeecord
 - Velocity
 
-:::note[NOTICE]
-`VelocityImperat` is automatically integrated with brigadier
-
-:::
-
 :::tip[PRO TIP]
 You can use and integrate Imperat with Mojang's Brigadier
 you can do the following after initializing Imperat and BEFORE registering any commands.
