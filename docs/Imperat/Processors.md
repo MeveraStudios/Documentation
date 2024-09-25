@@ -10,8 +10,6 @@ as the explanation below will be fully based on this.
 
 :::
 
-
-
 **Frequently asked question:** What are Processors in Imperat ? 
 **Answer:-**
 They are interfaces that define processes to happen right before the command execution.

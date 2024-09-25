@@ -24,7 +24,7 @@ Since the `Source` is a part of the Context of a command, therefore we call that
 So instead of repeating ourselves in each sub-command's execution, we will just have to create a `ContextResolver` for the type `Guild` as in the example below:
 
 ```java
-public final class GuildContextResolver implements BukkitContextResolver<Guild> {
+public final class GuildContextResolver implements ContextResolver<BukkitSource, Guild> {
     
     /**
      * Resolves a parameter's default value

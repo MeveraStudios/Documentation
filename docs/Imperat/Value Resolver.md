@@ -11,7 +11,7 @@ is parsed and converted into a value of specific type; That specific type is def
 
 So if you want to add parameters to usages with custom types, you will need to create a value resolver for each custom type.
 
-then want to add a parameter of type `X` , you must create and register your own value  resolver that will be responsible of converting the (String) raw argument/input by the user , into a Group object instance (value) to be provided during execution.
+then want to add a parameter of type `X` , you must create and register your own value  resolver that will be responsible of converting the (String) raw argument/input by the user , into a object instance (value) to be provided during execution.
 
 ### Bukkit example: 
 
@@ -22,7 +22,7 @@ public record Group(String name) {}
 
 we create the value resolver for type `Group` as below:
 ```java
-public final class GroupValueResolver implements BukkitValueResolver<Group> {
+public final class GroupValueResolver implements ValueResolver<BukkitSource, Group> {
     
     @Override
     public Group resolve(
