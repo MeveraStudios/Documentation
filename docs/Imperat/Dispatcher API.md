@@ -14,7 +14,7 @@ The `Imperat` interface is made of several components that are flexible *(change
 - PermissionResolver
 - ContextFactory
 - [Processors](Processors.md)
-- [Value Resolver](Value%20Resolver.md)
+- [Parameter Types](Parameter-Type.md)
 - [Context Resolver](Context%20Resolver.md) 
 - [Suggestion Resolver](Suggestion%20Resolver.md)
 - [Source Resolver](Source%20Resolver.md)

@@ -56,7 +56,7 @@ Imperat currently has implementations for the current minecraft-related platform
 - Velocity
 
 :::tip[PRO TIP]
-You can use and integrate Imperat with Mojang's Brigadier
+You can use and integrate Imperat with Mojang's Brigadier 
 you can do the following after initializing Imperat and BEFORE registering any commands.
 ```java
 imperat.applyBrigadier();
@@ -73,6 +73,9 @@ SAME AS BUKKIT but the prefix is `Bungee`
 
 ### Velocity
 SAME AS BUKKIT, but the prefix is `Velocity`
+
+### Minestom
+SAME AS BUKKIT, but the prefix is `Minestom`
 
 ## Other platforms
 

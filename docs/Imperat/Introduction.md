@@ -28,7 +28,7 @@ you are using. For more details, Check out [Supported-Platforms](Supported-Platf
 
 # Customizing Imperat
 
-If you wanted to register a [Context Resolver](Context%20Resolver.md) or a [Value Resolver](Value%20Resolver.md) , or even 
+If you wanted to register a [Context Resolver](Context%20Resolver.md) or a [Parameter Type](Parameter-Type.md) , or even 
 set a [Suggestion Resolver](Suggestion%20Resolver.md) for tab-completion in commands, You would have to 
 call some methods using your platform's dispatcher instance/
 For a complete detailed guide on this, please check out [Dispatcher API](Dispatcher%20API.md)
