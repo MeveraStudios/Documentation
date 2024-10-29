@@ -85,7 +85,7 @@ Check [Annotations Command API](command-api/Annotations%20Command%20API.md) sect
 ### Per type
 Moreover, you can also register suggestions per type of parameter 
 through registering a `ParameterType` for the required type.
-Navigate to 
+Navigate to [Parameter Types](Parameter-Type.md) for more details.
 
 ## Summary
 so when the user tab-completes an argument, the auto-completer checks first if the parameter has a personal **(a.k.a Per parameter)** `SuggestionResolver`, if so it uses it for it's suggestions, otherwise it will fall back to the general one **(a.k.a Per type)**.
