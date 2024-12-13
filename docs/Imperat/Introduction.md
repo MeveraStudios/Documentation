@@ -17,20 +17,31 @@ These objects are registered/injected into the class `Imperat` which handles all
 **Answer:** It's the Ultimate class handling all data needed when processing and registering
 commands objects (`Command`).
 You have to create **new instance** of the imperat.
-on the **start** of your platform by calling `YourPlatformImperat#create` (the method is static) to create
-and initialize a new instance of `Imperat` type.
+on the **start** of your platform by calling `YourPlatformImperat#builder` (the method is static) to configure your imperat instance,
+then finally end the chain with `build` method to return a new instance of `YourPlatformImperat` type.
 
 :::tip[TIP]
 Creation of an instance of your `PlatformImperat` depends mainly on which platform
 you are using. For more details, Check out [Supported-Platforms](Supported-Platforms.md)
-
+But despite having various types of imperat implementations for different platforms,
+all of them are **configurable/customizable**
 :::
 
 # Customizing Imperat
 
+
+
 If you wanted to register a [Context Resolver](Context%20Resolver.md) or a [Parameter Type](Parameter-Type.md) , or even 
 set a [Suggestion Resolver](Suggestion%20Resolver.md) for tab-completion in commands, You would have to 
-call some methods using your platform's dispatcher instance/
+call some methods while configuring imperat.
+
+*Quick-example:*
+```java
+BukkitImperat imperat = BukkitImperat.builder(plugin)
+// do stuff here
+.build();
+```
+
 For a complete detailed guide on this, please check out [Dispatcher API](Dispatcher%20API.md)
 
 :::note

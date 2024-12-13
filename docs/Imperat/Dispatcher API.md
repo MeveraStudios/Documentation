@@ -26,7 +26,7 @@ It's a flexible abstract class in Imperat, which parses the annotated command cl
 it's used internally inside the method `Imperat#registerCommand(T instance)`.
 Simply, It defines how the data from the annotations (inside your Command class) are translated and converted into command objects.
 
-You can customize and make your own AnnotationParser as you wish by using `Imperat#setAnnotationParser(AnnotationParser<C>)` where C is automatically
+You can customize and make your own AnnotationParser as you wish by using `YourPlatformImperatConfigBuilder#setAnnotationParser(AnnotationParser<C>)` where C is automatically
 your command-sender type
 
 Refer to the java docs if you need more details on how to implement your own `AnnotationParser`, although I would never recommend you to do this, as the default `AnnotationParser` is competent enough.
@@ -44,7 +44,7 @@ it's own way of identifying whether the command-sender/source has a permission o
 ### Implementing your own Permission Resolver
 
 If you ever wanted to make your own `Permission Resolver` you should consider
-adding it as a parameter inside the `YourCommandPlatform.create()`, Refer to the java docs 
+adding it as a parameter inside the `YourPlatformImperatConfigBuilder#permissionResolver()`, Refer to the java docs 
 for more info about method parameters for creation of Imperat instances from various supported platforms and you may would like to check [Supported-Platforms](Supported-Platforms.md)
 
 *Quick **Bukkit** example:*
@@ -65,7 +65,7 @@ class MyPlugin extends JavaPlugin {
   @Override
   public void onEnable() {
 	  //now you injected the your own instance of permission resolver into the   Command Dispatcher
-	  imperat = BukkitImperat.create(plugin, new MyBukkitPermissionResolver());
+	  imperat = BukkitImperat.builder(this).permissionResolver(new MyBukkitPermissionResolver()).build();
   }
 }
 ```
@@ -141,11 +141,15 @@ The `areAmbigious(CommandUsage, CommandUsage)` method checks if any two usages o
 ####  Common Scenarios
 Here are some important common scenarios that will help you better understand
 how Imperat recognizes and when does it tolerate an ambiguity.
+
 ##### Scenario #1
 if you have the command `group` and it has 2 usages which are `/group <group>` and `/group help` , an actual group can be called **'help'**. Luckily however, Imperat prioritizes subcommands compared to value arguments, so the dispatcher will tolerate this pseudo-ambiguity. <br/>
+
 ##### Scenario #2
 If you have the command `buy` with 2 usages which are `/buy <itemId>` and `/buy <itemName>` 
-Even if both parameters `itemId` and `itemName` are of different types, the current `Imperat` cannot tolerate this ambiguity coming from these 2 usages.
+Even if both parameters `itemId` and `itemName` are of different types (Integer vs String), the current `Imperat` can work with this depending 
+on the `UsageVerifier`, the default usage verifier would deal with such ambiguity. However it may cause some unknown problems.
+
 
 :::warning
 We don't recommend implementing your own UsageVerifier, unless you know what you're doing, since the `DefaultUsageVerifier` is competent enough.

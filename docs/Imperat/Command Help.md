@@ -39,7 +39,7 @@ public final class GroupCommand {
 	) {  
 		source.reply("Group entered= " + group.name());  
 		//showing help to the user
-		help.display();  
+		help.display(source);  
 	}
 }
 ```
