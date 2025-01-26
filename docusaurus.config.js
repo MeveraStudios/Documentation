@@ -104,7 +104,7 @@ const config = {
               },
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/VelixDevelopments',
+                href: 'https://twitter.com/VelixDevTeam',
               },
             ],
           },
