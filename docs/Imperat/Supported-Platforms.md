@@ -256,7 +256,7 @@ Choose the platform you are developing for to see specific setup instructions.
                 implementation("dev.velix:imperat-minestom:{version}") // Use the same version as imperat-core
             }
             ```
-        </Item>
+        </TabItem>  {/* CORRECTED closing tag */}
     </Tabs>
   </TabItem>
 
@@ -285,14 +285,14 @@ Choose the platform you are developing for to see specific setup instructions.
                 implementation 'dev.velix:imperat-cli:{version}' // Use the same version as imperat-core
             }
             ```
-        </Item>
+        </TabItem> {/* CORRECTED closing tag */}
         <TabItem value="gradle-kts" label="Gradle (build.gradle.kts)">
              ```kotlin
              dependencies {
                  implementation("dev.velix:imperat-cli:{version}") // Use the same version as imperat-core
              }
              ```
-         </Item>
+         </TabItem> {/* CORRECTED closing tag */}
     </Tabs>
   </TabItem>
 
@@ -306,4 +306,3 @@ Choose the platform you are developing for to see specific setup instructions.
 :::tip[Note on Versions]
 Ensure you use the **same `{version}`** for both `imperat-core` and the platform-specific module (e.g., `imperat-bukkit`) to avoid compatibility issues. Replace `{version}` with the actual release version you intend to use (e.g., `1.0.0`).
 :::
-
