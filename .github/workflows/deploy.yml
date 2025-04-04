@@ -17,10 +17,12 @@ jobs:
       - name: Get latest project tag
         id: get_project_tag
         run: |
-          PROJECT_REPO="VelixDevelopments/Imperat" # REPLACE THIS
+          PROJECT_REPO="VelixDevelopments/Imperat"
           response=$(curl -s -H "Accept: application/vnd.github+json" "https://api.github.com/repos/$PROJECT_REPO/releases/latest")
           LATEST_PROJECT_TAG=$(echo "$response" | jq -r '.tag_name')
-          echo "LATEST_PROJECT_TAG=$LATEST_PROJECT_TAG" >> $GITHUB_ENV
+          # Remove the leading 'v' if it exists
+          VERSION_WITHOUT_V="${LATEST_PROJECT_TAG#v}"
+          echo "VERSION_WITHOUT_V=$VERSION_WITHOUT_V" >> $GITHUB_ENV
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -33,7 +35,7 @@ jobs:
 
       - name: Replace version placeholder
         run: |
-          PROJECT_VERSION="${{ env.LATEST_PROJECT_TAG }}"
+          PROJECT_VERSION="${{ env.VERSION_WITHOUT_V }}"
           DOCS_DIR="./docs" # Adjust if needed
           find "$DOCS_DIR" -name "*.md" -print0 | while IFS= read -r -d $'\0' file; do
             sed -i "s/{version}/$PROJECT_VERSION/g" "$file"
@@ -41,7 +43,7 @@ jobs:
 
       - name: Build website
         env:
-          PROJECT_VERSION: ${{ env.LATEST_PROJECT_TAG }}
+          PROJECT_VERSION: ${{ env.VERSION_WITHOUT_V }}
         run: npm run build
 
       - name: Upload Build Artifact
