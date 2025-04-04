@@ -93,14 +93,14 @@ call some methods while configuring imperat.
 With Imperat, you can even register your own sender/source type, check out [Source Resolver](Source%20Resolver.md)
 For a complete detailed guide on this, please check out [Dispatcher API](Dispatcher%20API.md)
 
-*Quick-example:*
+*Big-example:*
 ```java
 BukkitImperat imperat = BukkitImperat.builder(plugin)
-.parameterType(Arena.class, new ArenaParameterType()) //registering custom type 'Arena'
-.parameterType(Kit.class, new KitParameterType()) //registering custom type 'Kit'
-.parameterType(DuelMode.class, new DuelModeParameterType()) //registering custom type 'DuelMode'
-.sourceResolver(CustomSource.class, CustomSource::new) //registering custom command sender/source type 'CustomSource'
-.build();
+    .parameterType(Arena.class, new ArenaParameterType()) //registering custom type 'Arena'
+    .parameterType(Kit.class, new KitParameterType()) //registering custom type 'Kit'
+    .parameterType(DuelMode.class, new DuelModeParameterType()) //registering custom type 'DuelMode'
+    .sourceResolver(CustomSource.class, CustomSource::new) //registering custom command sender/source type 'CustomSource'
+  .build();
 ```
 
 :::warning

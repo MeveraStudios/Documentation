@@ -75,7 +75,9 @@ In this example:
 Once your `SourceResolver` is implemented, you can register it with Imperat as follows:
 
 ```java
-imperat.registerSourceResolver(CustomPlayer.class, new CustomSourceResolver());
+imperat = BukkitImperat.builder(plugin)
+    .sourceResolver(CustomPlayer.class, new CustomSourceResolver())
+    .build();
 ```
 
 This allows Imperat to resolve `BukkitSource` into your `CustomPlayer` type whenever necessary.

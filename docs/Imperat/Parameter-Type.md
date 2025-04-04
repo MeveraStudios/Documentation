@@ -51,7 +51,11 @@ public final class ParameterGroup extends BaseParameterType<TestSource, Group> {
 ```
 
 Then we register the our value resolver as below:
-`dispatcher.registerParamType(Group.class, new ParameterGroup());`
+```java
+imperat = BukkitImperat.builder(plugin)
+    .parameterType(Group.class, new ParameterGroup())
+    .build();
+```
 
 Then we will be able to get the group value resolved from it's raw argument
 during execution of a `CommandUsage` as below : 
@@ -66,7 +70,7 @@ senderCommand.setDefaultUsageExecution((source, context)-> {
   
 senderCommand.addUsage(  
 	CommandUsage.<CommandSender>builder()  
-	 .parameters(CommandParameter.required("group", Group.class))  
+	 .parameters(CommandParameter.required("group", new ParameterGroup()))  
 	 .execute((source, context)-> {  
 	    Group group = context.getArgument("group");  
 	    assert group != null;  

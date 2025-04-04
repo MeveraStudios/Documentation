@@ -89,7 +89,7 @@ Therefore, The Command object is made with such automated processing and chainin
 command.subCommand("sub1",
  	CommandUsage.<YourPlatformSource>builder()  
 	.parameters(
-		CommandParameter.optional("value", Double.class,OptionalValueSupplier.of(-1D))
+		CommandParameter.optional("value", ParameterTypes.numeric(Double.class), OptionalValueSupplier.of(-1D))
 	).execute((source, context)-> {
 	 	//you can get previously used arguments from the main command usage  
 	 	Integer firstArg = context.getArgument("firstArg");  

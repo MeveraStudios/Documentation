@@ -49,5 +49,38 @@ All registrations are within the `Imperat` api/dispatcher object.
 you can register processors globally by calling `imperat#registerGlobalPreProcessor` for registering pre processors and/or 
 `imperat#registerGlobalPostProcessor` for registering post processors.
 
+#### Preprocessor example:
+```java
+public class ExamplePreProcessor implements CommandPreProcessor<BukkitSource> {
+    @Override
+    public void process(Imperat<BukkitSource> imperat, Context<BukkitSource> context, CommandUsage<BukkitSource> usage) throws ImperatException {
+        if(context.source().isConsole()) {
+            throw new SourceException(SourceException.ErrorLevel.SEVERE, "Only players are allowed to do this !");
+        }
+    }
+}
+```
+
+#### Postprocessor example:
+```java
+public class ExamplePostProcessor implements CommandPostProcessor<BukkitSource> {
+    @Override
+    public void process(Imperat<BukkitSource> imperat, ResolvedContext<BukkitSource> context) throws ImperatException {
+        String executorName = context.source().isConsole() ? "CONSOLE" : context.source().name();
+        String executedCommandLine = "/" + CommandUsage.format(context.label(), context.getDetectedUsage());
+        Bukkit.getConsoleSender().sendMessage(executorName + " has executed '" + executedCommandLine + "'");
+    }
+}
+```
+
+#### Registering your global processors
+Quick example:
+```java
+imperat = BukkitImperat.builder(plugin)
+    .preProcessor(new ExamplePreProcessor())
+    .postProcessor(new ExamplePostProcessor())
+    .build();
+```
+
 ### Registering Command processors
 We have already discussed that in [Classic Command API](command-api/Classic%20Command%20API.md) and for annotations in [Annotations Command API](command-api/Annotations%20Command%20API.md).

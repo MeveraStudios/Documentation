@@ -165,7 +165,7 @@ If you create and use your own implementation of `UsageVerifier` interface,
 
 Quick example on implementing your own `UsageVerifier`:
 ```java
-class MyUsageVerifier implements UsageVerifier<YourPlatformSource> {
+public class MyUsageVerifier implements UsageVerifier<YourPlatformSource> {
  
   @Override
   public boolean verify(CommandUsage<YourPlatformSource> usage) {
@@ -187,5 +187,7 @@ class MyUsageVerifier implements UsageVerifier<YourPlatformSource> {
 
 #### Setting your usage verifier
 ```java
-dispatcher.setUsageVerifier(new MyUsageVerifier);
+imperat = BukkitImperat.builder(plugin)
+    .usageVerifier(new MyUsageVerifier())
+    .build();
 ```

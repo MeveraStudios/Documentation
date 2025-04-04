@@ -207,15 +207,20 @@ public @interface MyCommand {  }
 Then we will be registering our `AnnotationReplacer` for annotation type of `MyCommand` as below:
 
 ```java
-dispatcher.registerAnnotationReplacer(MyCommand.class, (annotation)-> {  
-  var cmd = AnnotationFactory.create(  
-          Command.class,  
-          "value" , new String[]{"name", "alias"});  
-  var permission = AnnotationFactory.create(Permission.class, "value", "command.group");  
-  var desc = AnnotationFactory.create(Description.class, "value",  
-          "Main command for managing groups/ranks");  
-  return List.of(cmd, permission, desc);  
-});
+imperat = BukkitImperat.builder(plugin)
+    .annotationReplacer(
+        MyCommand.class, 
+        (annotation)-> {  
+            var cmd = AnnotationFactory.create(  
+                    Command.class,  
+                    "value" , new String[]{"name", "alias"});  
+            var permission = AnnotationFactory.create(Permission.class, "value", "command.group");  
+            var desc = AnnotationFactory.create(Description.class, "value",  
+                    "Main command for managing groups/ranks");  
+            return List.of(cmd, permission, desc);  
+        }
+    )
+.build();
 ```
 
 :::danger[CRITICAL]

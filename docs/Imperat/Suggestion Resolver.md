@@ -38,22 +38,9 @@ There are only 2 ways to register and make use of a suggestion resolver:
 ### Per parameter
 There are extra static methods for the creation of all types of parameters inside of the interface `CommandParameter` to create the parameters through the **Classical** way.
 These extra methods have one extra parameter for an instance of `SuggestionResolver`
-allowing you to register suggestions per parameter you make as the example below:
-##### Classic example
-```java
-CommandUsage.<YourPlatformCommandSender>builder().parameters(CommandParameter.required("group", Group.class, new GroupSuggestionResolver()))
-```
+allowing you to register suggestions per parameter you make.
 
-Alternatively, you can just do this :
-```java
-var suggestionResolver = SuggestionResolver.plain(
-    GroupRegistry.getInstance().getAll()
-        .stream().map(Group::name)
-        .collect(Collectors.toList())
-);
-CommandUsage.<YourPlatformCommandSender>builder().parameters(CommandParameter.required("group", Group.class, suggestionResolver));
-```
-
+It can also be done through annoations.
 ##### Annotations example
 There are 2 annotations for providing a suggestion :
 - `@Suggest` -> provides plain suggestions (not dynamic)
@@ -78,7 +65,9 @@ public void mainUsage(
 Registering your suggestion resolver with it's unique name :-
 
 ```java
-dispatcher.registerNamedSuggestionResolver("groups", new GroupSuggestionResolver());
+imperat = BukkitImperat.builder(plugin)
+    .namedSuggestionResolver("groups", new GroupSuggestionResolver())
+    .build();
 ```
 Check [Annotations Command API](command-api/Annotations%20Command%20API.md) section for more details.
 

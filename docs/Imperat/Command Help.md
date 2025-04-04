@@ -71,7 +71,9 @@ public final class ExampleHelpProvider implements HelpProvider<YourPlatformSourc
 
 and then registering your help provider
 ```java
-    imperat.setHelpProvider(new ExampleHelpProvider());
+imperat = BukkitImperat.builder(plugin)
+    .helpProvider(new ExampleHelpProvider())
+    .build();
 ```
 
 ### Templates
@@ -87,8 +89,9 @@ Both classes are sealed, meaning that you can't extend them to make your own tem
 You are forced to use our built-in builders for creation of templates as below
 
 ```java
-imperat.setHelpProvider(
-    HelpProvider.<YourPlatformSource>template()
+imperat = BukkitImperat.builder(plugin)
+    .helpProvider(
+       HelpProvider.<YourPlatformSource>template()
         .header(content -> "------- " + content.command().name() + "'s help --------")
         .footer(content -> "-----------------")
         .formatter(yourOwnFormatter)
@@ -96,7 +99,8 @@ imperat.setHelpProvider(
             //define how usages are displayed here
         })
         .build()
-);
+    )
+    .build();
 ```
 
 As you can see above, you can define header, footer, `UsageFormatter` and displayer consumer to override the default display algorithm.
@@ -113,15 +117,18 @@ the header and footer are hyphens for help (`HelpHyphen`) which has some data/co
 
 Here's a quick example below on creating and registering a paginated template
 ```java
-imperat.setHelpProvider(
-    HelpProvider.<YourPlatformSource>paginated(10)
-            .header(
-                content -> "--------" + content.command().name() + "'s help (" 
-                    + content.currentPage() + "/" + content.maxPages() + ") ------"
-            )
-            .footer((content) -> "------------")
-            .build()
-);
+
+imperat = BukkitImperat.builder(plugin)
+    .helpProvider(
+        HelpProvider.<YourPlatformSource>paginated(10)
+         .header(
+            content -> "--------" + content.command().name() + "'s help (" 
+                + content.currentPage() + "/" + content.maxPages() + ") ------"
+         )
+         .footer((content) -> "------------")
+         .build()
+    )
+    .build();
 ```
 
 You can use the default `UsageFormatter`, but it's okay to make your own 

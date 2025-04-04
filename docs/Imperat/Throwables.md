@@ -30,7 +30,7 @@ public final class ExampleCustomException extends SelfHandledException {
     @Override
     public <S extends Source> void handle(Imperat<S> imperat, Context<S> context) {
         var source = context.source();
-        source.reply("<red>" + message);
+        source.reply("&e" + message); //message colored in yellow on bukkit platform
     }
 }
 ```
@@ -52,10 +52,12 @@ The `ThrowableHandler` associates exception types with `ThrowableResolver`—a f
 To register a `ThrowableResolver` for a non-SelfHandled exception, use the `setThrowableResolver` method like this:
 
 ```java
-imperat.setThrowableResolver( 
-    PermissionDeniedException.class,
-    (exception, imperat, context) -> context.source().error("You don't have permission to use this command!")
-);
+imperat = BukkitImperat.builder(plugin)
+    .throwableResolver(
+        PermissionDeniedException.class,
+        (exception, imperat, context) -> context.source().error("You don't have permission to use this command!")
+    )
+    .build();
 ```
 
 In this example, whenever a `PermissionDeniedException` is thrown, the resolver sends an error message to the source. This allows for a centralized error handling mechanism for all non-SelfHandled exceptions.

@@ -60,7 +60,9 @@ It's simple, all you have to do is call method `Imperat#registerContextResolver`
 for a specific type of object as the example below: 
 
 ```java
-dispatcher.registerContextResolver(Guild.class, new GuildContextResolver());
+imperat = BukkitImperat.builder(plugin)
+    .contextResolver(Guild.class, new GuildContextResolver())
+    .build();
 ```
 
 #### Using the context resolver
