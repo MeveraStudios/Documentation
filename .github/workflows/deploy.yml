@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages with Version Update
 
 on:
   push:
@@ -7,20 +7,41 @@ on:
 
 jobs:
   build:
-    name: Build Docusaurus
+    name: Build and Update Docusaurus
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+
+      - name: Get latest project tag
+        id: get_project_tag
+        run: |
+          PROJECT_REPO="VelixDevelopments/Imperat" # REPLACE THIS
+          response=$(curl -s -H "Accept: application/vnd.github+json" "https://api.github.com/repos/$PROJECT_REPO/releases/latest")
+          LATEST_PROJECT_TAG=$(echo "$response" | jq -r '.tag_name')
+          echo "LATEST_PROJECT_TAG=$LATEST_PROJECT_TAG" >> $GITHUB_ENV
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: npm
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Replace version placeholder
+        run: |
+          PROJECT_VERSION="${{ env.LATEST_PROJECT_TAG }}"
+          DOCS_DIR="./docs" # Adjust if needed
+          find "$DOCS_DIR" -name "*.md" -print0 | while IFS= read -r -d $'\0' file; do
+            sed -i "s/{version}/$PROJECT_VERSION/g" "$file"
+          done
+
       - name: Build website
+        env:
+          PROJECT_VERSION: ${{ env.LATEST_PROJECT_TAG }}
         run: npm run build
 
       - name: Upload Build Artifact
@@ -32,12 +53,10 @@ jobs:
     name: Deploy to GitHub Pages
     needs: build
 
-    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment originates from an appropriate source
+      pages: write
+      id-token: write
 
-    # Deploy to the github-pages environment
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
