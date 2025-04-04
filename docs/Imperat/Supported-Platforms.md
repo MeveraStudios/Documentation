@@ -19,17 +19,15 @@ Most builds won't require special repository configuration as Imperat artifacts 
     <repositories>
       <repository>
         <id>maven-central</id>
-        <url>[https://repo1.maven.org/maven2/](https://repo1.maven.org/maven2/)</url>
+        <url>https://repo1.maven.org/maven2/</url>
       </repository>
     </repositories>
     ```
   </TabItem>
   <TabItem value="gradle" label="Gradle (build.gradle)">
-    ```groovy
+    ```gradle
     repositories {
       mavenCentral()
-      // Or explicitly:
-      // maven { url '[https://repo1.maven.org/maven2/](https://repo1.maven.org/maven2/)' }
     }
     ```
    </TabItem>
@@ -37,8 +35,6 @@ Most builds won't require special repository configuration as Imperat artifacts 
     ```kotlin
     repositories {
       mavenCentral()
-      // Or explicitly:
-      // maven("[https://repo1.maven.org/maven2/](https://repo1.maven.org/maven2/)")
     }
     ```
    </TabItem>
@@ -54,7 +50,8 @@ Before adding any platform-specific module, you **must** include the core Impera
     <dependency>
         <groupId>dev.velix</groupId>
         <artifactId>imperat-core</artifactId>
-        <version>{version}</version> </dependency>
+        <version>{version}</version> 
+    </dependency>
     ```
   </TabItem>
   <TabItem value="gradle" label="Gradle (build.gradle)">
@@ -87,19 +84,6 @@ Choose the platform you are developing for to see specific setup instructions.
       <li>Main Class: <code>BukkitImperat</code></li>
       <li>Command Source: <code>BukkitSource</code></li>
     </ul>
-
-    :::tip[Brigadier Integration]
-    You can integrate Imperat with Mojang's Brigadier for enhanced command features (like suggestions and argument types) on compatible servers (Minecraft 1.13+).
-    Call this **after** initializing Imperat but **before** registering any commands:
-    ```java
-    imperat.applyBrigadier();
-    ```
-    :::
-
-    :::caution[Important]
-    Do **NOT** register your commands within your plugin's <code>plugin.yml</code> file. Imperat handles registration dynamically.
-    :::
-
     <h4>Installation</h4>
     <Tabs groupId="build-tool-bukkit">
       <TabItem value="maven" label="Maven (pom.xml)" default>
@@ -107,7 +91,8 @@ Choose the platform you are developing for to see specific setup instructions.
         <dependency>
             <groupId>dev.velix</groupId>
             <artifactId>imperat-bukkit</artifactId>
-            <version>{version}</version> </dependency>
+            <version>{version}</version> 
+        </dependency>
         ```
       </TabItem>
       <TabItem value="gradle" label="Gradle (build.gradle)">
@@ -125,6 +110,19 @@ Choose the platform you are developing for to see specific setup instructions.
         ```
       </TabItem>
     </Tabs>
+
+
+    :::tip[Brigadier Integration]
+    You can integrate Imperat with Mojang's Brigadier for enhanced command features (like suggestions and argument types) on compatible servers (Minecraft 1.13+).
+    Call this **after** initializing Imperat but **before** registering any commands:
+    ```java
+    imperat.applyBrigadier();
+    ```
+    :::
+
+    :::caution[Important]
+    Do **NOT** register your commands within your plugin's <code>plugin.yml</code> file. Imperat handles registration dynamically.
+    :::
   </TabItem>
 
   {/* BungeeCord Platform Tab */}
@@ -134,11 +132,6 @@ Choose the platform you are developing for to see specific setup instructions.
       <li>Main Class: <code>BungeeImperat</code></li>
       <li>Command Source: <code>BungeeSource</code></li>
     </ul>
-
-    :::caution[Important]
-    Do **NOT** register your commands within your plugin's <code>plugin.yml</code> file. Imperat handles registration dynamically.
-    :::
-    
     <h4>Installation</h4>
     <Tabs groupId="build-tool-bungee">
         <TabItem value="maven" label="Maven (pom.xml)" default>
@@ -146,11 +139,12 @@ Choose the platform you are developing for to see specific setup instructions.
             <dependency>
                 <groupId>dev.velix</groupId>
                 <artifactId>imperat-bungee</artifactId>
-                <version>{version}</version> </dependency>
+                <version>{version}</version> 
+            </dependency>
             ```
         </TabItem>
         <TabItem value="gradle" label="Gradle (build.gradle)">
-            ```groovy
+            ```gradle
             dependencies {
                 implementation 'dev.velix:imperat-bungee:{version}' // Use the same version as imperat-core
             }
@@ -180,11 +174,12 @@ Choose the platform you are developing for to see specific setup instructions.
             <dependency>
                 <groupId>dev.velix</groupId>
                 <artifactId>imperat-velocity</artifactId>
-                <version>{version}</version> </dependency>
+                <version>{version}</version>
+            </dependency>    
             ```
         </TabItem>
         <TabItem value="gradle" label="Gradle (build.gradle)">
-            ```groovy
+            ```gradle
             dependencies {
                 implementation 'dev.velix:imperat-velocity:{version}' // Use the same version as imperat-core
             }
@@ -214,11 +209,12 @@ Choose the platform you are developing for to see specific setup instructions.
             <dependency>
                 <groupId>dev.velix</groupId>
                 <artifactId>imperat-minestom</artifactId>
-                <version>{version}</version> </dependency>
+                <version>{version}</version>
+            </dependency>    
             ```
         </TabItem>
         <TabItem value="gradle" label="Gradle (build.gradle)">
-            ```groovy
+            ```gradle
             dependencies {
                 implementation 'dev.velix:imperat-minestom:{version}' // Use the same version as imperat-core
             }
@@ -249,11 +245,12 @@ Choose the platform you are developing for to see specific setup instructions.
             <dependency>
                 <groupId>dev.velix</groupId>
                 <artifactId>imperat-cli</artifactId>
-                <version>{version}</version> </dependency>
+                <version>{version}</version> 
+            </dependency>
             ```
         </TabItem>
         <TabItem value="gradle" label="Gradle (build.gradle)">
-            ```groovy
+            ```gradle
             dependencies {
                 implementation 'dev.velix:imperat-cli:{version}' // Use the same version as imperat-core
             }
