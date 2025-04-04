@@ -89,7 +89,8 @@ Choose the platform you are developing for to see specific setup instructions.
     </ul>
 
     :::tip[Brigadier Integration]
-    You can integrate Imperat with Mojang's Brigadier for enhanced command features (like suggestions and argument types) on compatible servers (Paper 1.13+). Call this **after** initializing Imperat but **before** registering any commands:
+    You can integrate Imperat with Mojang's Brigadier for enhanced command features (like suggestions and argument types) on compatible servers (Minecraft 1.13+).
+    Call this **after** initializing Imperat but **before** registering any commands:
     ```java
     imperat.applyBrigadier();
     ```
@@ -134,17 +135,10 @@ Choose the platform you are developing for to see specific setup instructions.
       <li>Command Source: <code>BungeeSource</code></li>
     </ul>
 
-    :::tip[Brigadier Integration]
-    You can integrate Imperat with Mojang's Brigadier. Call this **after** initializing Imperat but **before** registering any commands:
-    ```java
-    imperat.applyBrigadier();
-    ```
-    :::
-
     :::caution[Important]
     Do **NOT** register your commands within your plugin's <code>plugin.yml</code> file. Imperat handles registration dynamically.
     :::
-
+    
     <h4>Installation</h4>
     <Tabs groupId="build-tool-bungee">
         <TabItem value="maven" label="Maven (pom.xml)" default>
@@ -179,18 +173,6 @@ Choose the platform you are developing for to see specific setup instructions.
       <li>Main Class: <code>VelocityImperat</code></li>
       <li>Command Source: <code>VelocitySource</code></li>
     </ul>
-
-    :::tip[Brigadier Integration]
-    Velocity has native Brigadier support. You can integrate Imperat with it. Call this **after** initializing Imperat but **before** registering any commands:
-    ```java
-    imperat.applyBrigadier();
-    ```
-    :::
-
-     :::caution[Important]
-    Avoid registering command aliases directly in your <code>velocity-plugin.json</code> if they are handled by Imperat. Imperat handles the primary command registration.
-    :::
-
     <h4>Installation</h4>
     <Tabs groupId="build-tool-velocity">
         <TabItem value="maven" label="Maven (pom.xml)" default>
@@ -225,14 +207,6 @@ Choose the platform you are developing for to see specific setup instructions.
       <li>Main Class: <code>MinestomImperat</code></li>
       <li>Command Source: <code>MinestomSource</code></li>
     </ul>
-
-    :::tip[Brigadier Integration]
-    Minestom uses Brigadier natively. You can integrate Imperat with it. Call this **after** initializing Imperat but **before** registering any commands:
-    ```java
-    imperat.applyBrigadier();
-    ```
-    :::
-
     <h4>Installation</h4>
     <Tabs groupId="build-tool-minestom">
         <TabItem value="maven" label="Maven (pom.xml)" default>
@@ -268,7 +242,6 @@ Choose the platform you are developing for to see specific setup instructions.
       <li>Command Source: <code>ConsoleSource</code></li>
     </ul>
     <p>This module provides a basic loop to read input from the console and dispatch commands.</p>
-
     <h4>Installation</h4>
     <Tabs groupId="build-tool-cli">
         <TabItem value="maven" label="Maven (pom.xml)" default>
@@ -304,5 +277,5 @@ Choose the platform you are developing for to see specific setup instructions.
 </Tabs>
 
 :::tip[Note on Versions]
-Ensure you use the **same `{version}`** for both `imperat-core` and the platform-specific module (e.g., `imperat-bukkit`) to avoid compatibility issues. Replace `{version}` with the actual release version you intend to use (e.g., `1.0.0`).
+Ensure you use the **same `{version}`** for both `imperat-core` and the platform-specific module (e.g., `imperat-bukkit`) to avoid compatibility issues.
 :::
