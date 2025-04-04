@@ -81,7 +81,7 @@ Choose the platform you are developing for to see specific setup instructions.
   <TabItem value="bukkit" label="Bukkit">
     <p>Implementation for Bukkit-based Minecraft servers (like Spigot, Paper).</p>
     <ul>
-      <li>Main Class: <code>BukkitImperat</code></li>
+      <li>Imperat Class: <code>BukkitImperat</code></li>
       <li>Command Source: <code>BukkitSource</code></li>
     </ul>
     <h4>Installation</h4>
@@ -131,7 +131,7 @@ Choose the platform you are developing for to see specific setup instructions.
   <TabItem value="bungee" label="BungeeCord">
      <p>Implementation for BungeeCord Minecraft proxies.</p>
     <ul>
-      <li>Main Class: <code>BungeeImperat</code></li>
+      <li>Imperat Class: <code>BungeeImperat</code></li>
       <li>Command Source: <code>BungeeSource</code></li>
     </ul>
     <h4>Installation</h4>
@@ -166,7 +166,7 @@ Choose the platform you are developing for to see specific setup instructions.
   <TabItem value="velocity" label="Velocity">
     <p>Implementation for Velocity Minecraft proxies.</p>
     <ul>
-      <li>Main Class: <code>VelocityImperat</code></li>
+      <li>Imperat Class: <code>VelocityImperat</code></li>
       <li>Command Source: <code>VelocitySource</code></li>
     </ul>
     <h4>Installation</h4>
@@ -201,7 +201,7 @@ Choose the platform you are developing for to see specific setup instructions.
   <TabItem value="minestom" label="Minestom">
      <p>Implementation for Minestom Minecraft servers.</p>
     <ul>
-      <li>Main Class: <code>MinestomImperat</code></li>
+      <li>Imperat Class: <code>MinestomImperat</code></li>
       <li>Command Source: <code>MinestomSource</code></li>
     </ul>
     <h4>Installation</h4>
@@ -236,7 +236,7 @@ Choose the platform you are developing for to see specific setup instructions.
   <TabItem value="cli" label="CLI">
     <p>Implementation for standalone Command-Line Interface (CLI) applications.</p>
      <ul>
-      <li>Main Class: <code>CommandLineImperat</code></li>
+      <li>Imperat Class: <code>CommandLineImperat</code></li>
       <li>Command Source: <code>ConsoleSource</code></li>
     </ul>
     <p>This module provides a basic loop to read input from the console and dispatch commands.</p>
