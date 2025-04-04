@@ -63,21 +63,19 @@ during execution of a `CommandUsage` as below :
 #### Classic example:
 
 ```java
-Command<CommandSender> senderCommand = Command.createCommand("group");  
-senderCommand.setDefaultUsageExecution((source, context)-> {  
-  source.reply("/group <group>");  
-});  
-  
-senderCommand.addUsage(  
-	CommandUsage.<CommandSender>builder()  
-	 .parameters(CommandParameter.required("group", new ParameterGroup()))  
-	 .execute((source, context)-> {  
-	    Group group = context.getArgument("group");  
-	    assert group != null;  
-	    source.reply("entered group name= " + group.name());  
-	 })
-	 .build()
-);
+Command<BukkitSource> groupCommand = Command.<BukkitSource>create("group")
+        .defaultExecution((source, context)-> {
+            source.reply("/group <group>");
+        })
+        .usage(CommandUsage.<BukkitSource>builder()
+                .parameters(CommandParameter.required("group", new ParameterGroup()))
+                .execute((source, context)-> {
+                    Group group = context.getArgument("group");
+                    assert group != null;
+                    source.reply("entered group name= " + group.name());
+                })
+        )
+        .build();
 ```
 #### Annotations example:
 
