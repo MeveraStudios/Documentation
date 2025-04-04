@@ -31,13 +31,13 @@ platform's dependency as below:
     <dependency>
         <groupId>dev.velix</groupId>
             <artifactId>imperat-PLATFORM</artifactId>
-        <version>VERSION</version>
+        <version>{version}</version>
     </dependency>
     ```
     </TabItem>
 
     <TabItem value="gradle" label="Gradle (short)">
-        `implementation "dev.velix:imperat-PLATFORM:VERSION"`
+        `implementation "dev.velix:imperat-PLATFORM:{version}"`
     </TabItem>
 </Tabs>
 
@@ -65,8 +65,13 @@ imperat.applyBrigadier();
 :::
 
 ### Bukkit
-The `BukkitImperat` is the impl for Imperat on bukkit platform.
-The command source in bukkit is called `BukkitSource`.
+The `BukkitImperat` is the type of Imperat to use on bukkit platform.
+Use `BukkitSource` as the `Source`
+
+:::tip[CAUTION]
+You **MUST** NOT register your commands within your `plugin.yml`
+:::
+
 
 ### Bungee
 SAME AS BUKKIT but the prefix is `Bungee`

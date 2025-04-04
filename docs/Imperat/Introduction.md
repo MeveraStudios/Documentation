@@ -27,63 +27,14 @@ But despite having various types of imperat implementations for different platfo
 all of them are **configurable/customizable**
 :::
 
-# Customizing Imperat
-
-
-
-If you wanted to register a [Context Resolver](Context%20Resolver.md) or a [Parameter Type](Parameter-Type.md) , or even 
-set a [Suggestion Resolver](Suggestion%20Resolver.md) for tab-completion in commands, You would have to 
-call some methods while configuring imperat.
-
-*Quick-example:*
-```java
-BukkitImperat imperat = BukkitImperat.builder(plugin)
-// do stuff here
-.build();
-```
-
-For a complete detailed guide on this, please check out [Dispatcher API](Dispatcher%20API.md)
-
-:::note
-It must be done **BEFORE** registering any command.<br/>
-:::
-
-:::warning
-If you ever wanted to create your own implementation of `Imperat` interface, 
-you will not receive any support and your issue will be instantly ignored/discarded
-:::
 
 # Creation of Commands
-There's mainly 2 ways of creating commands
-- [Classic (Built-in `Command.create(commandName)`)](command-api/Classic%20Command%20API.md)
+There's mainly 2 ways of creating commands:
 - [Annotations Command API](command-api/Annotations%20Command%20API.md) 
+- [Classic (Built-in `Command.create(commandName)`)](command-api/Classic%20Command%20API.md)
 
-## Classic
-The main original (OG) way of creating a command is by using our built-in `Command.create(commandName)` method for creation <br/>
-It returns a built-in builder for the command
-Here's a quick example :
+I will be giving an intro to the easier way for creating commands which is the annotations.
 
-```java
-var command = Command.<YourPlatformSource>createCommand("example").usage(...).othermethods(...)
-```
-By using the builder from `Command#createCommand`, you should use the methods in it to build and establish your command. 
-
-For more details about what type of `Source` you should use, please check out [Supported platforms](Supported-Platforms.md)
-You may modify the `command` object however you would like by checking out [Classic Command API](command-api/Classic%20Command%20API.md) which explains every possible way to modify any command object you create.
-
-*Quick example:*
-```java
-command.usage(
-  CommandUsage.<YourPlatformSource>builder()
-    .parameters(
-		  CommandParameter.requiredInt("firstArg")  
-	  )
-    .execute((source, context) -> {  
-		  Integer firstArg  = context.getArgument("firstArg");  
-		  source.reply("Entered required number= " + firstArg);  
-	  });  
-);
-```
 ## Annotated Commands
 Creating commands with annotations is easy with 2 steps only:
 1. Create a class that will represent your command class
@@ -95,33 +46,67 @@ Creating commands with annotations is easy with 2 steps only:
 public final class ExampleCommand {
 
   @Usage  
-  public void defaultUsage(YourPlatformSource source) {  
+  public void defaultUsage(BukkitSource source) {  
    source.reply("This is just an example with no arguments entered");  
   }  
 
   @Usage  
   public void exampleOneArg(
-	  YourPlatformSource source, 
+	  BukkitSource source, 
 	  @Named("firstArg") int firstArg
   ) { 
    source.reply("Entered required number= " + firstArg);  
   }
 }
 ```
+
+For more details about what to use instead of `BukkitSource` you should use, please check out [Supported platforms](Supported-Platforms.md)
+
 # Register your commands
-Finally after constructing and modifying your `command` object, it's now easy 
-to register it by calling the method `Imperat#registerCommand(command)` 
-**Note:** the method is called from the `Imperat` instance that you should have created
+Register your command by calling the method `imperat.registerCommand(command)` 
+**Note:** the method is called from the `YourPlatformImperat` instance that you should have created
 
-*Here's a quick example below if you're using the `Command.create` built-in way:*
+Here's a quick bukkit example:
 ```java
-myCommandDispatcher.registerCommand(command);
+public class YourPlugin extends JavaPlugin {
+
+  private BukkitImperat imperat;
+
+  @Override
+  public void onEnable() {
+    //initializing imperat
+    imperat = BukkitImperat.builder(plugin).build();
+
+    //registering the command
+    imperat.registerCommand(new ExampleCommand());
+  }
+
+}
 ```
 
-Another example below with [Annotations Command API](command-api/Annotations%20Command%20API.md) :
+# Customizing Imperat
+
+If you wanted to register a [Context Resolver](Context%20Resolver.md) or a [Parameter Type](Parameter-Type.md) , or even 
+set a [Suggestion Resolver](Suggestion%20Resolver.md) for tab-completion in commands, You would have to 
+call some methods while configuring imperat.
+
+With Imperat, you can even register your own sender/source type, check out [Source Resolver](Source%20Resolver.md)
+For a complete detailed guide on this, please check out [Dispatcher API](Dispatcher%20API.md)
+
+*Quick-example:*
 ```java
-myCommandDispatcher.registerCommand(new ExampleCommand())
+BukkitImperat imperat = BukkitImperat.builder(plugin)
+.parameterType(Arena.class, new ArenaParameterType()) //registering custom type 'Arena'
+.parameterType(Kit.class, new KitParameterType()) //registering custom type 'Kit'
+.parameterType(DuelMode.class, new DuelModeParameterType()) //registering custom type 'DuelMode'
+.sourceResolver(CustomSource.class, CustomSource::new) //registering custom command sender/source type 'CustomSource'
+.build();
 ```
+
+:::warning
+If you ever wanted to create your own implementation of `Imperat` interface, 
+you will not receive any support and your issue will be instantly ignored/discarded
+:::
 
 # Tutorials
 Check out all the Imperat tutorials here!

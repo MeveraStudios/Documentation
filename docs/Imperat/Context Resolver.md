@@ -1,7 +1,8 @@
 ---
 sidebar_position: 6
 ---
-Unlike the [Value Resolver](Value%20Resolver.md), the context resolver resolves a value that is NOT DIRECTLY from the input, however the value is created from the context by a certain logic you specify.
+Unlike the [Parameter Type](Parameter-Type.md), the context resolver resolves a value that is NOT DIRECTLY from the input,
+however the value is created from the context by a certain logic you specify.
 
 :::tip
 If you don't know what is a context or any other keywords used in this section, 
