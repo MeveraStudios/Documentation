@@ -18,12 +18,11 @@ We will be creating some popular command examples as below.
 {(() => {
   const { docs } = usePluginData('docusaurus-plugin-content-docs');
   const pluginData = usePluginData('docusaurus-plugin-content-docs');
-  const currentCategorySlug = '/docs/examples/'; // Adjust this to your actual category slug
   const currentIndexDocId = 'examples-index'; // The ID of your index page
 
   const categoryDocs = Object.values(docs).filter(
     (doc) =>
-      doc.permalink.startsWith(currentCategorySlug) && doc.id !== currentIndexDocId
+      doc.id !== currentIndexDocId
   );
 
   return (
