@@ -151,7 +151,7 @@ public class RankCommand {
         private RankManager rankManager;
 
         @Usage
-        public void def(BukkitSource source) {
+        public void def(BukkitSource source, @Named("rank") Rank rank) {
             source.error("/rank create <rank-name>");
         }
 
@@ -176,7 +176,7 @@ public class RankCommand {
         private RankManager rankManager;
 
         @Usage
-        public void def(BukkitSource source) {
+        public void def(BukkitSource source, @Named("rank") Rank rank) {
             source.error("/rank <rank> setprefix <rank-name>");
         }
 
@@ -196,7 +196,7 @@ public class RankCommand {
         private RankManager rankManager;
 
         @Usage
-        public void def(BukkitSource source) {
+        public void def(BukkitSource source, @Named("rank") Rank rank) {
             source.error("/rank delete <rank-name>");
         }
 
@@ -219,7 +219,7 @@ public class RankCommand {
         private RankManager rankManager;
 
         @Usage
-        public void def(BukkitSource source) {
+        public void def(BukkitSource source, @Named("rank") Rank rank) {
             source.error("/rank <rank> setsuffix <suffix>");
         }
 
@@ -239,7 +239,7 @@ public class RankCommand {
         private RankManager rankManager;
 
         @Usage
-        public void def(BukkitSource source) {
+        public void def(BukkitSource source, @Named("rank") Rank rank) {
             source.error("/rank <rank> addpermission <permission>");
         }
 
@@ -264,7 +264,7 @@ public class RankCommand {
         private RankManager rankManager;
 
         @Usage
-        public void def(BukkitSource source) {
+        public void def(BukkitSource source, @Named("rank") Rank rank) {
             source.error("/rank <rank> removepermission <permission>");
         }
 
@@ -289,7 +289,7 @@ public class RankCommand {
         private RankManager rankManager;
 
         @Usage
-        public void def(BukkitSource source) {
+        public void def(BukkitSource source, @Named("rank") Rank rank) {
             source.error("/rank <rank> give <player>");
         }
 
