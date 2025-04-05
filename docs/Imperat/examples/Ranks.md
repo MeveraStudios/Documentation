@@ -296,7 +296,7 @@ public class RankCommand {
         @Usage
         public void giveRank(BukkitSource source, @Named("rank") Rank rank, @Named("player") Player player) {
             rankManager.setPlayerRank(player.getUniqueId(), rank);
-            source.reply(ChatColor.GREEN + "You have assigne rank '" + rank.getName() + "' to player '" + player.getName() + "'");
+            source.reply(ChatColor.GREEN + "You have assigned rank '" + rank.getName() + "' to player '" + player.getName() + "'");
         }
     }
 }
