@@ -331,8 +331,6 @@ public final class ExampleCommand {
 }
 ```
 
-For more details about what to use instead of `BukkitSource` you should use, please check out [Supported platforms](Supported-Platforms.md)
-
 # Register your commands
 Register your command by calling the method `imperat.registerCommand(command)` 
 **Note:** the method is called from the `YourPlatformImperat` instance that you should have created
