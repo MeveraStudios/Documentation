@@ -2,7 +2,8 @@
 sidebar_position: 12
 ---
 # Kill Command
-We will be recreating the command `/kill <target>`, we will need to use `TargetSelector` parameter type provided by **Imperat**<br>
+We will be recreating the command `/kill <target>`, we will need to use `TargetSelector` parameter type provided by **Imperat**
+
 Let's create our kill command class:
 
 ```java
