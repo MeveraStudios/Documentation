@@ -2,14 +2,12 @@
 id: "examples-index"
 title: "Examples"
 sidebar_position: 11
-exclude_from_category: true
 ---
-import DocCardList from '@theme/DocCardList';
-import { usePluginData } from '@docusaurus/plugin-content-docs/client';
 import DocCard from '@theme/DocCard';
-import { useCurrentSidebarCategory } from '@docusaurus/theme-common/lib/theme/docs/sidebar';
+import { usePluginData } from '@docusaurus/plugin-content-docs/client';
 
 # Examples
+
 :::caution[WARNING]
 Please make sure you have read all the other tutorials before reading this one !
 :::
@@ -19,11 +17,14 @@ We will be creating some popular command examples as below.
 
 {(() => {
   const { docs } = usePluginData('docusaurus-plugin-content-docs');
-  const category = useCurrentSidebarCategory();
-  const categoryDocs = category?.items
-    .map((itemId) => docs[itemId])
-    .filter(Boolean)
-    .filter((doc) => doc.id !== 'examples'); // Replace 'your-tutorial-id-here'
+  const pluginData = usePluginData('docusaurus-plugin-content-docs');
+  const currentCategorySlug = '/docs/examples/'; // Adjust this to your actual category slug
+  const currentIndexDocId = 'examples-index'; // The ID of your index page
+
+  const categoryDocs = Object.values(docs).filter(
+    (doc) =>
+      doc.permalink.startsWith(currentCategorySlug) && doc.id !== currentIndexDocId
+  );
 
   return (
     <div className="row">
@@ -35,5 +36,4 @@ We will be creating some popular command examples as below.
     </div>
   );
 })()}
-
 
