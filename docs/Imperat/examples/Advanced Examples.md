@@ -1,5 +1,6 @@
 ---
 sidebar_position: 11
+exclude_from_category: true
 ---
 import DocCardList from '@theme/DocCardList';
 
