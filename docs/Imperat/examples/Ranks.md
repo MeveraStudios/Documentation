@@ -6,7 +6,7 @@ sidebar_position: 13
 This example is pretty advanced and would require you to have some experience with Imperat and Java.
 :::
 
-Before writing our rank command, we would need to create a [POJO](https://www.codecademy.com/resources/docs/java/pojo) that would act as a template for the rank's data.
+Before writing our rank command, we would need to create a [POJO](https://www.codecademy.com/resources/docs/java/pojo) that would act as a template for the rank's data.\
 Let's create our `Rank` class:
 
 ```java
