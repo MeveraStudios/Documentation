@@ -3,7 +3,7 @@ id: "examples-index"
 title: "Examples"
 sidebar_position: 11
 ---
-import DocCard from '@theme/DocCard';
+import DocCardList from '@theme/DocCardList';
 
 # Examples
 
