@@ -194,6 +194,7 @@ public final class BanCommand {
 }
 ```
 
+
 ## Custom Annotations
 You can also make your own annotations and define how they are being useful to the parsing process of a command class. This is possible thanks to our `AnnotationReplacer` interface, which is an interface that allow you to create multiple built-in annotations that would act as a replacement for your custom annotation during the parsing process.
 
@@ -242,3 +243,7 @@ If your custom annotation has attributes/methods, you can easily call these meth
 of the `AnnotationReplacer` lambda using the provided parameter.
 
 :::
+
+
+
+
