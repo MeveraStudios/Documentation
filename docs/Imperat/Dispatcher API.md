@@ -37,15 +37,14 @@ you will not receive any support and your issue will be instantly ignored/discar
 
 :::
 ## Permission Resolver
-
-According to [Supported-Platforms](Supported-Platforms.md) , each platform has it's own implementation of `Imperat` , therefore, each command dispatcher implementation identifies
+Each platform has it's own implementation of `Imperat` , therefore, each command dispatcher implementation identifies
 it's own way of identifying whether the command-sender/source has a permission or not.
 
 ### Implementing your own Permission Resolver
 
 If you ever wanted to make your own `Permission Resolver` you should consider
 adding it as a parameter inside the `YourPlatformImperatConfigBuilder#permissionResolver()`, Refer to the java docs 
-for more info about method parameters for creation of Imperat instances from various supported platforms and you may would like to check [Supported-Platforms](Supported-Platforms.md)
+for more info about method parameters for creation of Imperat instances from various supported platforms.
 
 *Quick **Bukkit** example:*
 ```java

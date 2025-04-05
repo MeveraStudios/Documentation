@@ -295,9 +295,7 @@ then finally end the chain with `build` method to return a new instance of `Your
 
 :::tip[TIP]
 Creation of an instance of your `PlatformImperat` depends mainly on which platform
-you are using. For more details, Check out [Supported-Platforms](Supported-Platforms.md)
-But despite having various types of imperat implementations for different platforms,
-all of them are **configurable/customizable**
+you are using.
 :::
 
 
