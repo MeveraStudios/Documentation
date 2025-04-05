@@ -88,7 +88,7 @@ const config = {
           },
           {
             type: 'localeDropdown',
-            position: 'center',
+            position: 'right',
           },
         ],
       },
