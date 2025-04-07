@@ -240,7 +240,7 @@ public class RankCommand {
 
 
     @SubCommand(value = "setweight")
-    @Permission("server.command.rank.setwei")
+    @Permission("server.command.rank.setweight")
     @Description("Sets weight for rank")
     public static class SetWeightSub {
         @Dependency
