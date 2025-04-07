@@ -135,8 +135,8 @@ public class RankCommand {
         /rank delete <rank>
         /rank <rank> setprefix <prefix>
         /rank <rank> setsuffix <suffix>
-        /rank <rank> addpermission <permission>
-        /rank <rank> removepermission <permission>
+        /rank <rank> setperm <permission>
+        /rank <rank> unsetperm <permission>
         /rank <rank> give <player>
      */
 
@@ -158,7 +158,7 @@ public class RankCommand {
         private RankManager rankManager;
 
         @Usage
-        public void def(BukkitSource source, @Named("rank") Rank rank) {
+        public void def(BukkitSource source) {
             source.error("/rank create <rank-name>");
         }
 
@@ -171,6 +171,29 @@ public class RankCommand {
                 Rank rank = new Rank(rankName.toLowerCase());
                 rankManager.registerRank(rank);
                 source.reply(ChatColor.GREEN + "Created rank '" + rankName + "'");
+            }
+        }
+    }
+
+    @SubCommand(value = "delete", attachDirectly = true)
+    @Permission("server.command.rank.delete")
+    @Description("Deletes a rank")
+    public static class DeleteRankSub {
+        @Dependency
+        private RankManager rankManager;
+
+        @Usage
+        public void def(BukkitSource source) {
+            source.error("/rank delete <rank-name>");
+        }
+
+        @Usage
+        public void deleteRank(BukkitSource source, @Named("rank-name") String rankName) {
+            if(!rankManager.hasRank(rankName)) {
+                source.error("Rank '" + rankName + "' doesn't exist");
+            } else {
+                rankManager.removeRank(rankName);
+                source.reply(ChatColor.GREEN + "Deleted rank '" + rankName + "'");
             }
         }
     }
@@ -191,30 +214,7 @@ public class RankCommand {
         public void setRankPrefix(BukkitSource source, @Named("rank") Rank rank, @Named("prefix") String prefix) {
             rank.setPrefix(prefix);
             rankManager.updateRank(rank.getName(), (rankInMap)-> rank);
-            source.reply(ChatColor.GREEN + "Set prefix of rank '" + rank.getName() + "' to '" + prefix +"'");
-        }
-    }
-
-    @SubCommand(value = "delete", attachDirectly = true)
-    @Permission("server.command.rank.delete")
-    @Description("Deletes a rank")
-    public static class DeleteRankSub {
-        @Dependency
-        private RankManager rankManager;
-
-        @Usage
-        public void def(BukkitSource source, @Named("rank") Rank rank) {
-            source.error("/rank delete <rank-name>");
-        }
-
-        @Usage
-        public void deleteRank(BukkitSource source, @Named("rank-name") String rankName) {
-            if(!rankManager.hasRank(rankName)) {
-                source.error("Rank '" + rankName + "' doesn't exist");
-            } else {
-                rankManager.removeRank(rankName);
-                source.reply(ChatColor.GREEN + "Deleted rank '" + rankName + "'");
-            }
+            source.reply(ChatColor.GREEN + "Set prefix of rank '" + rank.getName() + "' to '" + prefix + ChatColor.GREEN + "'");
         }
     }
 
@@ -238,16 +238,37 @@ public class RankCommand {
         }
     }
 
-    @SubCommand(value = "addpermission")
-    @Permission("server.command.rank.addpermission")
-    @Description("Adds a permission to a rank")
+
+    @SubCommand(value = "setweight")
+    @Permission("server.command.rank.setwei")
+    @Description("Sets weight for rank")
+    public static class SetWeightSub {
+        @Dependency
+        private RankManager rankManager;
+
+        @Usage
+        public void def(BukkitSource source, @Named("rank") Rank rank) {
+            source.error("/rank <rank> setweight <weight>");
+        }
+
+        @Usage
+        public void setRankSuffix(BukkitSource source, @Named("rank") Rank rank, @Named("weight") int weight) {
+            rank.setWeight(weight);
+            rankManager.updateRank(rank.getName(), (rankInMap)-> rank);
+            source.reply(ChatColor.GREEN + "Set weight of rank '" + rank.getName() + "' to '" + weight +"'");
+        }
+    }
+
+    @SubCommand(value = "setperm")
+    @Permission("server.command.rank.setperm")
+    @Description("Sets permission")
     public static class AddPermissionSub {
         @Dependency
         private RankManager rankManager;
 
         @Usage
         public void def(BukkitSource source, @Named("rank") Rank rank) {
-            source.error("/rank <rank> addpermission <permission>");
+            source.error("/rank <rank> setperm <permission>");
         }
 
         @Usage
@@ -263,16 +284,16 @@ public class RankCommand {
         }
     }
 
-    @SubCommand(value = "removepermission")
-    @Permission("server.command.rank.removepermission")
-    @Description("Removes a permission from a rank")
+    @SubCommand(value = "unsetperm")
+    @Permission("server.command.rank.unsetperm")
+    @Description("Unset permission")
     public static class RemovePermissionSub {
         @Dependency
         private RankManager rankManager;
 
         @Usage
         public void def(BukkitSource source, @Named("rank") Rank rank) {
-            source.error("/rank <rank> removepermission <permission>");
+            source.error("/rank <rank> unsetperm <permission>");
         }
 
         @Usage
@@ -302,8 +323,48 @@ public class RankCommand {
 
         @Usage
         public void giveRank(BukkitSource source, @Named("rank") Rank rank, @Named("player") Player player) {
-            rankManager.setPlayerRank(player.getUniqueId(), rank);
+            rankManager.setAndUpdateRank(player, rank);
+
+            //rank.updateTeam(TabRankMode.CREATE_NEW_TEAM);
             source.reply(ChatColor.GREEN + "You have assigned rank '" + rank.getName() + "' to player '" + player.getName() + "'");
+        }
+    }
+
+    @SubCommand(value = "info")
+    @Permission("server.command.rank.info")
+    @Description("View rank info")
+    public static class SeeRankInfo {
+        @Dependency
+        private RankManager rankManager;
+
+        @Usage
+        public void def(BukkitSource source, @Named("rank") Rank rank) {
+            source.reply("&7----------- &e&l" + rank.getName().toUpperCase() + " &6&lINFO&r &7--------------------");
+
+            source.reply("&6&lPrefix: &r" + rank.getPrefix());
+            source.reply("&6&lSuffix: &r" + rank.getSuffix());
+            source.reply("&6&lWeight: &f" + rank.getWeight());
+            source.reply("&6&lTeam Name: &f" + rank.getTeamName());
+
+            // Players in rank
+            if (rank.getPlayerList().isEmpty()) {
+                source.reply("&6&lPlayers: &7None");
+            } else {
+                source.reply("&6&lPlayers &f(" + rank.getPlayerList().size() + ")&6: &7" +
+                        String.join("&f, &7", rank.getPlayerList()));
+            }
+
+            // Permissions
+            if (rank.getPermissions().isEmpty()) {
+                source.reply("&6&lPermissions: &7None");
+            } else {
+                source.reply("&6&lPermissions &f(" + rank.getPermissions().size() + ")&6:");
+                for (String permission : rank.getPermissions()) {
+                    source.reply(" &8- &f" + permission);
+                }
+            }
+
+            source.reply("&7----------------------------------------------------");
         }
     }
 }
