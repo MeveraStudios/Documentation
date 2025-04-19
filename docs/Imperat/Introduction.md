@@ -7,6 +7,7 @@ sidebar_position: 1
 import DocCardList from '@theme/DocCardList';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+import LatestVersion from '../../src/components/LatestVersion';
 
 # Introduction
 Imperat is a powerful command dispatching framework, it allows you to create 
@@ -281,7 +282,7 @@ Choose the platform you are developing for to see specific setup instructions.
 </Tabs>
 
 :::tip[Note on Versions]
-Ensure you use the **same `{version}`** for both `imperat-core` and the platform-specific module (e.g., `imperat-bukkit`) to avoid compatibility issues.
+Ensure you use the **same `<LatestVersion owner="VelixDevelopments" repo="Imperat" />`** for both `imperat-core` and the platform-specific module (e.g., `imperat-bukkit`) to avoid compatibility issues.
 :::
 
 # Initiazling your Imperat
