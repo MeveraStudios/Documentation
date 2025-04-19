@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-export default function LatestVersion({ owner, repo, stripV = true }) {
+export default function LatestVersion({ owner, repo, stripV = true, codeBlock = false }) {
   const [version, setVersion] = useState('loading...');
   const cacheKey = `${owner}/${repo}-version`;
 
@@ -24,7 +24,7 @@ export default function LatestVersion({ owner, repo, stripV = true }) {
               tag = tag.slice(1);
             }
             setVersion(tag);
-            sessionStorage.setItem(cacheKey, tag); // Store in sessionStorage
+            sessionStorage.setItem(cacheKey, tag);
           } else {
             setVersion('unknown');
           }
@@ -33,11 +33,12 @@ export default function LatestVersion({ owner, repo, stripV = true }) {
     }
   }, [owner, repo, stripV]);
 
-  return <code>{version}</code>;
+  return codeBlock ? <code>{version}</code> : version;
 }
 
 LatestVersion.propTypes = {
   owner: PropTypes.string.isRequired,
   repo: PropTypes.string.isRequired,
   stripV: PropTypes.bool,
+  codeBlock: PropTypes.bool,
 };
