@@ -282,7 +282,7 @@ Choose the platform you are developing for to see specific setup instructions.
 </Tabs>
 
 :::tip[Note on Versions]
-Ensure you use the **same version** (<LatestVersion owner="VelixDevelopments" repo="Imperat" />) for both `imperat-core` and the platform-specific module (e.g., `imperat-bukkit`) to avoid compatibility issues.
+Ensure you use the **same version** (<LatestVersion owner="VelixDevelopments" repo="Imperat" codeBlock />) for both `imperat-core` and the platform-specific module (e.g., `imperat-bukkit`) to avoid compatibility issues.
 :::
 
 # Initiazling your Imperat
