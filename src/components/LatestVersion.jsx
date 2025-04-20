@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-export default function LatestVersion({ owner, repo, stripV = true, codeBlock = false }) {
+export default function LatestVersion({ owner, repo, stripV = true, codeBlock = false, children }) {
   const [version, setVersion] = useState('loading...');
   const cacheKey = `${owner}/${repo}-version`;
 
@@ -33,6 +33,10 @@ export default function LatestVersion({ owner, repo, stripV = true, codeBlock = 
     }
   }, [owner, repo, stripV]);
 
+  if (typeof children === 'function') {
+    return children(version);
+  }
+
   return codeBlock ? <code>{version}</code> : version;
 }
 
@@ -41,4 +45,5 @@ LatestVersion.propTypes = {
   repo: PropTypes.string.isRequired,
   stripV: PropTypes.bool,
   codeBlock: PropTypes.bool,
+  children: PropTypes.func,
 };
