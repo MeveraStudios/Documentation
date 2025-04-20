@@ -6,29 +6,41 @@ import PropTypes from 'prop-types';
 import LatestVersion from './LatestVersion';
 
 export default function LatestVersionBlock({ owner, repo, group, id }) {
-  const versionProps = { owner, repo };
-
   return (
     <Tabs>
       <TabItem value="maven" label="Maven">
         <CodeBlock language="xml">
-          {`<dependency>
-  <groupId>${group}</groupId>
-  <artifactId>${id}</artifactId>
-  <version><LatestVersion {...versionProps} /></version>
-</dependency>`}
+          {[
+            `<dependency>\n`,
+            `  <groupId>${group}</groupId>\n`,
+            `  <artifactId>${id}</artifactId>\n`,
+            `  <version>`,
+            <LatestVersion key="maven-version" owner={owner} repo={repo} />,
+            `</version>\n`,
+            `</dependency>`
+          ]}
         </CodeBlock>
       </TabItem>
 
       <TabItem value="gradle-groovy" label="Gradle (Groovy)">
         <CodeBlock language="groovy">
-          {`implementation '${group}:${id}:<LatestVersion {...versionProps} />'`}
+          {[
+            `implementation '`,
+            `${group}:${id}:`,
+            <LatestVersion key="groovy-version" owner={owner} repo={repo} />,
+            `'`
+          ]}
         </CodeBlock>
       </TabItem>
 
       <TabItem value="gradle-kotlin" label="Gradle (Kotlin)">
         <CodeBlock language="kotlin">
-          {`implementation("${group}:${id}:<LatestVersion {...versionProps} />")`}
+          {[
+            `implementation("`,
+            `${group}:${id}:`,
+            <LatestVersion key="kotlin-version" owner={owner} repo={repo} />,
+            `")`
+          ]}
         </CodeBlock>
       </TabItem>
     </Tabs>
