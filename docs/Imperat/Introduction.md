@@ -8,6 +8,7 @@ import DocCardList from '@theme/DocCardList';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import LatestVersion from '../../src/components/LatestVersion';
+import LatestVersionBlock from '../../src/components/LatestVersionBlock';
 
 # Introduction
 Imperat is a powerful command dispatching framework, it allows you to create 
@@ -52,31 +53,12 @@ Most builds won't require special repository configuration as Imperat artifacts 
 
 Before adding any platform-specific module, you **must** include the core Imperat dependency:
 
-<Tabs groupId="build-tool-core">
-  <TabItem value="maven" label="Maven (pom.xml)" default>
-    ```xml
-    <dependency>
-        <groupId>dev.velix</groupId>
-        <artifactId>imperat-core</artifactId>
-        <version>{version}</version> 
-    </dependency>
-    ```
-  </TabItem>
-  <TabItem value="gradle" label="Gradle (build.gradle)">
-    ```groovy
-    dependencies {
-        implementation 'dev.velix:imperat-core:{version}' 
-    }
-    ```
-   </TabItem>
-   <TabItem value="gradle-kts" label="Gradle (build.gradle.kts)">
-    ```kotlin
-    dependencies {
-        implementation("dev.velix:imperat-core:{version}")
-    }
-    ```
-   </TabItem>
-</Tabs>
+<LatestVersionBlock 
+  owner="VelixDevelopments" 
+  repo="Imperat" 
+  group="dev.velix" 
+  id="imperat-core" 
+/>
 
 ## Platform Dependency setup
 
