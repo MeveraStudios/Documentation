@@ -73,31 +73,13 @@ Choose the platform you are developing for to see specific setup instructions.
       <li>Command Source: <code>BukkitSource</code></li>
     </ul>
     <h4>Installation</h4>
-    <Tabs groupId="build-tool-bukkit">
-      <TabItem value="maven" label="Maven (pom.xml)" default>
-        ```xml
-        <dependency>
-            <groupId>dev.velix</groupId>
-            <artifactId>imperat-bukkit</artifactId>
-            <version>{version}</version> 
-        </dependency>
-        ```
-      </TabItem>
-      <TabItem value="gradle" label="Gradle (build.gradle)">
-        ```groovy
-        dependencies {
-            implementation 'dev.velix:imperat-bukkit:{version}' // Use the same version as imperat-core
-        }
-        ```
-      </TabItem>
-      <TabItem value="gradle-kts" label="Gradle (build.gradle.kts)">
-        ```kotlin
-        dependencies {
-            implementation("dev.velix:imperat-bukkit:{version}") // Use the same version as imperat-core
-        }
-        ```
-      </TabItem>
-    </Tabs>
+    <LatestVersionBlock 
+      owner="VelixDevelopments" 
+      repo="Imperat" 
+      group="dev.velix" 
+      id="imperat-bukkit" 
+    />
+
 
 
     :::tip[Brigadier Integration]
@@ -123,31 +105,12 @@ Choose the platform you are developing for to see specific setup instructions.
       <li>Command Source: <code>BungeeSource</code></li>
     </ul>
     <h4>Installation</h4>
-    <Tabs groupId="build-tool-bungee">
-        <TabItem value="maven" label="Maven (pom.xml)" default>
-            ```xml
-            <dependency>
-                <groupId>dev.velix</groupId>
-                <artifactId>imperat-bungee</artifactId>
-                <version>{version}</version> 
-            </dependency>
-            ```
-        </TabItem>
-        <TabItem value="gradle" label="Gradle (build.gradle)">
-            ```gradle
-            dependencies {
-                implementation 'dev.velix:imperat-bungee:{version}' // Use the same version as imperat-core
-            }
-            ```
-        </TabItem>
-        <TabItem value="gradle-kts" label="Gradle (build.gradle.kts)">
-            ```kotlin
-            dependencies {
-                implementation("dev.velix:imperat-bungee:{version}") // Use the same version as imperat-core
-            }
-            ```
-        </TabItem>
-    </Tabs>
+    <LatestVersionBlock 
+      owner="VelixDevelopments" 
+      repo="Imperat" 
+      group="dev.velix" 
+      id="imperat-bungee" 
+    />
   </TabItem>
 
   {/* Velocity Platform Tab */}
@@ -158,31 +121,12 @@ Choose the platform you are developing for to see specific setup instructions.
       <li>Command Source: <code>VelocitySource</code></li>
     </ul>
     <h4>Installation</h4>
-    <Tabs groupId="build-tool-velocity">
-        <TabItem value="maven" label="Maven (pom.xml)" default>
-            ```xml
-            <dependency>
-                <groupId>dev.velix</groupId>
-                <artifactId>imperat-velocity</artifactId>
-                <version>{version}</version>
-            </dependency>    
-            ```
-        </TabItem>
-        <TabItem value="gradle" label="Gradle (build.gradle)">
-            ```gradle
-            dependencies {
-                implementation 'dev.velix:imperat-velocity:{version}' // Use the same version as imperat-core
-            }
-            ```
-        </TabItem>
-        <TabItem value="gradle-kts" label="Gradle (build.gradle.kts)">
-            ```kotlin
-            dependencies {
-                implementation("dev.velix:imperat-velocity:{version}") // Use the same version as imperat-core
-            }
-            ```
-        </TabItem>
-    </Tabs>
+    <LatestVersionBlock 
+      owner="VelixDevelopments" 
+      repo="Imperat" 
+      group="dev.velix" 
+      id="imperat-velocity" 
+    />
   </TabItem>
 
   {/* Minestom Platform Tab */}
@@ -193,31 +137,12 @@ Choose the platform you are developing for to see specific setup instructions.
       <li>Command Source: <code>MinestomSource</code></li>
     </ul>
     <h4>Installation</h4>
-    <Tabs groupId="build-tool-minestom">
-        <TabItem value="maven" label="Maven (pom.xml)" default>
-            ```xml
-            <dependency>
-                <groupId>dev.velix</groupId>
-                <artifactId>imperat-minestom</artifactId>
-                <version>{version}</version>
-            </dependency>    
-            ```
-        </TabItem>
-        <TabItem value="gradle" label="Gradle (build.gradle)">
-            ```gradle
-            dependencies {
-                implementation 'dev.velix:imperat-minestom:{version}' // Use the same version as imperat-core
-            }
-            ```
-        </TabItem>
-        <TabItem value="gradle-kts" label="Gradle (build.gradle.kts)">
-            ```kotlin
-            dependencies {
-                implementation("dev.velix:imperat-minestom:{version}") // Use the same version as imperat-core
-            }
-            ```
-        </TabItem>  {/* CORRECTED closing tag */}
-    </Tabs>
+    <LatestVersionBlock 
+      owner="VelixDevelopments" 
+      repo="Imperat" 
+      group="dev.velix" 
+      id="imperat-minestom" 
+    />
   </TabItem>
 
   {/* CLI Platform Tab */}
@@ -229,31 +154,12 @@ Choose the platform you are developing for to see specific setup instructions.
     </ul>
     <p>This module provides a basic loop to read input from the console and dispatch commands.</p>
     <h4>Installation</h4>
-    <Tabs groupId="build-tool-cli">
-        <TabItem value="maven" label="Maven (pom.xml)" default>
-            ```xml
-            <dependency>
-                <groupId>dev.velix</groupId>
-                <artifactId>imperat-cli</artifactId>
-                <version>{version}</version> 
-            </dependency>
-            ```
-        </TabItem>
-        <TabItem value="gradle" label="Gradle (build.gradle)">
-            ```gradle
-            dependencies {
-                implementation 'dev.velix:imperat-cli:{version}' // Use the same version as imperat-core
-            }
-            ```
-        </TabItem> {/* CORRECTED closing tag */}
-        <TabItem value="gradle-kts" label="Gradle (build.gradle.kts)">
-             ```kotlin
-             dependencies {
-                 implementation("dev.velix:imperat-cli:{version}") // Use the same version as imperat-core
-             }
-             ```
-         </TabItem> {/* CORRECTED closing tag */}
-    </Tabs>
+    <LatestVersionBlock 
+      owner="VelixDevelopments" 
+      repo="Imperat" 
+      group="dev.velix" 
+      id="imperat-cli" 
+    />
   </TabItem>
 
   {/* Add other platforms similarly */}
