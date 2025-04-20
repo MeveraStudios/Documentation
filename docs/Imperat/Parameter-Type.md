@@ -32,14 +32,11 @@ public final class ParameterGroup extends BaseParameterType<TestSource, Group> {
     @Override
     public @Nullable Group resolve(
         ExecutionContext<TestSource> context,
-        @NotNull CommandInputStream<TestSource> commandInputStream
+        @NotNull CommandInputStream<TestSource> commandInputStream,
+        String input
     ) throws ImperatException {
-        String raw = commandInputStream.currentRaw().orElse(null);
-        if (raw == null) {
-            return null;
-        }
-        return GroupRegistry.getInstance().getData(raw)
-            .orElseThrow(() -> new SourceException("Unknown group '%s'", raw));
+        return GroupRegistry.getInstance().getData(input)
+            .orElseThrow(() -> new SourceException("Unknown group '%s'", input));
     }
 
     //per type suggestion resolver
