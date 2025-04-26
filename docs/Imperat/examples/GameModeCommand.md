@@ -26,7 +26,7 @@ public class GameModeCommand {
 
     @Usage
     public void defUsage(
-            PaveSource source,
+            BukkitSource source,
             @NotNull @Named("gamemode") GameMode gameMode,
             @Optional @Nullable @Named("player") Player other
     ) {
@@ -41,22 +41,22 @@ public class GameModeCommand {
     }
 
     @Command("gmc")
-    public void gmc(PaveSource source, @Optional @Named("player") Player target) {
+    public void gmc(BukkitSource source, @Optional @Named("player") Player target) {
         defUsage(source, GameMode.CREATIVE, target);
     }
 
     @Command("gms")
-    public void gms(PaveSource source, @Optional @Named("player") Player target) {
+    public void gms(BukkitSource source, @Optional @Named("player") Player target) {
         defUsage(source, GameMode.SURVIVAL, target);
     }
 
     @Command("gma")
-    public void gma(PaveSource source, @Optional @Named("player") Player target) {
+    public void gma(BukkitSource source, @Optional @Named("player") Player target) {
         defUsage(source, GameMode.ADVENTURE, target);
     }
 
     @Command("gmsp")
-    public void gmsp(PaveSource source, @Optional @Named("player") Player target) {
+    public void gmsp(BukkitSource source, @Optional @Named("player") Player target) {
         defUsage(source, GameMode.SPECTATOR, target);
     }
 
