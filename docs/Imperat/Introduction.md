@@ -173,7 +173,7 @@ Choose the platform you are developing for to see specific setup instructions.
 Ensure you use the **same version** (<LatestVersion owner="VelixDevelopments" repo="Imperat" codeBlock />) for both `imperat-core` and the platform-specific module (e.g., `imperat-bukkit`) to avoid compatibility issues.
 :::
 
-# Initiazling your Imperat
+# Initializing Imperat
 
 **Frequently asked question:** ***What's a command dispatcher/Imperat ??*** <br/>
 **Answer:** It's the Ultimate class handling all data needed when processing and registering

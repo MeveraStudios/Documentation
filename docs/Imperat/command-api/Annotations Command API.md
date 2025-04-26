@@ -21,15 +21,72 @@ can be a class, a method, or even a parameter.
 
 ## Class-level annotations:
 
+:::note[NOTE]
+`@SubCommand` can be used on both classes and methods only
+:::
+
 - `@Command` Declares a root command, and it has 2 main components:
     - `String[] values` -> an array of names for the command, the first element is treated as the unique name for this command, while the rest (if present) is treated as aliases
     - `boolean ignoreAutoCompletionPermission` -> if false (by default), it will always check if the player auto-completing any of the usages of this command , has the permission for this command or not, if he doesn't have the permission, it will not auto-complete for him.
 
 - `@SubCommand` Declares a subcommand-class 
-    - same as `@Command` but with extra option `boolean attachDirectly` which decides whether this sub command will be attached directly to the parent-command or not.
+  same as `@Command` but with extra option `AttachmentMode attachment` which how imperat will attach the subcommand to its parent.
+  This is useful in cases where the root command has parameters(whether required or optional).
+  Each Command in general (whether root or subcommand) has 3 types of usages:
+  - **Main-usage** -> Defines a usage that has required arguments/parameters
+  - **Default-usage** -> Defines a usage without required arguments/parameters (only optional and may be also empty).
+  - **Empty-usage** -> Defines a usage with no arguments/parameters.
 
-- `@Inherit` Declares that the current command class , inherits a subcommand class as it's child,
-it's made for developers who would prefer their subcommands to be separated into different classes.
+  :::tip[TIP]
+  I recommend reading the javadocs to know when to use each (AttachmentMode)[https://github.com/VelixDevelopments/Imperat/blob/master/core/src/main/java/dev/velix/imperat/command/AttachmentMode.java] 
+  :::
+
+  You can add more than one usage method to a sub command by either :
+    1- Repeating the same `@SubCommand` on each usage method.
+    Here's a simple **bukkit** example:
+    ```java
+    @Command("root")
+    public final class RootCommand {
+
+        @SubCommand("subcommand")
+        public void subDefaultUsage(BukkitSource source) {
+            // when the user executes: '/root subcommand'
+        }
+
+        @SubCommand("subcommand")
+        public void subMainUsage(BukkitSource source, @Named("input") String input) {
+            //when the user executes: '/root subcommand <input>`
+        }
+
+    }
+    ``` 
+                        **OR**
+    2- Creating an inner class for your subcommand, and add each usage method inside of the inner class
+    Here's a simple **bukkit** example:
+    ```java
+    @Command("root")
+    public final class RootCommand {
+
+        @SubCommand("subcommand")
+        public static class SubCommand {
+
+            @Usage
+            public void subDefaultUsage(BukkitSource source) {
+                // when the user executes: '/root subcommand'
+            }
+
+            @Usage
+            public void subMainUsage(BukkitSource source, @Named("input") String input) {
+                //when the user executes: '/root subcommand <input>`
+            }
+        }
+        
+    }
+    ``` 
+  Although both ways will lead to the same exact results, I would personally recommend the inner class approach
+
+- `@Inherit` Declares that the current command class , inherits an **external** subcommand class as it's child,
+it's made for developers who would prefer their subcommands to be separated into different classes instead of inner classes or scattered subcommand methods.
 
 :::info[Advanced Detail]
 Inner classes are also parsed by default as commands and/or subcommands
@@ -94,26 +151,11 @@ you could specify a default value for it using the annotations `@DefaultValue` o
 If you use `@DefaultValue` you will need to specify a string as a default value, so by natural corresponding logic, the parameter's type should also be `String`.However what if the parameter's type is not `String`, here it comes the advantage of `DefaultValueProvider`.
 
 #### Using @DefaultValueProvider
-First you should create a class that implement `OptionalValueSupplier<YourType>` where `YourType` here refers to the type of the parameter's value.
-here's a quick example below for the type `Boolean` :
-```java
-public final class BooleanValueSupplier implements OptionalValueSupplier<Boolean>{ 
-
-    @Override  
-    public Class<Boolean> getValueType() {  
-        return Boolean.class;  
-    }  
-    
-  @Override  
-    public <C> Boolean supply(Context<C> context) {  
-        return false;  
-    }  
-}
-```
-
+First you should create a class that implement `OptionalValueSupplier`.
 Another example of how the annotation would look like on the parameter:
+
 ```java
-@Default(BooleanValueSupplier.class) boolean parameter
+@Default(YourCustomValueSupplier.class) YourParameterType parameter
 ```
 
 :::tip[Pro Tip]
@@ -153,7 +195,8 @@ If the number entered by the command source/sender is below the min or exceeds t
 then a built-in `NumberOutOfRangeException` exception is thrown , stopping the command execution and sending the error message to the command-source.
 
 ### @Flag & @Switch
-A true flag comes with an input next to it, example: `-yourFlag <value-input>` , while the switch is a flag that gives a `boolean` value determined by it's presence in the context `-silent`.
+A true flag comes with an input next to it, example: `-yourFlag <value-input>` , 
+while the switch is a flag that gives a `boolean` value determined by it's presence in the context `-silent`.
 
 ## Wildcard annotations
 They are annotations that can be used on all levels (classes, methods and parameters).

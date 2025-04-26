@@ -95,13 +95,23 @@ guildCommand.subCommand(
 ```
 
 ##### Annotations
-You should be able to do the same while having slightly more advantage than classic.  
-You will now need to annotate the context-resolved parameters with `@ContextResolved` in your usage methods, as in the example below:
+You should be able to do the same while having slightly more advantage than classic.
+you will be able to obtain the context resolved values as parameters inside of  your usage methods
+by labeling it with `@ContextResolved` as in the example below:
 
 ```java
 @SubCommand("disband")  
-public void disband(BukkitSource source, @ContextResolved @NotNull Guild guild /*Context resolved*/) {  
+public void disband(BukkitSource source, @NotNull @ContextResolved Guild guild /*Context resolved*/) {  
 	guild.disband();  
 	source.reply("You have disbanded your guild successfully!!");  
+}
+```
+
+or you can just add `@ContextResolved` on your custom type to reduce the boilerplate.
+example:
+```java
+@ContextResolved
+public final class Guild {
+    //rest of the class
 }
 ```

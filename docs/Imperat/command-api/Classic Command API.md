@@ -89,16 +89,38 @@ Therefore, The Command object is made with such automated processing and chainin
 command.subCommand("sub1",
  	CommandUsage.<YourPlatformSource>builder()  
 	.parameters(
-		CommandParameter.optional("value", ParameterTypes.numeric(Double.class), OptionalValueSupplier.of(-1D))
+		CommandParameter.optional("value", ParameterTypes.numeric(Double.class), OptionalValueSupplier.of("-1.0"))
 	).execute((source, context)-> {
 	 	//you can get previously used arguments from the main command usage  
 	 	Integer firstArg = context.getArgument("firstArg");  
 	 	source.reply("Entered firstArg= " + firstArg);  
 	 	Double value = context.getArgument("value");  
-	 	assert value != null; //optional arg cant be null, it has a default value supplier  
+	 	assert value != null; //optional arg cant be null, if it has a default value supplier  
 	 	source.reply("Double value entered= " + value);  
 	})
 );
+```
+Since subcommands are basically treated as `Command` instances, you can alternatively do something like this:
+```java
+command.subCommand(
+	Command.<YourPlatformSource>create("help")
+        .usage(
+			CommandUsage.<YourPlatformSource>builder()
+				.parameters(
+					CommandParameter.optional("value", ParameterTypes.numeric(Double.class), OptionalValueSupplier.of("-1.0"))
+				)
+				.execute((source, context) -> {
+					//you can get previously used arguments from the main command usage  
+					Integer firstArg = context.getArgument("firstArg");  
+					source.reply("Entered firstArg= " + firstArg);  
+					Double value = context.getArgument("value");  
+					assert value != null; //optional arg cant be null, if it has a default value supplier  
+					source.reply("Double value entered= " + value);  
+				})
+		)
+
+);
+
 ```
 
 After the example above, a new usage internally will be created and 
