@@ -9,7 +9,7 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 import LatestVersion from '../../src/components/LatestVersion';
 import LatestVersionBlock from '../../src/components/LatestVersionBlock';
-
+<p align="center"><img src="https://github.com/VelixDevelopments/Imperat/blob/master/logo.png" /></p><br>
 # Introduction
 Imperat is a powerful command dispatching framework, it allows you to create 
 commands and converts them into the form of multiple data-condensed objects like `Command`,  `CommandUsage` and `CommandParameter`
