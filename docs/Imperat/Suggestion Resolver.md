@@ -15,10 +15,12 @@ There's only one parental interface which is`SuggestionResolver`, that is classi
 - **Per parameter**
 - **Per type**
 
-You should create a new class and implement `YourPlatformSuggestionResolver` , as shown below using the custom class `Group` in **Bukkit** platform:
+You should create a new class and implement `YourPlatformSuggestionResolver` , as shown below,
+We will be using the custom class `Group` to fetch suggestions of group names as an example 
+in **Bukkit** platform:
 
 ```java
-public final class GroupSuggestionResolver implements SuggestionResolver<BukkitSource, Group> {
+public final class GroupSuggestionResolver implements SuggestionResolver<BukkitSource> {
 
     @Override
     public List<String> autoComplete(SuggestionContext<BukkitSource> context, CommandParameter parameter) {
