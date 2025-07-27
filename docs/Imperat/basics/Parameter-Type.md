@@ -3,101 +3,176 @@ sidebar_position: 5
 ---
 # Parameter Type
 
-It's an interface that aims to define how the raw argument entered by the command-source/sender
-is parsed and converted into a value of specific type; That specific type is defined by the generic type parameter `<T>` , if the raw input entered doesn't match the logic you set , then an exception shall be thrown inside of the `ParameterType#resolve` 
+## What is a Parameter Type?
 
->If you want to create your own exceptions you should check [Error Handler](Error-Handler.md) ,
->Otherwise we will be using the built-in `SourceException` in our examples.
+A **Parameter Type** is like a translator that converts the text input from a user into a specific object type that your command can use. Think of it as a bridge between what the user types and what your code needs.
 
-So if you want to add parameters to usages with custom types, you will need to create a value resolver for each custom type.
+**Simple Example:** When a user types `/give diamond 64`, Imperat needs to convert:
+- `"diamond"` → `Material.DIAMOND` object
+- `"64"` → `64` (integer)
 
-then want to add a parameter of type `X` , you must create and register your own value  resolver that will be responsible of converting the (String) raw argument/input by the user , into a object instance (value) to be provided during execution.
+## Why Do You Need Custom Parameter Types?
 
-### Bukkit example: 
+Imperat comes with built-in support for common types like `String`, `int`, `Player`, etc. But when you want to use your own custom classes as command parameters, you need to tell Imperat how to convert the user's text input into your custom object.
 
-we create a class(record) called `Group` that has a field called `name` as below: 
+## Real-World Example: Arena System
+
+Let's say you're building a minigame plugin with an arena system. You have an `Arena` class that represents a game arena:
+
 ```java
-public record Group(String name) {}
+public class Arena {
+    private final String name;
+    private final int maxPlayers;
+    private final String worldName;
+    
+    public Arena(String name, int maxPlayers, String worldName) {
+        this.name = name;
+        this.maxPlayers = maxPlayers;
+        this.worldName = worldName;
+    }
+    
+    public String getName() { return name; }
+    public int getMaxPlayers() { return maxPlayers; }
+    public String getWorldName() { return worldName; }
+}
 ```
 
-we create the value resolver for type `Group` as below:
+Now you want to create a command like `/arena join <arena>` where users can join a specific arena by typing its name.
+
+## Step 1: Create the Parameter Type
+
+You need to create a class that tells Imperat how to convert the arena name (text) into an `Arena` object:
+
 ```java
-public final class ParameterGroup extends BaseParameterType<TestSource, Group> {
-    private final GroupSuggestionResolver suggestionResolver = new GroupSuggestionResolver();
-    ParameterGroup() {
-        super(TypeWrap.of(Group.class));
-        //static plain suggestions
+public final class ArenaParameterType extends BaseParameterType<PlatformSource, Arena> {
+    
+    public ArenaParameterType() {
+        super(TypeWrap.of(Arena.class));
     }
 
     @Override
-    public @Nullable Group resolve(
-        ExecutionContext<TestSource> context,
-        @NotNull CommandInputStream<TestSource> commandInputStream,
+    public @Nullable Arena resolve(
+        ExecutionContext<PlatformSource> context,
+        @NotNull CommandInputStream<PlatformSource> commandInputStream,
         String input
     ) throws ImperatException {
-        return GroupRegistry.getInstance().getData(input)
-            .orElseThrow(() -> new SourceException("Unknown group '%s'", input));
+        // This is where the magic happens!
+        // Convert the user's input (arena name) into an Arena object
+        
+        // Try to find the arena by name
+        Arena arena = ArenaManager.getInstance().getArena(input);
+        
+        if (arena == null) {
+            // If arena doesn't exist, throw an error
+            throw new SourceException("Arena '" + input + "' not found!");
+        }
+        
+        return arena;
     }
 
-    //per type suggestion resolver
     @Override
-    public SuggestionResolver<TestSource> getSuggestionResolver() {
-        return suggestionResolver;
+    public SuggestionResolver<PlatformSource> getSuggestionResolver() {
+        // This provides tab-completion suggestions
+        return (context, input) -> {
+            return ArenaManager.getInstance().getAllArenas()
+                .stream()
+                .map(Arena::getName)
+                .filter(name -> name.toLowerCase().startsWith(input.toLowerCase()))
+                .collect(Collectors.toList());
+        };
     }
 }
 ```
 
-Then we register the our value resolver as below:
+## Step 2: Register Your Parameter Type
+
+Tell Imperat about your custom parameter type by registering it when building your Imperat instance:
+
 ```java
-imperat = BukkitImperat.builder(plugin)
-    .parameterType(Group.class, new ParameterGroup())
+BukkitImperat imperat = BukkitImperat.builder(plugin)
+    .parameterType(Arena.class, new ArenaParameterType())
     .build();
 ```
 
-Then we will be able to get the group value resolved from it's raw argument
-during execution of a `CommandUsage` as below : 
+For more details on registering parameter types, see [Customizing Imperat](../advanced/Customizing%20Imperat.md#parameter-types).
 
-#### Classic example:
+## Step 3: Use It in Your Commands
 
-```java
-Command<BukkitSource> groupCommand = Command.<BukkitSource>create("group")
-        .defaultExecution((source, context)-> {
-            source.reply("/group <group>");
-        })
-        .usage(CommandUsage.<BukkitSource>builder()
-                .parameters(CommandParameter.required("group", new ParameterGroup()))
-                .execute((source, context)-> {
-                    Group group = context.getArgument("group");
-                    assert group != null;
-                    source.reply("entered group name= " + group.name());
-                })
-        )
-        .build();
-```
-#### Annotations example:
+Now you can use `Arena` as a parameter type in your commands!
+
+### Annotations Example (Recommended):
 
 ```java
-@Command("group")  
-public final class GroupCommand {  
-
-	@Usage  
-	public void defaultUsage(BukkitSource source) {  
-		//default execution = no args  
-		source.reply("/group <group>");  
-	}
- 
-	@Usage  
-	public void mainUsage(
-		BukkitSource source,
-		@Named("group") Group group
-	){  
-		//when he does "/group <group>"  
-		source.reply("entered group name= " + group.name());  
-	}
+@Command("arena")
+public final class ArenaCommand {
+    
+    @Usage
+    public void defaultUsage(BukkitSource source) {
+        source.reply("Usage: /arena join <arena>");
+    }
+    
+    @Usage
+    public void joinArena(
+        BukkitSource source,
+        @Named("arena") Arena arena
+    ) {
+        // Imperat automatically converts the user's input to an Arena object!
+        Player player = source.as(Player.class);
+        
+        if (arena.getMaxPlayers() <= arena.getCurrentPlayers()) {
+            source.reply("Arena '" + arena.getName() + "' is full!");
+            return;
+        }
+        
+        arena.addPlayer(player);
+        source.reply("Joined arena '" + arena.getName() + "'!");
+    }
 }
 ```
 
-then we start registering our command, please refer to [Introduction](../Introduction.md) to know how to register your commands whether they were made using annotated or classic ways .
+### Classic Example:
+
+```java
+Command<BukkitSource> arenaCommand = Command.<BukkitSource>create("arena")
+    .defaultExecution((source, context) -> {
+        source.reply("Usage: /arena join <arena>");
+    })
+    .usage(CommandUsage.<BukkitSource>builder()
+        .parameters(CommandParameter.required("arena", new ArenaParameterType()))
+        .execute((source, context) -> {
+            Arena arena = context.getArgument("arena");
+            Player player = source.as(Player.class);
+            
+            if (arena.getMaxPlayers() <= arena.getCurrentPlayers()) {
+                source.reply("Arena '" + arena.getName() + "' is full!");
+                return;
+            }
+            
+            arena.addPlayer(player);
+            source.reply("Joined arena '" + arena.getName() + "'!");
+        })
+    )
+    .build();
+```
+
+## How It Works
+
+1. **User types:** `/arena join survival`
+2. **Imperat sees:** `"survival"` (String)
+3. **Your ParameterType converts:** `"survival"` → `Arena` object
+4. **Your command receives:** A fully usable `Arena` object with all its methods and properties
+
+## Error Handling
+
+If the user types an invalid arena name, your `ParameterType` throws an exception:
+
+```java
+throw new SourceException("Arena '" + input + "' not found!");
+```
+
+Imperat automatically catches this and shows the user a friendly error message: `"Arena 'invalid_arena' not found!"`
+
+For more details on error handling, see [Error Handler](Error-Handler.md).
 
 ## Supported Parameter Types
 
