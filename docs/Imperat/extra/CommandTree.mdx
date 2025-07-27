@@ -1,19 +1,16 @@
 ---
 sidebar_position: 20
-title: Command Hierarchy Diagram Example
+title: Command Hierarchy Diagram
 ---
 
-# Example: Complex Command Structure
-
-Suppose you have a root command `/manage` for a server management framework. This command has several subcommands and arguments, demonstrating advanced features:
-
+Suppose you have a root command `/manage` for a server management framework. This command has several subcommands and arguments, demonstrating advanced features and usages:-
 - `/manage user add <username> <role> [--email <email>] [--notify]`
 - `/manage user remove <username> [--force]`
 - `/manage server restart <serverId> [--immediate]`
 - `/manage server status <serverId>`
 - `/manage backup create <path> [--full] [--encrypt <key>]`
 
-**Example Usages:**
+**Example Input:**
 
 - `/manage user add Alice admin --email alice@example.com --notify`
 - `/manage user remove Bob --force`
@@ -22,7 +19,9 @@ Suppose you have a root command `/manage` for a server management framework. Thi
 
 ---
 
-Below is the command tree for `/manage` and its subcommands/arguments:
+## Tree Visualization
+Imperat creates a tree data structure for every command being registered.
+Below is the visualization of the tree for the example above: 
 
 ```mermaid
 %% CommandTree: N-ary tree of commands and arguments (all circles, default style)

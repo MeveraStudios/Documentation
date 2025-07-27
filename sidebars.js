@@ -70,6 +70,17 @@ const sidebars = {
             'Imperat/examples/Ranks',
           ],
         },
+        {
+          type: 'category',
+          label: 'Extra',
+          link: {
+            type: 'doc',
+            id: 'Imperat/extra/CommandTree',
+          },
+          items: [
+            'Imperat/extra/CommandTree',
+          ],
+        },
       ],
     },
   ],
