@@ -244,7 +244,7 @@ you are using.
 
 # Creation of Commands
 There's mainly 2 ways of creating commands:
-- [Annotations Command API](basics/Annotations%20Deep%20Dive.md) 
+- [Annotations Command API](basics/Command%20Creation.md) 
 - [Classic (Built-in `Command.create(imperat, commandName)`)](advanced/Classic%20Commands.md)  
   *(See the [Classic Commands](advanced/Classic%20Commands.md) page for a full guide and examples of this approach.)*
 
