@@ -6,25 +6,714 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #de5f1a;
-  --ifm-color-primary-dark: #cd1111df;
-  --ifm-color-primary-darker: #930a0a;
-  --ifm-color-primary-darkest: #460505;
-  --ifm-color-primary-light: #f47120;
-  --ifm-color-primary-lighter: #f3994a;
-  --ifm-color-primary-lightest: #ffaf7e;
+  /* Modern Blue-Purple Gradient Theme */
+  --ifm-color-primary: #6366f1;
+  --ifm-color-primary-dark: #4f46e5;
+  --ifm-color-primary-darker: #4338ca;
+  --ifm-color-primary-darkest: #3730a3;
+  --ifm-color-primary-light: #818cf8;
+  --ifm-color-primary-lighter: #a5b4fc;
+  --ifm-color-primary-lightest: #c7d2fe;
+  
+  /* Additional colors for better UX */
+  --ifm-color-secondary: #64748b;
+  --ifm-color-secondary-dark: #475569;
+  --ifm-color-secondary-darker: #334155;
+  --ifm-color-secondary-darkest: #1e293b;
+  --ifm-color-secondary-light: #94a3b8;
+  --ifm-color-secondary-lighter: #cbd5e1;
+  --ifm-color-secondary-lightest: #f1f5f9;
+  
+  /* Success, Warning, Error colors */
+  --ifm-color-success: #10b981;
+  --ifm-color-warning: #f59e0b;
+  --ifm-color-error: #ef4444;
+  
+  /* Code styling */
   --ifm-code-font-size: 95%;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+  --docusaurus-highlighted-code-line-bg: rgba(99, 102, 241, 0.1);
+  
+  /* Background colors */
+  --ifm-background-color: #ffffff;
+  --ifm-background-surface-color: #f8fafc;
+  
+  /* Text colors */
+  --ifm-color-content: #1e293b;
+  --ifm-color-content-secondary: #64748b;
+  
+  /* Border colors */
+  --ifm-color-emphasis-300: #e2e8f0;
+  --ifm-color-emphasis-500: #cbd5e1;
+  --ifm-color-emphasis-700: #94a3b8;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
 [data-theme='dark'] {
-  --ifm-color-primary: #de5f1a;
-  --ifm-color-primary-dark: #cd1111df;
-  --ifm-color-primary-darker: #930a0a;
-  --ifm-color-primary-darkest: #460505;
-  --ifm-color-primary-light: #f47120;
-  --ifm-color-primary-lighter: #f3994a;
-  --ifm-color-primary-lightest: #ffaf7e;
-  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+  /* Dark theme with same primary colors but adjusted for dark backgrounds */
+  --ifm-color-primary: #818cf8;
+  --ifm-color-primary-dark: #6366f1;
+  --ifm-color-primary-darker: #4f46e5;
+  --ifm-color-primary-darkest: #4338ca;
+  --ifm-color-primary-light: #a5b4fc;
+  --ifm-color-primary-lighter: #c7d2fe;
+  --ifm-color-primary-lightest: #e0e7ff;
+  
+  /* Dark theme secondary colors */
+  --ifm-color-secondary: #94a3b8;
+  --ifm-color-secondary-dark: #64748b;
+  --ifm-color-secondary-darker: #475569;
+  --ifm-color-secondary-darkest: #334155;
+  --ifm-color-secondary-light: #cbd5e1;
+  --ifm-color-secondary-lighter: #e2e8f0;
+  --ifm-color-secondary-lightest: #f1f5f9;
+  
+  /* Dark theme success, warning, error colors */
+  --ifm-color-success: #34d399;
+  --ifm-color-warning: #fbbf24;
+  --ifm-color-error: #f87171;
+  
+  /* Dark theme code styling */
+  --docusaurus-highlighted-code-line-bg: rgba(129, 140, 248, 0.2);
+  
+  /* Dark theme background colors */
+  --ifm-background-color: #0f172a;
+  --ifm-background-surface-color: #1e293b;
+  
+  /* Dark theme text colors */
+  --ifm-color-content: #f1f5f9;
+  --ifm-color-content-secondary: #cbd5e1;
+  
+  /* Dark theme border colors */
+  --ifm-color-emphasis-300: #334155;
+  --ifm-color-emphasis-500: #475569;
+  --ifm-color-emphasis-700: #64748b;
+}
+
+/* Custom styling for better documentation experience */
+.navbar {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.navbar__brand {
+  font-weight: 700;
+}
+
+.sidebar {
+  border-right: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.menu__link {
+  border-radius: 0.375rem;
+  margin: 0.125rem 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.menu__link:hover {
+  background-color: var(--ifm-color-primary-lightest);
+  color: var(--ifm-color-primary-darkest);
+}
+
+.menu__link--active {
+  background-color: var(--ifm-color-primary);
+  color: white;
+  font-weight: 600;
+}
+
+.menu__link--active:hover {
+  background-color: var(--ifm-color-primary-dark);
+  color: white;
+}
+
+/* Code block styling */
+.prism-code {
+  border-radius: 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+/* Card styling */
+.card {
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.card:hover {
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Button styling */
+.button {
+  border-radius: 0.375rem;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.button--primary {
+  background-color: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+}
+
+.button--primary:hover {
+  background-color: var(--ifm-color-primary-dark);
+  border-color: var(--ifm-color-primary-dark);
+}
+
+/* Table styling */
+table {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+th {
+  background-color: var(--ifm-color-emphasis-100);
+  font-weight: 600;
+  color: var(--ifm-color-content);
+}
+
+td, th {
+  border-bottom: 1px solid var(--ifm-color-emphasis-300);
+  padding: 0.75rem;
+}
+
+/* Alert styling */
+.alert {
+  border-radius: 0.5rem;
+  border: none;
+}
+
+.alert--info {
+  background-color: #f8fafc;
+  color: #0c4a6e;
+  border-left: 4px solid #3b82f6;
+  font-weight: 500;
+}
+
+.alert--info strong,
+.alert--info code {
+  color: #0c4a6e;
+  font-weight: 600;
+}
+
+/* Make info icon darker */
+.alert--info .admonition-icon {
+  color: #0c4a6e !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.alert--info .admonition-icon svg {
+  color: #0c4a6e !important;
+  fill: #0c4a6e !important;
+}
+
+.alert--warning {
+  background-color: #fef3c7;
+  color: #451a03;
+  border-left: 4px solid #f59e0b;
+  font-weight: 500;
+}
+
+.alert--warning strong,
+.alert--warning code {
+  color: #451a03;
+  font-weight: 600;
+}
+
+/* Make warning emoji more visible */
+.alert--warning .admonition-icon {
+  color: #dc2626 !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.alert--warning .admonition-icon svg {
+  color: #dc2626 !important;
+  fill: #dc2626 !important;
+}
+
+/* Alternative: If the emoji is text-based, make it more prominent */
+.alert--warning .admonition-title::before {
+  color: #dc2626 !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+}
+
+.alert--danger {
+  background-color: #fef2f2;
+  color: #7f1d1d;
+  border-left: 4px solid #ef4444;
+  font-weight: 500;
+}
+
+.alert--danger strong,
+.alert--danger code {
+  color: #7f1d1d;
+  font-weight: 600;
+}
+
+/* Make danger icon darker */
+.alert--danger .admonition-icon {
+  color: #7f1d1d !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.alert--danger .admonition-icon svg {
+  color: #7f1d1d !important;
+  fill: #7f1d1d !important;
+}
+
+.alert--success {
+  background-color: #f0fdf4;
+  color: #14532d;
+  border-left: 4px solid #22c55e;
+  font-weight: 500;
+}
+
+.alert--success strong,
+.alert--success code {
+  color: #14532d;
+  font-weight: 600;
+}
+
+/* Make success icon darker */
+.alert--success .admonition-icon {
+  color: #14532d !important;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.alert--success .admonition-icon svg {
+  color: #14532d !important;
+  fill: #14532d !important;
+}
+
+/* Admonition styling - Keep text colors consistent across themes */
+/* Only change backgrounds and borders for dark theme, keep text colors the same */
+
+/* INFO ADMONITIONS */
+[data-theme='dark'] .alert--info {
+  background-color: #f8fafc !important;
+  border-left: 4px solid #3b82f6 !important;
+}
+
+[data-theme='dark'] .alert--warning {
+  background-color: #fef3c7 !important;
+  border-left: 4px solid #f59e0b !important;
+}
+
+[data-theme='dark'] .alert--danger {
+  background-color: #fef2f2 !important;
+  border-left: 4px solid #ef4444 !important;
+}
+
+[data-theme='dark'] .alert--success {
+  background-color: #f0fdf4 !important;
+  border-left: 4px solid #22c55e !important;
+}
+
+/* Fix SVG icons to be dark and visible in both themes */
+/* Force icons to use the same dark colors regardless of theme */
+
+/* INFO icons - Dark blue */
+.alert--info .admonition-icon,
+.alert--info .admonition-icon svg,
+.alert--info .admonition-icon *,
+[data-theme='dark'] .alert--info .admonition-icon,
+[data-theme='dark'] .alert--info .admonition-icon svg,
+[data-theme='dark'] .alert--info .admonition-icon * {
+  color: #0c4a6e !important;
+  fill: #0c4a6e !important;
+}
+
+/* WARNING icons - Bright red */
+.alert--warning .admonition-icon,
+.alert--warning .admonition-icon svg,
+.alert--warning .admonition-icon *,
+[data-theme='dark'] .alert--warning .admonition-icon,
+[data-theme='dark'] .alert--warning .admonition-icon svg,
+[data-theme='dark'] .alert--warning .admonition-icon * {
+  color: #dc2626 !important;
+  fill: #dc2626 !important;
+}
+
+.alert--warning .admonition-title::before,
+[data-theme='dark'] .alert--warning .admonition-title::before {
+  color: #dc2626 !important;
+}
+
+/* DANGER icons - Dark red */
+.alert--danger .admonition-icon,
+.alert--danger .admonition-icon svg,
+.alert--danger .admonition-icon *,
+[data-theme='dark'] .alert--danger .admonition-icon,
+[data-theme='dark'] .alert--danger .admonition-icon svg,
+[data-theme='dark'] .alert--danger .admonition-icon * {
+  color: #7f1d1d !important;
+  fill: #7f1d1d !important;
+}
+
+/* SUCCESS icons - Dark green */
+.alert--success .admonition-icon,
+.alert--success .admonition-icon svg,
+.alert--success .admonition-icon *,
+[data-theme='dark'] .alert--success .admonition-icon,
+[data-theme='dark'] .alert--success .admonition-icon svg,
+[data-theme='dark'] .alert--success .admonition-icon * {
+  color: #14532d !important;
+  fill: #14532d !important;
+}
+
+/* Additional specificity for any remaining icon elements */
+[data-theme='dark'] .alert .admonition-icon,
+[data-theme='dark'] .alert .admonition-icon svg,
+[data-theme='dark'] .alert .admonition-icon *,
+[data-theme='dark'] .admonition .admonition-icon,
+[data-theme='dark'] .admonition .admonition-icon svg,
+[data-theme='dark'] .admonition .admonition-icon * {
+  color: inherit !important;
+  fill: inherit !important;
+}
+
+/* ULTRA-AGGRESSIVE ICON OVERRIDES - Target every possible selector */
+/* Force ALL admonition icons to be dark regardless of theme */
+
+/* Universal icon override for dark theme */
+[data-theme='dark'] .alert svg,
+[data-theme='dark'] .admonition svg,
+[data-theme='dark'] .alert path,
+[data-theme='dark'] .admonition path,
+[data-theme='dark'] .alert circle,
+[data-theme='dark'] .admonition circle,
+[data-theme='dark'] .alert rect,
+[data-theme='dark'] .admonition rect,
+[data-theme='dark'] .alert polygon,
+[data-theme='dark'] .admonition polygon {
+  color: #0c4a6e !important;
+  fill: #0c4a6e !important;
+  stroke: #0c4a6e !important;
+}
+
+/* Specific overrides for each admonition type in dark theme */
+[data-theme='dark'] .alert--info svg,
+[data-theme='dark'] .alert--info path,
+[data-theme='dark'] .alert--info circle,
+[data-theme='dark'] .alert--info rect,
+[data-theme='dark'] .alert--info polygon,
+[data-theme='dark'] .admonition--info svg,
+[data-theme='dark'] .admonition--info path,
+[data-theme='dark'] .admonition--info circle,
+[data-theme='dark'] .admonition--info rect,
+[data-theme='dark'] .admonition--info polygon {
+  color: #0c4a6e !important;
+  fill: #0c4a6e !important;
+  stroke: #0c4a6e !important;
+}
+
+[data-theme='dark'] .alert--warning svg,
+[data-theme='dark'] .alert--warning path,
+[data-theme='dark'] .alert--warning circle,
+[data-theme='dark'] .alert--warning rect,
+[data-theme='dark'] .alert--warning polygon,
+[data-theme='dark'] .admonition--warning svg,
+[data-theme='dark'] .admonition--warning path,
+[data-theme='dark'] .admonition--warning circle,
+[data-theme='dark'] .admonition--warning rect,
+[data-theme='dark'] .admonition--warning polygon {
+  color: #dc2626 !important;
+  fill: #dc2626 !important;
+  stroke: #dc2626 !important;
+}
+
+[data-theme='dark'] .alert--danger svg,
+[data-theme='dark'] .alert--danger path,
+[data-theme='dark'] .alert--danger circle,
+[data-theme='dark'] .alert--danger rect,
+[data-theme='dark'] .alert--danger polygon,
+[data-theme='dark'] .admonition--danger svg,
+[data-theme='dark'] .admonition--danger path,
+[data-theme='dark'] .admonition--danger circle,
+[data-theme='dark'] .admonition--danger rect,
+[data-theme='dark'] .admonition--danger polygon {
+  color: #7f1d1d !important;
+  fill: #7f1d1d !important;
+  stroke: #7f1d1d !important;
+}
+
+[data-theme='dark'] .alert--success svg,
+[data-theme='dark'] .alert--success path,
+[data-theme='dark'] .alert--success circle,
+[data-theme='dark'] .alert--success rect,
+[data-theme='dark'] .alert--success polygon,
+[data-theme='dark'] .admonition--success svg,
+[data-theme='dark'] .admonition--success path,
+[data-theme='dark'] .admonition--success circle,
+[data-theme='dark'] .admonition--success rect,
+[data-theme='dark'] .admonition--success polygon {
+  color: #14532d !important;
+  fill: #14532d !important;
+  stroke: #14532d !important;
+}
+
+/* Target any remaining icon elements with maximum specificity */
+[data-theme='dark'] .alert *[class*="icon"],
+[data-theme='dark'] .admonition *[class*="icon"],
+[data-theme='dark'] .alert *[class*="Icon"],
+[data-theme='dark'] .admonition *[class*="Icon"] {
+  color: #0c4a6e !important;
+  fill: #0c4a6e !important;
+}
+
+/* Force all SVG elements in admonitions to be dark */
+[data-theme='dark'] .alert svg *,
+[data-theme='dark'] .admonition svg * {
+  color: inherit !important;
+  fill: inherit !important;
+  stroke: inherit !important;
+}
+
+/* NUCLEAR OPTION - Target everything with maximum specificity */
+/* This should override any Docusaurus default styling */
+
+/* Target ALL possible icon containers in dark theme */
+[data-theme='dark'] div[class*="alert"] svg,
+[data-theme='dark'] div[class*="admonition"] svg,
+[data-theme='dark'] div[class*="Alert"] svg,
+[data-theme='dark'] div[class*="Admonition"] svg {
+  color: #0c4a6e !important;
+  fill: #0c4a6e !important;
+  stroke: #0c4a6e !important;
+}
+
+/* Target specific admonition types with nuclear specificity */
+[data-theme='dark'] div[class*="alert--info"] svg,
+[data-theme='dark'] div[class*="admonition--info"] svg {
+  color: #0c4a6e !important;
+  fill: #0c4a6e !important;
+  stroke: #0c4a6e !important;
+}
+
+[data-theme='dark'] div[class*="alert--warning"] svg,
+[data-theme='dark'] div[class*="admonition--warning"] svg {
+  color: #dc2626 !important;
+  fill: #dc2626 !important;
+  stroke: #dc2626 !important;
+}
+
+[data-theme='dark'] div[class*="alert--danger"] svg,
+[data-theme='dark'] div[class*="admonition--danger"] svg {
+  color: #7f1d1d !important;
+  fill: #7f1d1d !important;
+  stroke: #7f1d1d !important;
+}
+
+[data-theme='dark'] div[class*="alert--success"] svg,
+[data-theme='dark'] div[class*="admonition--success"] svg {
+  color: #14532d !important;
+  fill: #14532d !important;
+  stroke: #14532d !important;
+}
+
+/* Target all SVG child elements */
+[data-theme='dark'] div[class*="alert"] svg *,
+[data-theme='dark'] div[class*="admonition"] svg * {
+  color: inherit !important;
+  fill: inherit !important;
+  stroke: inherit !important;
+}
+
+/* Force all icon-related elements to be dark */
+[data-theme='dark'] [class*="icon"],
+[data-theme='dark'] [class*="Icon"] {
+  color: #0c4a6e !important;
+  fill: #0c4a6e !important;
+}
+
+/* Last resort - target any element with icon in class name within admonitions */
+[data-theme='dark'] div[class*="alert"] [class*="icon"],
+[data-theme='dark'] div[class*="admonition"] [class*="icon"] {
+  color: #0c4a6e !important;
+  fill: #0c4a6e !important;
+}
+
+/* Light theme link styling in admonitions - Make underlined by default */
+.alert a,
+.admonition a {
+  text-decoration: underline !important;
+  text-decoration-color: var(--ifm-color-primary) !important;
+  text-underline-offset: 2px !important;
+  font-weight: 600 !important;
+  color: var(--ifm-color-primary) !important;
+}
+
+.alert a:hover,
+.admonition a:hover {
+  text-decoration-color: var(--ifm-color-primary-dark) !important;
+  text-decoration-thickness: 2px !important;
+  color: var(--ifm-color-primary-dark) !important;
+}
+
+/* Dark theme link styling in admonitions - Make underlined by default */
+[data-theme='dark'] .alert a,
+[data-theme='dark'] .admonition a {
+  text-decoration: underline !important;
+  text-decoration-color: #dc2626 !important;
+  text-underline-offset: 2px !important;
+  font-weight: 600 !important;
+  color: #dc2626 !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  background-clip: unset !important;
+}
+
+[data-theme='dark'] .alert a:hover,
+[data-theme='dark'] .admonition a:hover {
+  text-decoration-color: #ef4444 !important;
+  text-decoration-thickness: 2px !important;
+  color: #ef4444 !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: unset !important;
+  background-clip: unset !important;
+}
+
+/* Tabs styling */
+.tabs {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.tabs__item {
+  border-radius: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.tabs__item--active {
+  background-color: var(--ifm-color-primary);
+  color: white;
+  font-weight: 600;
+}
+
+/* Footer styling */
+.footer {
+  background-color: var(--ifm-color-emphasis-100);
+  border-top: 1px solid var(--ifm-color-emphasis-300);
+}
+
+/* Responsive improvements */
+@media (max-width: 996px) {
+  .navbar__brand {
+    font-size: 1.25rem;
+  }
+  
+  .menu__link {
+    padding: 0.75rem 1rem;
+  }
+}
+
+/* Link styling - Make all links underlined by default */
+a {
+  text-decoration: underline;
+  text-decoration-color: var(--ifm-color-primary);
+  text-underline-offset: 2px;
+  transition: all 0.2s ease-in-out;
+}
+
+a:hover {
+  text-decoration-color: var(--ifm-color-primary-dark);
+  text-decoration-thickness: 2px;
+}
+
+/* Exception for navigation and UI elements that shouldn't be underlined */
+.navbar a,
+.menu__link,
+.button,
+.tabs__item,
+.card a,
+.footer a {
+  text-decoration: none;
+}
+
+.navbar a:hover,
+.menu__link:hover,
+.button:hover,
+.tabs__item:hover,
+.card a:hover,
+.footer a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--ifm-color-primary);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ifm-color-emphasis-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--ifm-color-emphasis-500);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ifm-color-emphasis-700);
+}
+
+/* FINAL NUCLEAR OPTION - Maximum specificity for SVG icons */
+/* This should definitely override any Docusaurus styling */
+
+/* Target every possible SVG element in admonitions with maximum specificity */
+html[data-theme='dark'] body div[class*="alert"] svg,
+html[data-theme='dark'] body div[class*="admonition"] svg,
+html[data-theme='dark'] body div[class*="Alert"] svg,
+html[data-theme='dark'] body div[class*="Admonition"] svg {
+  color: #0c4a6e !important;
+  fill: #0c4a6e !important;
+  stroke: #0c4a6e !important;
+}
+
+/* Specific admonition types with maximum specificity */
+html[data-theme='dark'] body div[class*="alert--info"] svg,
+html[data-theme='dark'] body div[class*="admonition--info"] svg {
+  color: #0c4a6e !important;
+  fill: #0c4a6e !important;
+  stroke: #0c4a6e !important;
+}
+
+html[data-theme='dark'] body div[class*="alert--warning"] svg,
+html[data-theme='dark'] body div[class*="admonition--warning"] svg {
+  color: #dc2626 !important;
+  fill: #dc2626 !important;
+  stroke: #dc2626 !important;
+}
+
+html[data-theme='dark'] body div[class*="alert--danger"] svg,
+html[data-theme='dark'] body div[class*="admonition--danger"] svg {
+  color: #7f1d1d !important;
+  fill: #7f1d1d !important;
+  stroke: #7f1d1d !important;
+}
+
+html[data-theme='dark'] body div[class*="alert--success"] svg,
+html[data-theme='dark'] body div[class*="admonition--success"] svg {
+  color: #14532d !important;
+  fill: #14532d !important;
+  stroke: #14532d !important;
+}
+
+/* Target all child elements of SVG */
+html[data-theme='dark'] body div[class*="alert"] svg *,
+html[data-theme='dark'] body div[class*="admonition"] svg * {
+  color: inherit !important;
+  fill: inherit !important;
+  stroke: inherit !important;
+}
+
+/* Force all icon elements to be dark */
+html[data-theme='dark'] body [class*="icon"],
+html[data-theme='dark'] body [class*="Icon"] {
+  color: #0c4a6e !important;
+  fill: #0c4a6e !important;
 }

@@ -1,13 +1,13 @@
 ---
-sidebar_position: 6
+sidebar_position: 4
 ---
 
-Unlike the [Parameter Type](Parameter-Type.md), the context resolver resolves a value that is NOT DIRECTLY from the input,
+Unlike the [Parameter Type](../basics/Parameter-Type.md), the context resolver resolves a value that is NOT DIRECTLY from the input,
 however the value is created from the context by a certain logic you specify.
 
 :::tip
 If you don't know what is a context or any other keywords used in this section, 
-please refer to [Introduction](Introduction.md) then [Dispatcher API](Dispatcher%20API.md) to become well-oriented with the framework's necessary basics.
+please refer to [Introduction](../Introduction.md) then [Customizing Imperat](Customizing%20Imperat.md) to become well-oriented with the framework's necessary basics.
 :::
 
 Therefore, instead of writing a lot of local variables to use inside of your command-execution repeatedly, you will be able to obtain them automatically without the need for boilerplate code. 

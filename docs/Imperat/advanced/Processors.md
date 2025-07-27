@@ -1,11 +1,11 @@
 ---
-sidebar_position: 9
+sidebar_position: 4
 ---
 # Processors
 
 :::caution[WARNING]
 We have already talked about the life cycle of `Context` object during the command's execution
-If you haven't read that yet, please try reading about the [Context-LifeCycle](Dispatcher%20API.md#life-cycle-of-context).
+If you haven't read that yet, please try reading about the [Context System](Customizing%20Imperat.md#context-system) in the Customizing Imperat guide.
 as the explanation below will be fully based on this.
 
 :::
@@ -38,7 +38,7 @@ therefore, it has `ResolvedContext` instead of just `Context` inside of it's met
 :::tip[Pro Tip]
 You can create a validation check , and when it fails you can stop the runtime of the command execution 
 by throwing a exception.
-for more details on exceptions, check [Throwables](Throwables.md)
+for more details on exceptions, check [Error Handler](../basics/Error-Handler.md)
 
 :::
 
@@ -83,4 +83,4 @@ imperat = BukkitImperat.builder(plugin)
 ```
 
 ### Registering Command processors
-We have already discussed that in [Classic Command API](command-api/Classic%20Command%20API.md) and for annotations in [Annotations Command API](command-api/Annotations%20Command%20API.md).
+We have already discussed that in the Classic Commands section and for annotations in [Annotations Deep Dive](../basics/Annotations%20Deep%20Dive.md).

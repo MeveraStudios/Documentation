@@ -1,0 +1,71 @@
+---
+sidebar_position: 20
+title: Command Hierarchy Diagram Example
+---
+
+# Example: Complex Command Structure
+
+Suppose you have a root command `/manage` for a server management framework. This command has several subcommands and arguments, demonstrating advanced features:
+
+- `/manage user add <username> <role> [--email <email>] [--notify]`
+- `/manage user remove <username> [--force]`
+- `/manage server restart <serverId> [--immediate]`
+- `/manage server status <serverId>`
+- `/manage backup create <path> [--full] [--encrypt <key>]`
+
+**Example Usages:**
+
+- `/manage user add Alice admin --email alice@example.com --notify`
+- `/manage user remove Bob --force`
+- `/manage server restart 42 --immediate`
+- `/manage backup create /backups/2024-06-01 --full --encrypt secretKey`
+
+---
+
+Below is the command tree for `/manage` and its subcommands/arguments:
+
+```mermaid
+%% CommandTree: N-ary tree of commands and arguments (all circles, default style)
+flowchart TD
+    Manage((/manage))
+    User((user))
+    Server((server))
+    Backup((backup))
+    Add((add))
+    Remove((remove))
+    Restart((restart))
+    Status((status))
+    Create((create))
+    Username((username))
+    Role((role))
+    Email((email))
+    Notify((notify))
+    Force((force))
+    ServerId1((serverId))
+    Immediate((immediate))
+    ServerId2((serverId))
+    Path((path))
+    Full((full))
+    Encrypt((encrypt_key))
+
+    Manage --> User
+    Manage --> Server
+    Manage --> Backup
+    User --> Add
+    User --> Remove
+    Add --> Username
+    Add --> Role
+    Add --> Email
+    Add --> Notify
+    Remove --> Username
+    Remove --> Force
+    Server --> Restart
+    Server --> Status
+    Restart --> ServerId1
+    Restart --> Immediate
+    Status --> ServerId2
+    Backup --> Create
+    Create --> Path
+    Create --> Full
+    Create --> Encrypt
+```

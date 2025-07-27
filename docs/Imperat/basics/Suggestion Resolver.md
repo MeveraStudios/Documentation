@@ -1,5 +1,5 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 ---
 # Suggestion Resolver
 
@@ -50,7 +50,7 @@ There are 2 annotations for providing a suggestion :
 
 When using `@SuggestionProvider`, it has a required field of type `String` which 
 indicate the unique name of a `SuggestionResolver` that can be registered through 
-`Imperat#registerNamedSuggestionResolver(name, suggestionResolver)`
+[`namedSuggestionResolver(name, resolver)`](../advanced/Customizing%20Imperat.md#namedsuggestionresolverstring-name-suggestionresolvers-resolver) in the Imperat builder.
 ###### Quick-example:
 
 ```java
@@ -71,7 +71,7 @@ imperat = BukkitImperat.builder(plugin)
     .namedSuggestionResolver("groups", new GroupSuggestionResolver())
     .build();
 ```
-Check [Annotations Command API](command-api/Annotations%20Command%20API.md) section for more details.
+Check [Annotations Deep Dive](Annotations%20Deep%20Dive.md) section for more details.
 
 ### Per type
 Moreover, you can also register suggestions per type of parameter 

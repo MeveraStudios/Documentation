@@ -61,6 +61,59 @@ Before adding any platform-specific module, you **must** include the core Impera
   id="imperat-core" 
 />
 
+## Preserve parameter names [OPTIONAL]
+
+Imperat uses parameter names to generate helpful command metadata like usage examples and tab completion suggestions. However, Java doesn't preserve parameter names in the compiled bytecode by default. To enable this feature, you need to configure your build tool to preserve parameter names.
+
+<Tabs groupId="build-tool-params">
+  <TabItem value="maven" label="Maven (pom.xml)" default>
+    ```xml
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.1</version>
+          <configuration>
+            <parameters>true</parameters>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
+    ```
+  </TabItem>
+  <TabItem value="gradle" label="Gradle (build.gradle)">
+    ```groovy
+    tasks.withType<JavaCompile> {
+        // Preserve parameter names in the bytecode
+        options.compilerArgs.add("-parameters")
+    }
+    
+    // optional: if you're using Kotlin
+    tasks.withType<KotlinJvmCompile> {
+        compilerOptions {
+            javaParameters = true
+        }
+    }
+    ```
+  </TabItem>
+  <TabItem value="gradle-kts" label="Gradle (build.gradle.kts)">
+    ```kotlin
+    tasks.withType<JavaCompile> {
+        // Preserve parameter names in the bytecode
+        options.compilerArgs.add("-parameters")
+    }
+    
+    // optional: if you're using Kotlin
+    tasks.withType<KotlinJvmCompile> {
+        compilerOptions {
+            javaParameters = true
+        }
+    }
+    ```
+  </TabItem>
+</Tabs>
+
 ## Platform Dependency setup
 
 Choose the platform you are developing for to see specific setup instructions.
@@ -191,8 +244,9 @@ you are using.
 
 # Creation of Commands
 There's mainly 2 ways of creating commands:
-- [Annotations Command API](command-api/Annotations%20Command%20API.md) 
-- [Classic (Built-in `Command.create(commandName)`)](command-api/Classic%20Command%20API.md)
+- [Annotations Command API](basics/Annotations%20Deep%20Dive.md) 
+- [Classic (Built-in `Command.create(imperat, commandName)`)](advanced/Classic%20Commands.md)  
+  *(See the [Classic Commands](advanced/Classic%20Commands.md) page for a full guide and examples of this approach.)*
 
 I will be giving an intro to the easier way for creating commands which is the annotations.
 
@@ -245,12 +299,12 @@ public class YourPlugin extends JavaPlugin {
 
 # Customizing Imperat
 
-If you wanted to register a [Context Resolver](Context%20Resolver.md) or a [Parameter Type](Parameter-Type.md) , or even 
-set a [Suggestion Resolver](Suggestion%20Resolver.md) for tab-completion in commands, You would have to 
+If you wanted to register a [Context Resolver](advanced/Context%20Resolver.md) or a [Parameter Type](basics/Parameter-Type.md) , or even 
+set a [Suggestion Resolver](basics/Suggestion%20Resolver.md) for tab-completion in commands, You would have to 
 call some methods while configuring imperat.
 
-With Imperat, you can even register your own sender/source type, check out [Source Resolver](Source%20Resolver.md)
-For a complete detailed guide on this, please check out [Dispatcher API](Dispatcher%20API.md)
+With Imperat, you can even register your own sender/source type, check out [Source Resolver](advanced/Source%20Resolver.md)
+For a complete detailed guide on this, please check out [Customizing Imperat](advanced/Customizing%20Imperat.md)
 
 *Big-example:*
 ```java
