@@ -8,8 +8,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Velix Development',
-  tagline: 'Documents for the Velix Developments projects',
+  title: 'Mevera Studios',
+  tagline: 'Documents for the Mevera Studios projects',
   favicon: 'img/favicon.ico',
 
   markdown: {
@@ -21,14 +21,14 @@ const config = {
   ],
 
   // Set the production url of your site here
-  url: 'https://docs.velix.dev',
+  url: 'https://docs.mevera.studio',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'VelixDevelopments', // Usually your GitHub org/user name.
+  organizationName: 'MeveraStudios', // Usually your GitHub org/user name.
   projectName: 'Documentation', // Usually your repo name.
 
   onBrokenLinks: 'warn',
@@ -62,7 +62,7 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/VelixDevelopments/Documentation/tree/main/',
+            'https://github.com/MeveraStudios/Documentation/tree/main/',
         },
         blog: false,
         theme: {
@@ -78,9 +78,9 @@ const config = {
       // Replace with your project's social card
       image: 'img/social-card.png',
       navbar: {
-        title: 'Velix Developments',
+        title: 'Mevera Studios',
         logo: {
-          alt: 'Velix Logo',
+          alt: 'Mevera Studios Logo',
           src: 'img/logo.svg',
         },
         items: [
@@ -90,7 +90,7 @@ const config = {
             label: 'Imperat',
           },
           {
-            href: 'https://github.com/VelixDevelopments',
+            href: 'https://github.com/MeveraStudios',
             label: 'GitHub',
             position: 'right',
           },
@@ -134,12 +134,12 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/VelixDevelopments/Documentation',
+                href: 'https://github.com/MeveraStudios/Documentation',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Velix Developments.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Mevera Studios.`,
       },
       prism: {
         additionalLanguages: ['java'],
