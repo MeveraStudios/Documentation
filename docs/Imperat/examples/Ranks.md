@@ -150,7 +150,7 @@ public class RankCommand {
         help.display(source);
     }
 
-    @SubCommand(value = "create", attachDirectly = true)
+    @SubCommand(value = "create", attachment = AttachmentMode.EMPTY)
     @Permission("server.command.rank.create")
     @Description("Creates a rank")
     public static class CreateRankSub {
@@ -175,7 +175,7 @@ public class RankCommand {
         }
     }
 
-    @SubCommand(value = "delete", attachDirectly = true)
+    @SubCommand(value = "delete", attachment = AttachmentMode.EMPTY)
     @Permission("server.command.rank.delete")
     @Description("Deletes a rank")
     public static class DeleteRankSub {

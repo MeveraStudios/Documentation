@@ -87,8 +87,7 @@ public final class AdminCommand {
     private final PlayerManager playerManager;
     private final EconomyService economyService;
     
-    public AdminCommand(@Dependency PlayerManager playerManager, 
-                       @Dependency EconomyService economyService) {
+    public AdminCommand(PlayerManager playerManager, EconomyService economyService) {
         this.playerManager = playerManager;
         this.economyService = economyService;
     }

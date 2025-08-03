@@ -57,8 +57,7 @@ For Bukkit platform, you can use `Player` or `CommandSender` as source types in 
 
 Declares a subcommand class or method with attachment configuration:
 - `String value` - The subcommand name
-- `AttachmentMode attachment` - How to attach to parent command (default: `BEFORE_PARAMETERS`)
-- `boolean attachDirectly` - Whether to attach directly to root (default: `false`)
+- `AttachmentMode attachment` - How to attach to parent command (default: `MAIN`)
 
 #### Class-Level Usage
 
@@ -84,7 +83,7 @@ public final class AdminCommand {
         }
     }
     
-    @SubCommand(value = "kick", attachment = AttachmentMode.AFTER_PARAMETERS)
+    @SubCommand(value = "kick", attachment = AttachmentMode.MAIN)
     @Permission("admin.kick")
     public static class KickSubCommand {
         

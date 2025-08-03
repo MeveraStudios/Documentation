@@ -231,7 +231,7 @@ After the example above, a new usage internally will be created and shall look l
 There are multiple extra options to consider when adding a subcommand to a command:
 
 - **`aliases`** - Add aliases for the subcommand
-- **`attachDirectly`** (false by default) - Whether the subcommand usage will be merged with the command's default usage (not main usage), so if true it will be `/example sub1 [value]`
+- **`attachment`** - How the subcommand attaches to the parent command (default: `MAIN` - attaches after parent's main parameters)
 
 ### Simple Subcommand Examples
 
