@@ -487,7 +487,7 @@ BukkitImperat imperat = BukkitImperat.builder(plugin)
 | `defaultSuggestionResolver` | `(context, input) -> Collections.emptyList()` | No suggestions |
 | `overlapOptionalParameterSuggestions` | `false` | No overlap in suggestions |
 | `handleExecutionMiddleOptionalSkipping` | `false` | Respect order of optional arguments during execution |
-| `defaultAttachmentMode` | `AttachmentMode.MAIN` | Default attachment mode for subcommands |
+| `defaultAttachmentMode` | `AttachmentMode.UNSET` | Default attachment mode for subcommands |
 | `usageVerifier` | `UsageVerifier.typeTolerantVerifier()` | Type-tolerant verification |
 | `helpProvider` | No default system | No help provider configured |
 | `globalDefaultUsage` | `CommandUsage.builder()` | Empty usage builder |

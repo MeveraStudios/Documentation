@@ -77,6 +77,11 @@ const config = {
     ({
       // Replace with your project's social card
       image: 'img/social-card.png',
+      colorMode: {
+        defaultMode: 'dark',
+        disableSwitch: false,
+        respectPrefersColorScheme: false,
+      },
       navbar: {
         title: 'Mevera Studios',
         logo: {
@@ -121,11 +126,11 @@ const config = {
             items: [
               {
                 label: 'Discord',
-                href: 'https://discord.velix.dev',
+                href: 'https://discord.mevera.studio',
               },
               {
                 label: 'Twitter',
-                href: 'https://twitter.com/VelixDevTeam',
+                href: 'https://twitter.com/MeveraStudios',
               },
             ],
           },

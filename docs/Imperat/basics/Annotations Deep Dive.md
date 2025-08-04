@@ -57,7 +57,7 @@ For Bukkit platform, you can use `Player` or `CommandSender` as source types in 
 
 Declares a subcommand class or method with attachment configuration:
 - `String value` - The subcommand name
-- `AttachmentMode attachment` - How to attach to parent command (default: `MAIN`)
+- `AttachmentMode attachment` - How to attach to parent command (default: `UNSET`)
 
 #### Class-Level Usage
 

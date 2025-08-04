@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 import LatestVersion from '../../src/components/LatestVersion';
 import LatestVersionBlock from '../../src/components/LatestVersionBlock';
 
-<p align="center"><img src="https://raw.githubusercontent.com/VelixDevelopments/Imperat/refs/heads/master/logo.png" /></p><br/>
+<p align="center"><img src="https://raw.githubusercontent.com/MeveraStudios/Imperat/refs/heads/master/logo.png" /></p><br/>
 # Introduction
 Imperat is a powerful command dispatching framework, it allows you to create 
 commands and converts them into the form of multiple data-condensed objects like `Command`,  `CommandUsage` and `CommandParameter`
@@ -55,9 +55,9 @@ Most builds won't require special repository configuration as Imperat artifacts 
 Before adding any platform-specific module, you **must** include the core Imperat dependency:
 
 <LatestVersionBlock 
-  owner="VelixDevelopments" 
+  owner="MeveraStudios" 
   repo="Imperat" 
-  group="dev.velix" 
+  group="studio.mevera" 
   id="imperat-core" 
 />
 
@@ -132,9 +132,9 @@ Choose the platform you are developing for to see specific setup instructions.
     </ul>
     <h4>Installation</h4>
     <LatestVersionBlock 
-      owner="VelixDevelopments" 
+      owner="MeveraStudios" 
       repo="Imperat" 
-      group="dev.velix" 
+      group="studio.mevera" 
       id="imperat-bukkit" 
     />
 
@@ -160,13 +160,13 @@ Choose the platform you are developing for to see specific setup instructions.
      <p>Implementation for BungeeCord Minecraft proxies.</p>
     <ul>
       <li>Imperat Class: <code>BungeeImperat</code></li>
-      <li>Command Source: <code>BungeeSource</code></li>
+      <li>Command Source: <code>BungeeSource</code></li>Z
     </ul>
     <h4>Installation</h4>
     <LatestVersionBlock 
-      owner="VelixDevelopments" 
+      owner="MeveraStudios" 
       repo="Imperat" 
-      group="dev.velix" 
+      group="studio.mevera" 
       id="imperat-bungee" 
     />
   </TabItem>
@@ -180,9 +180,9 @@ Choose the platform you are developing for to see specific setup instructions.
     </ul>
     <h4>Installation</h4>
     <LatestVersionBlock 
-      owner="VelixDevelopments" 
+      owner="MeveraStudios" 
       repo="Imperat" 
-      group="dev.velix" 
+      group="studio.mevera" 
       id="imperat-velocity" 
     />
   </TabItem>
@@ -196,9 +196,9 @@ Choose the platform you are developing for to see specific setup instructions.
     </ul>
     <h4>Installation</h4>
     <LatestVersionBlock 
-      owner="VelixDevelopments" 
+      owner="MeveraStudios" 
       repo="Imperat" 
-      group="dev.velix" 
+      group="studio.mevera" 
       id="imperat-minestom" 
     />
   </TabItem>
@@ -213,9 +213,9 @@ Choose the platform you are developing for to see specific setup instructions.
     <p>This module provides a basic loop to read input from the console and dispatch commands.</p>
     <h4>Installation</h4>
     <LatestVersionBlock 
-      owner="VelixDevelopments" 
+      owner="MeveraStudios" 
       repo="Imperat" 
-      group="dev.velix" 
+      group="studio.mevera" 
       id="imperat-cli" 
     />
   </TabItem>
@@ -228,7 +228,7 @@ Choose the platform you are developing for to see specific setup instructions.
 </Tabs>
 
 :::tip[Note on Versions]
-Ensure you use the **same version** (<LatestVersion owner="VelixDevelopments" repo="Imperat" codeBlock />) for both `imperat-core` and the platform-specific module (e.g., `imperat-bukkit`) to avoid compatibility issues.
+Ensure you use the **same version** (<LatestVersion owner="MeveraStudios" repo="Imperat" codeBlock />) for both `imperat-core` and the platform-specific module (e.g., `imperat-bukkit`) to avoid compatibility issues.
 :::
 
 # Initializing Imperat
