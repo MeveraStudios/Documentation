@@ -114,7 +114,7 @@ Imperat uses parameter names to generate helpful command metadata like usage exa
   </TabItem>
 </Tabs>
 
-:::[TIP] 
+:::tip[TIP] 
 You wouldn't need to use `@Named` Explicitly on method parameters, if you preserved the names of the compiled paramters from your method signatures *(Explained how to do that above)*
 :::
 
