@@ -6,13 +6,13 @@ We will be recreating the command `/kill <target>`, we will need to use `TargetS
 Let's create our kill command class:
 
 ```java
-import dev.velix.imperat.BukkitSource;
-import dev.velix.imperat.annotations.Command;
-import dev.velix.imperat.annotations.Description;
-import dev.velix.imperat.annotations.Named;
-import dev.velix.imperat.annotations.Permission;
-import dev.velix.imperat.annotations.Usage;
-import dev.velix.imperat.selector.TargetSelector;
+import studio.mevera.imperat.BukkitSource;
+import studio.mevera.imperat.annotations.Command;
+import studio.mevera.imperat.annotations.Description;
+import studio.mevera.imperat.annotations.Named;
+import studio.mevera.imperat.annotations.Permission;
+import studio.mevera.imperat.annotations.Usage;
+import studio.mevera.imperat.selector.TargetSelector;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;

@@ -33,7 +33,7 @@ Command<BukkitSource> exampleCommand = Command.create(imperat, "example")
 ```
 
 :::info Command Structure
-A command in Imperat is represented internally by the class `dev.velix.imperat.command.Command` which holds every command's data and needed usages.
+A command in Imperat is represented internally by the class `studio.mevera.imperat.command.Command` which holds every command's data and needed usages.
 
 Sub-commands are themselves `Command` instances - there's no separate `Subcommand` class. Subcommands are treated as commands and can be easily combined together in the form of a chain by merging the main-usage of a command to the subcommand's usage.
 

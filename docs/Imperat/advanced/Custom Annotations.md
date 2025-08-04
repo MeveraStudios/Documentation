@@ -46,8 +46,8 @@ public @interface AdminCommand {
 Create a function that converts your custom annotation into built-in Imperat annotations:
 
 ```java
-import dev.velix.imperat.command.annotations.*;
-import dev.velix.imperat.command.AnnotationFactory;
+import studio.mevera.imperat.command.annotations.*;
+import studio.mevera.imperat.command.AnnotationFactory;
 import java.util.List;
 
 // Define what your custom annotation should generate

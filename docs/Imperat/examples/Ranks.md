@@ -86,7 +86,7 @@ public final class RankManager {
 
 We are also  going to need a parameter type for `Rank` class, let's create our `RankParameterType`:
 ```java
-import static dev.velix.imperat.exception.SourceException.ErrorLevel.SEVERE;
+import static studio.mevera.imperat.exception.SourceException.ErrorLevel.SEVERE;
 
 public class RankParameterType extends BaseParameterType<BukkitSource, Rank> {
     private final RankManager rankManager;
