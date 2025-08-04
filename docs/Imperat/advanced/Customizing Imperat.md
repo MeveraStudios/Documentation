@@ -159,11 +159,81 @@ BukkitImperat.builder(plugin)
 
 **What it affects:**
 - Only optional parameters - required parameters are always suggested regardless of this setting
-- Tab completion suggestions at the same command depth level
+- Tab completion suggestions 
+
+at the same command depth level
 
 :::note
 This setting **only** affects optional parameters. Required parameters are always suggested regardless of this configuration.
 :::
+
+### `handleExecutionMiddleOptionalSkipping(boolean handle)`
+Controls whether Imperat should handle the skipping of consecutive optional arguments **during execution** with no respect for the order of optional arguments.
+
+**Default:** `false`
+
+```java
+BukkitImperat.builder(plugin)
+    .handleExecutionMiddleOptionalSkipping(true)
+    .build();
+```
+
+**Behavior:**
+- **`false` (default):** Imperat's `ParameterValueAssigner` respects the order of optional arguments and resolves them in order
+- **`true`:** Imperat handles skipping of consecutive optional arguments during execution, assigning values based on type compatibility regardless of order
+
+**Example:**
+```java
+@Command("test")
+public void testCommand(BukkitSource source, @Optional String a, @Optional Integer b) {
+    // With handleExecutionMiddleOptionalSkipping = true
+    // /test 1 -> a = null, b = 1 (skips 'a', assigns 1 to 'b' because it's Integer type)
+    // /test hello 42 -> a = "hello", b = 42
+    // /test 42 hello -> a = "hello", b = 42 (reorders based on type)
+}
+```
+
+**What it affects:**
+- Optional parameter resolution during command execution
+- Type-based assignment of optional arguments regardless of order
+
+#### `defaultAttachmentMode(AttachmentMode attachmentMode)`
+Sets the default attachment mode for all subcommands that don't explicitly specify an attachment mode.
+
+**Default:** `AttachmentMode.MAIN`
+
+```java
+BukkitImperat.builder(plugin)
+    .defaultAttachmentMode(AttachmentMode.EMPTY)
+    .build();
+```
+
+**Behavior:**
+- **`MAIN` (default):** Subcommands are attached after the parent's main/required parameters
+- **`DEFAULT`:** Subcommands are attached after the parent's default parameters
+- **`EMPTY`:** Subcommands are attached directly to the parent, ignoring all parent parameters
+
+**Example:**
+```java
+@Command("admin")
+public final class AdminCommand {
+    
+    @Usage
+    public void defaultUsage(BukkitSource source) {
+        source.reply("Admin commands: /admin ban <player>, /admin kick <player>");
+    }
+    
+    @SubCommand("ban") // Will use the default attachment mode
+    public void banPlayer(BukkitSource source, @Named("player") Player player) {
+        // Implementation
+    }
+}
+```
+
+**What it affects:**
+- Default attachment behavior for all subcommands
+- Global fallback when individual subcommands don't specify attachment mode
+- Consistent subcommand behavior across your command system
 
 ### Source Resolution
 
@@ -416,6 +486,8 @@ BukkitImperat imperat = BukkitImperat.builder(plugin)
 | `contextFactory` | `ContextFactory.defaultFactory()` | Default context factory |
 | `defaultSuggestionResolver` | `(context, input) -> Collections.emptyList()` | No suggestions |
 | `overlapOptionalParameterSuggestions` | `false` | No overlap in suggestions |
+| `handleExecutionMiddleOptionalSkipping` | `false` | Respect order of optional arguments during execution |
+| `defaultAttachmentMode` | `AttachmentMode.MAIN` | Default attachment mode for subcommands |
 | `usageVerifier` | `UsageVerifier.typeTolerantVerifier()` | Type-tolerant verification |
 | `helpProvider` | No default system | No help provider configured |
 | `globalDefaultUsage` | `CommandUsage.builder()` | Empty usage builder |
