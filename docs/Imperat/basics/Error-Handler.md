@@ -125,7 +125,7 @@ Imperat provides a comprehensive set of built-in exception classes that handle v
 
 | Exception | Type | Purpose | When It Occurs |
 |-----------|------|---------|----------------|
-| `InvalidCommandUsageException` | Runtime | Validates command usage rules | During application startup when registering a usage that doesn't follow rules set in [Customizing Imperat](../advanced/Customizing%20Imperat.md#usage-verification) |
+| `UsageRegistrationException` | Runtime | Validates command usage rules | During application startup when registering a usage that doesn't follow rules set in [Customizing Imperat](../advanced/Customizing%20Imperat.md#usage-verification) |
 | `InvalidSourceException` | Runtime | Validates source types | During class parsing when an unknown type is set as the source for a usage/command/subcommand method |
 | `AmbiguousUsageAdditionException` | Runtime | Prevents ambiguous usages | When registering a usage very similar to an already registered usage of the same root command |
 | [`UnknownDependencyException`](Dependency%20Injection.md#error-handling) | Runtime | Handles dependency resolution failures | When a dependency cannot be resolved (dependency resolver returns null or no resolver is registered) |
