@@ -5,12 +5,18 @@ sidebar_position: 9
 # Error Handler
 ~
 The `ThrowableHandler` is a core component in the Imperat framework, designed to manage exceptions that occur during command execution.
-It handles two types of exceptions:
 
-1. **SelfHandled** exceptions
-2. **Non-SelfHandled** exceptions
+The `ThrowableHandler` associates exception types with `ThrowableResolver`—a functional interface that provides a resolution strategy for the exception.
 
-Each type has its own mechanism for resolution, offering flexibility for both user-defined and external exceptions.
+Therefore, Imperat knows how to handle each type of exceptions occuring by having a `ThrowableResolver` assigned to that type of exception.
+
+
+## What is a `ThrowableResolver`?
+Its a way to simply tell Imperat what to do when a specific exception is thrown
+during the execution.
+
+An exception can be **SelfHandled** which means they simply tell Imperat how to deal with them when they are thrown, their handling or resolvation comes with its instance basically,
+Or a **Non-SelfHandled** exception which means they would need an external `ThrowableResolver` to be assigned to Imperat to be handled properly.
 
 ## SelfHandled Exceptions
 
@@ -30,37 +36,130 @@ public final class ExampleCustomException extends SelfHandledException {
     @Override
     public <S extends Source> void handle(Imperat<S> imperat, Context<S> context) {
         var source = context.source();
-        source.reply("&e" + message); //message colored in yellow on bukkit platform
+        source.reply("&c" + message); //message colored in red on bukkit platform
     }
 }
 ```
 
-In the example above, the custom exception `ExampleCustomException` displays a message in red when thrown. The `handle` method allows developers to define how the exception should be processed and communicated to the source.
+In the example above, the custom exception `ExampleCustomException` displays a message in red when thrown. The `handle` method allows developers to define how the exception should be processed and handled when thrown.
+
+Therefore, it will not require to be registered or to have a throwable resolver for it.
 
 :::info Usage Tip
 When defining custom exceptions, you can extend `SelfHandledException` and override the `handle` method to dictate exactly how the exception is resolved within the framework's runtime.
 :::
 
+:::note
+SelfHandled exceptions should NOT be registered as throwable resolvers.
+:::
+
 ## Non-SelfHandled Exceptions
 
-For exceptions that **do not** extend `SelfHandledException`, the Imperat framework uses the `ThrowableHandler` to resolve them. These can be any standard Java exceptions or other custom ones that the user chooses not to self-handle.
+For exceptions that **do not** extend `SelfHandledException`, the Imperat framework uses the `ThrowableResolver` to resolve them. These can be any standard Java exceptions or other custom ones that the user chooses not to self-handle.
 
-The `ThrowableHandler` associates exception types with `ThrowableResolver`—a functional interface that provides a resolution strategy for the exception.
+Let's create our non-selfhandled exception:
+```java
+public final class ExampleCustomException extends ImperatException {
+
+    private final String message;
+
+    public ExampleCustomException(String message) {
+        super(message);
+    }
+
+    public String getMessage() {
+        return message;
+    }
+}
+```
+
+:::tip
+Most default exceptions in Imperat extends `ImperatException`, when creating your own exception,
+its a good practice to make it inherit from `ImperatException`.
+:::
+
 
 ### Registering Non-SelfHandled Exceptions
 
-To register a `ThrowableResolver` for a non-SelfHandled exception, use the `setThrowableResolver` method like this:
+To register a `ThrowableResolver` for a non-SelfHandled exception, use the `ConfigBuilder#throwableResolver` method
+
+```java
+imperat = BukkitImperat.builder(plugin)
+    .throwableResolver(
+        ExampleCustomException.class,
+        (exception, context) -> context.source().reply("&c" + exception.getMessage())
+    )
+    .build();
+```
+
+### PermissionDeniedException Example
 
 ```java
 imperat = BukkitImperat.builder(plugin)
     .throwableResolver(
         PermissionDeniedException.class,
-        (exception, imperat, context) -> context.source().error("You don't have permission to use this command!")
+        (exception, context) -> context.source().error("You don't have permission to use this command!")
     )
     .build();
 ```
+In this example, whenever a `PermissionDeniedException` is thrown, the resolver sends an error message to the source. This allows for a centralized error handling mechanism for all non-SelfHandled exceptions of specific type..
 
-In this example, whenever a `PermissionDeniedException` is thrown, the resolver sends an error message to the source. This allows for a centralized error handling mechanism for all non-SelfHandled exceptions.
+#### Exception Handling Classes
+Alternatively, you can create a class that declares method, and each
+method defines a way to handle a specific type of exception.
+This is done by annotating the methods with `@ExceptionHandler`, and ensuring the correct
+parameters type and order as the example below:
+```java
+public class MyExceptionHandler {
+
+    @ExceptionHandler(PermissionDeniedException.class)
+    public void handleNoPerm(PermissionDeniedException ex, Context<YourPlatformSource> context) {
+        context.source().error("You don't have permission to use this command!")
+    }
+
+}
+```
+
+The registration for external exception handling classes
+is done after the initialization of your `Imperat` instance as follows:
+
+```java
+imperat = ...;
+imperat.registerThrowableHandler(new MyExceptionHandler());
+```
+
+#### Per Command Exception Handlers
+You can specify exception-handlers that work only when the specific exception is thrown during the execution
+of a specific command.
+You can easily achieve that by adding exception-handling methods in your annotated
+command class as the following example:
+```java
+@Command("example")
+public class ExampleCommand {
+
+    @ExceptionHandler(PermissionDeniedException.class)
+    public void handleNoPerm(PermissionDeniedException ex, Context<YourPlatformSource> ctx) {
+        var src = ctx.source();
+        src.reply("Failed to run command '/" + ctx.command() + "'");
+        src.reply("You lack the permisison: '" + ex.getLackingPermission() + "'");
+    }
+
+}
+```
+
+:::info
+When an exception is thrown, Imperat checks if it has a resolver for the root-command being executed,
+if it does, it will handle it using the command's resolver, Otherwise, it will look for a resolver from the
+central `ThrowableHandler` in Imperat's instance for a suitable throwable resolver for the type of exception thrown.
+:::
+
+Exceptions can carry contextual data to provide detailed information about what went wrong. The `PermissionDeniedException` is a perfect example, as it encapsulates three crucial pieces of information:
+
+- **Command Usage**: The specific command or usage pattern that was attempted
+- **Restricted Parameter**: The exact parameter or argument that triggered the permission check
+- **Missing Permission**: The specific permission node that the sender lacks to execute the command
+
+This rich contextual information allows developers to create more informative error messages and helps users understand exactly what permissions they need to perform the desired action. The specific data and context provided will vary depending on the exception type, with each exception class designed to carry the most relevant information for its particular error scenario.
 
 :::caution Error Control
 It's important to register resolvers for critical exceptions to prevent your command runtime from being interrupted by uncaught errors.

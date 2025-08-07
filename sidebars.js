@@ -37,7 +37,7 @@ const sidebars = {
             'Imperat/basics/Annotations Deep Dive',
             'Imperat/basics/Dependency Injection',
             'Imperat/basics/Error-Handler',
-            'Imperat/basics/Suggestion Resolver',
+            'Imperat/basics/Suggestions',
           ],
         },
         {
@@ -53,6 +53,7 @@ const sidebars = {
             'Imperat/advanced/Processors',
             'Imperat/advanced/Source Resolver',
             'Imperat/advanced/Context Resolver',
+            'Imperat/advanced/Return Resolvers',
             'Imperat/advanced/Customizing Imperat',
           ],
         },

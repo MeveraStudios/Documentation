@@ -49,9 +49,9 @@ BukkitImperat.builder(plugin)
 
 ### Permission System
 
-#### `permissionResolver(PermissionResolver<S> permissionResolver)`
-Sets a custom permission resolver for handling permission checks.
-Allow  you to define how permissions are checked.
+#### `permissionChecker(PermissionChecker<S> permissionChecker)`
+Sets a custom permission interface for handling permission checks.
+Allows you to define how permissions are checked.
 
 **Default:** `(source, permission) -> true` (allows all permissions)
 
@@ -62,7 +62,156 @@ BukkitImperat.builder(plugin)
 ```
 
 :::tip
-For more details on permission handling, see [Error-Handler](../basics/Error-Handler.md#permission-deniedexception).
+For more details on permission handling, see [Error-Handler](../basics/Error-Handler.md#PermissionDeniedException%20Example).
+:::
+
+#### `autoPermissionAssignMode(boolean modeToggle)`
+Enables **Auto Permission Assign (APA) mode**, which automatically generates and assigns permissions to every command parameter, subcommand, and root command.
+
+**Default:** `false`
+
+**What it does:**
+When enabled, Imperat automatically creates permission nodes for your entire command structure without you having to manually set permissions for each parameter.
+
+**Example:**
+```java
+BukkitImperat.builder(plugin)
+    .autoPermissionAssignMode(true)  // Enable automatic permission assignment
+    .build();
+```
+
+**Generated permissions might look like:**
+- Command: `/admin ban <player>` → Permissions: `plugin.admin`, `plugin.admin.ban`
+- Command: `/kit give <kit> [player]` → Permissions: `plugin.kit`, `plugin.kit.give`
+
+**Benefits:**
+- **No manual work**: Never forget to set permissions again
+- **Consistent structure**: All commands follow the same permission pattern
+- **Automatic updates**: New commands automatically get appropriate permissions
+- **Fine-grained control**: Each parameter can have its own permission check
+
+:::warning Prerequisites
+APA mode must be enabled **before** configuring `permissionLoader()` or `permissionAssigner()`.
+:::
+
+#### `permissionLoader(PermissionLoader<S> permissionLoader)`
+Sets how permissions are **loaded and determined** for command parameters when APA mode is active.
+
+**Prerequisites:** APA mode must be enabled first
+
+**What it does:**
+The permission loader decides **what permissions** should be assigned to each command element based on your custom logic.
+
+**Example:**
+```java
+BukkitImperat.builder(plugin)
+    .autoPermissionAssignMode(true)  // Must enable APA first
+    .permissionLoader(new CustomPermissionLoader())
+    .build();
+
+public class CustomPermissionLoader implements PermissionLoader<BukkitSource> {
+    @Override
+    public String loadPermission(ParameterNode<BukkitSource> node) {
+        // Create permission based on command path
+        String commandPath = node.getCommandPath();
+        return "myplugin." + commandPath.replace(" ", ".");
+        
+        // Example: "/admin ban player" → "myplugin.admin.ban.player"
+    }
+}
+```
+
+**Common use cases:**
+- **Custom permission patterns**: Use your own naming convention
+- **Dynamic permissions**: Generate permissions based on command context
+- **Plugin-specific prefixes**: All permissions start with your plugin name
+- **Role-based permissions**: Different permission levels for different command types
+
+#### `permissionAssigner(NodePermissionAssigner<S> permissionAssigner)`
+Sets **how permissions are applied** to command parameter nodes when APA mode is active.
+
+**Prerequisites:** APA mode must be enabled first
+
+**What it does:**
+The permission assigner decides **how** the permissions (determined by the loader) are actually applied to your command nodes.
+
+**Default:** Uses `NodePermissionAssigner.defaultAssigner()`
+
+**Example:**
+```java
+BukkitImperat.builder(plugin)
+    .autoPermissionAssignMode(true)  // Must enable APA first
+    .permissionAssigner(new CustomPermissionAssigner())
+    .build();
+
+public class CustomPermissionAssigner implements NodePermissionAssigner<BukkitSource> {
+    @Override
+    public void assignPermission(ParameterNode<BukkitSource> node, String permission) {
+        // Apply permission with custom logic
+        if (node.isOptionalParameter()) {
+            // Optional parameters get different permission handling
+            node.setPermission(permission + ".optional");
+        } else {
+            // Required parameters get standard permissions
+            node.setPermission(permission);
+        }
+    }
+}
+```
+
+**Common use cases:**
+- **Different permission strategies**: Optional vs required parameters
+- **Conditional permissions**: Apply permissions based on parameter type
+- **Permission inheritance**: Child nodes inherit parent permissions
+- **Custom validation**: Add extra checks before assigning permissions
+
+### Complete APA Example
+
+Here's how to set up a complete Auto Permission Assign system:
+
+```java
+BukkitImperat imperat = BukkitImperat.builder(plugin)
+    // Step 1: Enable APA mode
+    .autoPermissionAssignMode(true)
+    
+    // Step 2: Configure how permissions are loaded
+    .permissionLoader(node -> {
+        String path = node.getCommandPath().replace(" ", ".");
+        return "myplugin.commands." + path;
+    })
+    
+    // Step 3: Configure how permissions are assigned
+    .permissionAssigner((node, permission) -> {
+        // Add role-based suffixes
+        if (node.isSubCommand()) {
+            node.setPermission(permission + ".use");
+        } else if (node.isOptionalParameter()) {
+            node.setPermission(permission + ".optional");
+        } else {
+            node.setPermission(permission);
+        }
+    })
+    
+    .build();
+```
+
+**Result for command `/admin ban <player> [reason]`:**
+- Root: `myplugin.commands.admin.use`
+- Subcommand: `myplugin.commands.admin.ban.use`
+- Player parameter: `myplugin.commands.admin.ban.player`
+- Reason parameter: `myplugin.commands.admin.ban.reason.optional`
+
+:::info APA Benefits
+- **Zero manual permission setup**: All commands automatically get permissions
+- **Consistent permission structure**: Follow the same pattern across your plugin
+- **Dynamic permission generation**: New commands automatically get appropriate permissions
+- **Fine-grained control**: Each parameter can have different permission requirements
+:::
+
+:::warning APA Limitations
+- Must enable APA mode before configuring loader/assigner
+- Can make permission trees very deep for complex commands
+- May generate more permissions than needed for simple commands
 :::
 
 ### Context System
@@ -139,7 +288,7 @@ BukkitImperat.builder(plugin)
 ```
 
 :::tip
-For detailed information on suggestion resolvers, see [Suggestion Resolver](../basics/Suggestion%20Resolver.md).
+For detailed information on suggestion resolvers, see [Suggestion Resolver](../basics/Suggestions.md).
 :::
 
 #### `overlapOptionalParameterSuggestions(boolean overlap)`
@@ -196,6 +345,8 @@ public void testCommand(BukkitSource source, @Optional String a, @Optional Integ
 **What it affects:**
 - Optional parameter resolution during command execution
 - Type-based assignment of optional arguments regardless of order
+
+
 
 #### `defaultAttachmentMode(AttachmentMode attachmentMode)`
 Sets the default attachment mode for all subcommands that don't explicitly specify an attachment mode.
@@ -381,11 +532,17 @@ BukkitImperat.builder(plugin)
 ### Placeholders
 
 #### `placeholder(Placeholder<S> placeholder)`
-Registers a custom placeholder for dynamic content replacement.
+Registers a custom placeholder for dynamic content replacement, the content includes any string based input in any command-related attributes, this shall work with annotations contents.
 
 ```java
 BukkitImperat.builder(plugin)
-    .placeholder(new CustomPlaceholder())
+    .placeholder(
+        Placeholder.builder("%some_variable%")
+        .resolver((id, cfg)-> {
+            return pluginConfig.getString("some_variable");
+        })
+        .build();
+    )
     .build();
 ```
 
@@ -415,6 +572,42 @@ This allows you to set default properties that will be applied to every command 
 - Applying consistent cooldowns across your plugin
 - Using a custom usage format for all commands
 - Setting default async execution for all commands
+
+### Return Value Handling
+
+#### `returnResolver(Type type, ReturnResolver<S, T> resolver)`
+Registers a custom return resolver for handling non-void return values from command methods.
+
+**What it does:**
+When command methods return values instead of `void`, Imperat uses return resolvers to process and handle those returned values appropriately.
+
+```java
+BukkitImperat.builder(plugin)
+    .returnResolver(ServerReport.class, new ServerReportReturnResolver())
+    .build();
+
+**Example command using return values:**
+```java
+@Command("status")
+public class StatusCommand {
+    
+    @Usage
+    @Description("Get server status")
+    public String getServerStatus(BukkitSource source) {
+        return "Server is running with " + Bukkit.getOnlinePlayers().size() + " players online";
+    }
+    
+    @SubCommand("report")
+    @Description("Get detailed server report")
+    public ServerReport getDetailedReport(BukkitSource source) {
+        return serverMonitor.generateReport();
+    }
+}
+```
+
+:::tip
+For comprehensive information on return resolvers, see [Return Resolvers](Return%20Resolvers.md).
+:::
 
 ### Advanced Configuration
 
@@ -473,6 +666,10 @@ BukkitImperat imperat = BukkitImperat.builder(plugin)
         .permission("myplugin.commands")
         .cooldown(Duration.ofSeconds(5)))
     
+    // Return value handling
+    .returnResolver(String.class, new StringReturnResolver())
+    .returnResolver(ServerReport.class, new ServerReportReturnResolver())
+    
     .build();
 ```
 
@@ -483,6 +680,9 @@ BukkitImperat imperat = BukkitImperat.builder(plugin)
 | `commandPrefix` | `"/"` | Command prefix |
 | `strictCommandTree` | `false` | Strict command matching |
 | `permissionResolver` | `(source, permission) -> true` | Allow all permissions |
+| `autoPermissionAssignMode` | `false` | Auto Permission Assign mode disabled |
+| `permissionLoader` | No default | Permission loading strategy for APA |
+| `permissionAssigner` | `NodePermissionAssigner.defaultAssigner()` | Default permission assignment strategy |
 | `contextFactory` | `ContextFactory.defaultFactory()` | Default context factory |
 | `defaultSuggestionResolver` | `(context, input) -> Collections.emptyList()` | No suggestions |
 | `overlapOptionalParameterSuggestions` | `false` | No overlap in suggestions |
@@ -493,6 +693,7 @@ BukkitImperat imperat = BukkitImperat.builder(plugin)
 | `globalDefaultUsage` | `CommandUsage.builder()` | Empty usage builder |
 | `preProcessors` | Chain with permission and cooldown | Default pre-processing |
 | `postProcessors` | Empty chain | No post-processing |
+| `returnResolver` | No default resolvers | No return value handling |
 
 :::tip Configuration Order
 The order of configuration methods doesn't matter - you can call them in any sequence. The builder pattern allows for flexible and readable configuration.

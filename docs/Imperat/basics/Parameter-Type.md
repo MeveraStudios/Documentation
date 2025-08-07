@@ -24,6 +24,7 @@ public class Arena {
     private final String name;
     private final int maxPlayers;
     private final String worldName;
+    private final Set<Player> players = new HashSet<>();
     
     public Arena(String name, int maxPlayers, String worldName) {
         this.name = name;
@@ -34,45 +35,97 @@ public class Arena {
     public String getName() { return name; }
     public int getMaxPlayers() { return maxPlayers; }
     public String getWorldName() { return worldName; }
+    
+    // Methods used in command examples
+    public int getCurrentPlayers() { return players.size(); }
+    public Set<Player> getPlayers() { return new HashSet<>(players); }
+    public boolean addPlayer(Player player) { 
+        if (players.size() >= maxPlayers) return false;
+        return players.add(player); 
+    }
+    public boolean removePlayer(Player player) { return players.remove(player); }
+    public boolean isFull() { return players.size() >= maxPlayers; }
+    public boolean isEmpty() { return players.isEmpty(); }
+    public boolean hasPlayer(Player player) { return players.contains(player); }
 }
 ```
 
 Now you want to create a command like `/arena join <arena>` where users can join a specific arena by typing its name.
 
+## Understanding Parameter Type Components
+
+Before creating a custom parameter type, let's understand the key components that make it work:
+
+### Core Methods
+
+#### 1. `resolve()` Method
+**Purpose**: Converts user input (String) into your custom object type.
+
+**Parameters**:
+- **`context`**: The full execution context during command processing - contains information about the source, command, and current state
+- **`inputStream`**: A stream containing a cursor for iterating over two collections:
+  1. The raw input arguments entered by the user
+  2. The parameters defined in the command usage
+- **`input`**: The current raw input string that needs to be resolved
+
+The `inputStream` allows you to control the parsing flow by advancing through multiple raw arguments if your object requires complex resolution.
+
+#### 2. `matchesInput()` Method  
+**Purpose**: Returns `true`/`false` whether the input matches this parameter type.
+
+**Use Case**: Very useful for differentiating between parameter types, especially during tab-completion or suggestion providing. For example, distinguishing between a player name and a number.
+
+#### 3. `getSuggestionResolver()` Method
+**Purpose**: Provides tab-completion suggestions to users.
+
+**Two Approaches**:
+- **Static suggestions**: Use `withSuggestions()` in constructor for fixed suggestions
+- **Dynamic suggestions**: Override `getSuggestionResolver()` for context-dependent suggestions
+
+#### 4. `supplyDefaultValue()` Method
+**Purpose**: Provides a default value when parameter is optional and no input is given.
+
+**Note**: Using `@Default` or `@DefaultProvider` annotations will override this method.
+
+Now that you understand the core components, let's put them into practice by creating a complete parameter type for our `Arena` class. We'll implement all the important methods and show you exactly how each component works together to create a robust, user-friendly parameter type that handles arena resolution, provides smart suggestions, validates input, and includes proper error handling.
+
 ## Step 1: Create the Parameter Type
 
-You need to create a class that tells Imperat how to convert the arena name (text) into an `Arena` object:
+Now let's create a simple arena parameter type:
 
 ```java
 public final class ArenaParameterType extends BaseParameterType<PlatformSource, Arena> {
     
     public ArenaParameterType() {
-        super(TypeWrap.of(Arena.class));
+        super(Arena.class);
     }
 
     @Override
     public @Nullable Arena resolve(
         ExecutionContext<PlatformSource> context,
-        @NotNull CommandInputStream<PlatformSource> commandInputStream,
+        @NotNull CommandInputStream<PlatformSource> inputStream,
         String input
     ) throws ImperatException {
-        // This is where the magic happens!
-        // Convert the user's input (arena name) into an Arena object
-        
         // Try to find the arena by name
         Arena arena = ArenaManager.getInstance().getArena(input);
         
         if (arena == null) {
-            // If arena doesn't exist, throw an error
-            throw new SourceException("Arena '" + input + "' not found!");
+            // Throw custom exception for better error handling
+            throw new UnknownArenaException("Arena '" + input + "' not found!");
         }
         
         return arena;
     }
 
     @Override
+    public boolean matchesInput(String input, CommandParameter<PlatformSource> parameter) {
+        // Check if input matches an existing arena name
+        return ArenaManager.getInstance().getArena(input) != null;
+    }
+
+    @Override
     public SuggestionResolver<PlatformSource> getSuggestionResolver() {
-        // This provides tab-completion suggestions
+        // Dynamic suggestions based on available arenas
         return (context, input) -> {
             return ArenaManager.getInstance().getAllArenas()
                 .stream()
@@ -80,6 +133,12 @@ public final class ArenaParameterType extends BaseParameterType<PlatformSource, 
                 .filter(name -> name.toLowerCase().startsWith(input.toLowerCase()))
                 .collect(Collectors.toList());
         };
+    }
+    
+    @Override
+    public OptionalValueSupplier supplyDefaultValue() {
+        // Provide default arena if parameter is optional
+        return OptionalValueSupplier.of(() -> ArenaManager.getInstance().getDefaultArena());
     }
 }
 ```
@@ -111,15 +170,14 @@ public final class ArenaCommand {
         source.reply("Usage: /arena join <arena>");
     }
     
-    @Usage
+    @SubCommand("join")
     public void joinArena(
-        BukkitSource source,
+        Player player, /* Imperat will automatically require the sender to be Player */
         @Named("arena") Arena arena
     ) {
         // Imperat automatically converts the user's input to an Arena object!
-        Player player = source.as(Player.class);
         
-        if (arena.getMaxPlayers() <= arena.getCurrentPlayers()) {
+        if (arena.isFull()) {
             source.reply("Arena '" + arena.getName() + "' is full!");
             return;
         }
@@ -143,7 +201,7 @@ Command<BukkitSource> arenaCommand = Command.<BukkitSource>create("arena")
             Arena arena = context.getArgument("arena");
             Player player = source.as(Player.class);
             
-            if (arena.getMaxPlayers() <= arena.getCurrentPlayers()) {
+            if (arena.isFull()) {
                 source.reply("Arena '" + arena.getName() + "' is full!");
                 return;
             }
@@ -162,17 +220,238 @@ Command<BukkitSource> arenaCommand = Command.<BukkitSource>create("arena")
 3. **Your ParameterType converts:** `"survival"` → `Arena` object
 4. **Your command receives:** A fully usable `Arena` object with all its methods and properties
 
-## Error Handling
+## Error Handling with Custom Exceptions
 
-If the user types an invalid arena name, your `ParameterType` throws an exception:
+### Step 1: Create Custom Exceptions
+
+When creating parameter types, it's recommended to create specific exceptions for different error scenarios. Let's create custom exceptions for our arena system:
 
 ```java
-throw new SourceException("Arena '" + input + "' not found!");
+// Base arena exception
+public class ArenaException extends ImperatException {
+    public ArenaException(String message) {
+        super(message);
+    }
+}
+
+// Specific exception for unknown arenas
+public class UnknownArenaException extends ArenaException {
+    private final String arenaName;
+    
+    public UnknownArenaException(String arenaName) {
+        super("Arena '" + arenaName + "' does not exist!");
+        this.arenaName = arenaName;
+    }
+    
+    public String getArenaName() {
+        return arenaName;
+    }
+}
+
+// Exception for full arenas
+public class FullArenaException extends ArenaException {
+    private final Arena arena;
+    
+    public FullArenaException(Arena arena) {
+        super("Arena '" + arena.getName() + "' is full (" + arena.getCurrentPlayers() + "/" + arena.getMaxPlayers() + ")");
+        this.arena = arena;
+    }
+    
+    public Arena getArena() {
+        return arena;
+    }
+}
 ```
 
-Imperat automatically catches this and shows the user a friendly error message: `"Arena 'invalid_arena' not found!"`
+### Step 2: Registering during setup
+
+Use **non-self-handled** exception resolution by registering `ThrowableResolver` instances during Imperat initialization:
+
+```java
+BukkitImperat imperat = BukkitImperat.builder(plugin)
+    .parameterType(Arena.class, new ArenaParameterType())
+    
+    // Register error handlers for arena exceptions
+    .throwableResolver(UnknownArenaException.class, (exception, context) -> {
+        BukkitSource source = context.source();
+        source.error("❌ Arena '" + exception.getArenaName() + "' not found!");
+        source.info("💡 Available arenas: " + String.join(", ", getAvailableArenaNames()));
+    })
+    
+    .throwableResolver(FullArenaException.class, (exception, context) -> {
+        BukkitSource source = context.source();
+        Arena arena = exception.getArena();
+        source.error("❌ Arena '" + arena.getName() + "' is full!");
+        source.reply("Players: " + arena.getCurrentPlayers() + "/" + arena.getMaxPlayers());
+        source.reply("Try joining a different arena or wait for a spot to open.");
+    })
+    
+    .build();
+```
+
+### Why Use Non-Self-Handled Exceptions?
+
+**Advantages**:
+- **Centralized error handling**: All error messages are managed in one place during Imperat setup
+- **Consistent messaging**: Ensures uniform error message formatting across your plugin
+- **Easy maintenance**: Change error messages without modifying individual parameter types
+- **Reusable exceptions**: Same exception can be used in multiple places with consistent handling
+- **Rich context**: Exception handlers have access to full execution context for better error messages
+
+### Error Handling Best Practices
+
+1. **Create specific exceptions** for different error types instead of using generic exceptions
+2. **Include relevant data** in exceptions (like arena name, player count, etc.)
+3. **Provide helpful error messages** with suggestions for users
+4. **Use consistent formatting** for all error messages in your plugin
 
 For more details on error handling, see [Error Handler](Error-Handler.md).
+
+## Advanced: Complex Resolution Example
+
+For advanced use cases, you might need a parameter type that consumes **multiple consecutive arguments** from the input stream. Here's an example of a `LocationRange` parameter type that requires two location coordinates:
+
+```java
+public final class LocationRangeParameterType extends BaseParameterType<BukkitSource, LocationRange> {
+    
+    public LocationRangeParameterType() {
+        super(LocationRange.class);
+    }
+
+    @Override
+    public @Nullable LocationRange resolve(
+        ExecutionContext<BukkitSource> context,
+        @NotNull CommandInputStream<BukkitSource> inputStream,
+        String input
+    ) throws ImperatException {
+        // First argument: starting location (current input)
+        Location startLocation = parseLocation(context, input);
+        
+        // Advance the stream to get the next argument
+        if (!inputStream.hasNext()) {
+            throw new InvalidLocationRangeException("Missing end location for range. Usage: <x1,y1,z1> <x2,y2,z2>");
+        }
+        
+        String nextInput = inputStream.next(); // Get next raw argument
+        Location endLocation = parseLocation(context, nextInput);
+        
+        return new LocationRange(startLocation, endLocation);
+    }
+    
+    @Override
+    public boolean matchesInput(String input, CommandParameter<BukkitSource> parameter) {
+        // Check if input looks like coordinates (x,y,z format)
+        return input.matches("^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$");
+    }
+    
+    @Override
+    public SuggestionResolver<BukkitSource> getSuggestionResolver() {
+        return (context, input) -> {
+            // Suggest current player location or common coordinates
+            if (context.source().isConsole()) {
+                return List.of("0,64,0", "100,70,100");
+            }
+            
+            Player player = context.source().as(Player.class);
+            Location loc = player.getLocation();
+            String currentLoc = String.format("%.0f,%.0f,%.0f", loc.getX(), loc.getY(), loc.getZ());
+            
+            return List.of(currentLoc, "0,64,0", "100,70,100");
+        };
+    }
+    
+    private Location parseLocation(ExecutionContext<BukkitSource> context, String input) throws ImperatException {
+        // Parse "x,y,z" format
+        String[] parts = input.split(",");
+        if (parts.length != 3) {
+            throw new InvalidLocationFormatException("Expected format: x,y,z (e.g., '10,64,20')");
+        }
+        
+        try {
+            double x = Double.parseDouble(parts[0]);
+            double y = Double.parseDouble(parts[1]); 
+            double z = Double.parseDouble(parts[2]);
+            
+            World world = context.source().isConsole() ? 
+                Bukkit.getWorlds().get(0) : 
+                context.source().as(Player.class).getWorld();
+                
+            return new Location(world, x, y, z);
+        } catch (NumberFormatException e) {
+            throw new InvalidLocationFormatException("Invalid coordinates in '" + input + "'. Expected numbers only.");
+        }
+    }
+}
+
+// Supporting classes
+public class LocationRange {
+    private final Location start, end;
+    
+    public LocationRange(Location start, Location end) {
+        this.start = start;
+        this.end = end;
+    }
+    
+    public Location getStart() { return start; }
+    public Location getEnd() { return end; }
+    
+    public boolean contains(Location location) {
+        // Implementation for checking if location is within range
+        return location.getWorld().equals(start.getWorld()) &&
+               location.getX() >= Math.min(start.getX(), end.getX()) &&
+               location.getX() <= Math.max(start.getX(), end.getX()) &&
+               location.getY() >= Math.min(start.getY(), end.getY()) &&
+               location.getY() <= Math.max(start.getY(), end.getY()) &&
+               location.getZ() >= Math.min(start.getZ(), end.getZ()) &&
+               location.getZ() <= Math.max(start.getZ(), end.getZ());
+    }
+}
+
+public class InvalidLocationRangeException extends ImperatException {
+    public InvalidLocationRangeException(String message) {
+        super(message);
+    }
+}
+
+public class InvalidLocationFormatException extends ImperatException {
+    public InvalidLocationFormatException(String message) {
+        super(message);
+    }
+}
+```
+
+### Usage Example:
+
+```java
+@Command("region")
+public class RegionCommand {
+    
+    @Usage
+    public void createRegion(
+        BukkitSource source,
+        @Named("name") String name,
+        @Named("range") LocationRange range
+    ) {
+        // User input: /region create myregion 10,64,20 50,80,60
+        // Imperat automatically parses both coordinates into a LocationRange
+        
+        Region region = new Region(name, range);
+        source.reply("Created region '" + name + "' from " + 
+                    formatLocation(range.getStart()) + " to " + 
+                    formatLocation(range.getEnd()));
+    }
+}
+```
+
+### Key Points for Complex Resolution:
+
+1. **Stream Control**: Use `inputStream.next()` to consume additional arguments
+2. **Validation**: Always check `inputStream.hasNext()` before advancing
+3. **Clear Error Messages**: Provide specific format examples in exceptions
+4. **Smart Suggestions**: Context-aware suggestions based on current player location
+5. **Input Matching**: Robust regex patterns for `matchesInput()` validation
+
+This advanced technique allows you to create sophisticated parameter types that can handle complex data structures requiring multiple input arguments.
 
 ## Supported Parameter Types
 

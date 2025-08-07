@@ -100,22 +100,6 @@ public final class AdminCommand {
 }
 ```
 
-### Method Parameter Injection
-
-Dependencies can also be injected as method parameters:
-
-```java
-@Command("stats")
-public final class StatsCommand {
-    
-    @Usage
-    public void showStats(BukkitSource source, @Dependency PlayerManager playerManager) {
-        PlayerStats stats = playerManager.getStats(source.as(Player.class).getUniqueId());
-        source.reply("Kills: " + stats.getKills() + ", Deaths: " + stats.getDeaths());
-    }
-}
-```
-
 ## Dependency Registration Methods
 
 ### Simple Registration
@@ -125,20 +109,6 @@ Register a dependency with a simple supplier:
 ```java
 .dependencyResolver(MyService.class, () -> myServiceInstance)
 ```
-
-### Conditional Registration
-
-Register dependencies based on conditions:
-
-```java
-.dependencyResolver(AdvancedFeature.class, () -> {
-    if (config.isAdvancedFeaturesEnabled()) {
-        return new AdvancedFeature();
-    }
-    return new BasicFeature();
-})
-```
-
 ### Lazy Initialization
 
 Register dependencies that are initialized on first use:

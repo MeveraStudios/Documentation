@@ -304,7 +304,7 @@ public class YourPlugin extends JavaPlugin {
 # Customizing Imperat
 
 If you wanted to register a [Context Resolver](advanced/Context%20Resolver.md) or a [Parameter Type](basics/Parameter-Type.md) , or even 
-set a [Suggestion Resolver](basics/Suggestion%20Resolver.md) for tab-completion in commands, You would have to 
+set a [Suggestion Resolver](basics/Suggestions.md) for tab-completion in commands, You would have to 
 call some methods while configuring imperat.
 
 With Imperat, you can even register your own sender/source type, check out [Source Resolver](advanced/Source%20Resolver.md)
