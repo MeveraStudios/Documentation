@@ -147,9 +147,9 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} Mevera Studios.`,
       },
       prism: {
-        additionalLanguages: ['java'],
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
+        additionalLanguages: ['java', 'groovy'],
       },
       algolia: {
         appId: '60D19IKM2J',
