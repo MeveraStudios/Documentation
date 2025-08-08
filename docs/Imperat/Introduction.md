@@ -35,7 +35,7 @@ Most builds won't require special repository configuration as Imperat artifacts 
     ```
   </TabItem>
   <TabItem value="gradle" label="Gradle (build.gradle)">
-    ```gradle
+    ```groovy
     repositories {
       mavenCentral()
     }
@@ -84,16 +84,9 @@ Imperat uses parameter names to generate helpful command metadata like usage exa
   </TabItem>
   <TabItem value="gradle" label="Gradle (build.gradle)">
     ```groovy
-    tasks.withType<JavaCompile> {
+    tasks.withType(JavaCompile).configureEach {
         // Preserve parameter names in the bytecode
-        options.compilerArgs.add("-parameters")
-    }
-    
-    // optional: if you're using Kotlin
-    tasks.withType<KotlinJvmCompile> {
-        compilerOptions {
-            javaParameters = true
-        }
+        options.compilerArgs += '-parameters'
     }
     ```
   </TabItem>
