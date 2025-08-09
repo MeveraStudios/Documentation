@@ -31,7 +31,7 @@ and that's why it has just `Context` inside of it's method.
 
 ## Postprocessors
 The prefix in their name `Post` means `AFTER` which indicates the fact that the process happens **AFTER** context resolving
-therefore, it has `ResolvedContext` instead of just `Context` inside of it's method.
+therefore, it has `ExecutionContext` instead of just `Context` inside of it's method.
 
 
 
@@ -65,7 +65,7 @@ public class ExamplePreProcessor implements CommandPreProcessor<BukkitSource> {
 ```java
 public class ExamplePostProcessor implements CommandPostProcessor<BukkitSource> {
     @Override
-    public void process(Imperat<BukkitSource> imperat, ResolvedContext<BukkitSource> context) throws ImperatException {
+    public void process(Imperat<BukkitSource> imperat, ExecutionContext<BukkitSource> context) throws ImperatException {
         String executorName = context.source().isConsole() ? "CONSOLE" : context.source().name();
         String executedCommandLine = "/" + CommandUsage.format(context.label(), context.getDetectedUsage());
         Bukkit.getConsoleSender().sendMessage(executorName + " has executed '" + executedCommandLine + "'");

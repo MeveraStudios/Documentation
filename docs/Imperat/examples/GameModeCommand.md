@@ -4,29 +4,18 @@ sidebar_position: 12
 # GameMode Command
 
 This is a simple example of how you could create a gamemode command in minecraft **(using bukkit)**, along with its shortcuts (e.g: `/gms`, `/gmc`).
-Before creating our command class, let's create a preprocess to make sure our gamemode command can be run by players only !
-```java
-public final class OnlyPlayerProcessor implements CommandPreProcessor<BukkitSource> {
-    @Override
-    public void process(Imperat<BukkitSource> imperat, Context<BukkitSource> context, CommandUsage<BukkitSource> usage) throws ImperatException {
-        if(context.source().isConsole()) {
-            throw new SourceException("Only players are allowed to use this command !");
-        }
-    }
-}
-```
+Before creating our command class, let's create a preprocess to make sure our gamemode command can be run by players only, We can easily do that by declaring the source as `Player`.
 
 Now let's write our command class:
 ```java
 
 @Command({"gamemode", "gm"})
 @Permission("lobby.gamemode")
-@PreProcessor(OnlyPlayerProcessor.class)
 public class GameModeCommand {
 
     @Usage
     public void defUsage(
-            BukkitSource source,
+            Player source,
             @NotNull @Named("gamemode") GameMode gameMode,
             @Optional @Nullable @Named("player") Player other
     ) {
@@ -41,22 +30,22 @@ public class GameModeCommand {
     }
 
     @Command("gmc")
-    public void gmc(BukkitSource source, @Optional @Named("player") Player target) {
+    public void gmc(Player source, @Optional @Named("player") Player target) {
         defUsage(source, GameMode.CREATIVE, target);
     }
 
     @Command("gms")
-    public void gms(BukkitSource source, @Optional @Named("player") Player target) {
+    public void gms(Player source, @Optional @Named("player") Player target) {
         defUsage(source, GameMode.SURVIVAL, target);
     }
 
     @Command("gma")
-    public void gma(BukkitSource source, @Optional @Named("player") Player target) {
+    public void gma(Player source, @Optional @Named("player") Player target) {
         defUsage(source, GameMode.ADVENTURE, target);
     }
 
     @Command("gmsp")
-    public void gmsp(BukkitSource source, @Optional @Named("player") Player target) {
+    public void gmsp(Player source, @Optional @Named("player") Player target) {
         defUsage(source, GameMode.SPECTATOR, target);
     }
 

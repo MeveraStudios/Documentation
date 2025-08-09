@@ -447,7 +447,7 @@ public final class AdminCommand {
 // Example PostProcessor Implementation:
 public class LoggingPostProcessor implements CommandPostProcessor<BukkitSource> {
     @Override
-    public void process(Imperat<BukkitSource> imperat, ResolvedContext<BukkitSource> context, CommandUsage<BukkitSource> usage) throws ImperatException {
+    public void process(Imperat<BukkitSource> imperat, ExecutionContext<BukkitSource> context) throws ImperatException {
         System.out.println("Command executed by: " + context.source().getName() + " at " + System.currentTimeMillis());
     }
 }
@@ -463,7 +463,7 @@ public class MyPostProcessor implements CommandPostProcessor<BukkitSource> {
     public MyPostProcessor() {} // Required!
     
     @Override
-    public void process(Imperat<BukkitSource> imperat, ResolvedContext<BukkitSource> context, CommandUsage<BukkitSource> usage) throws ImperatException {
+    public void process(Imperat<BukkitSource> imperat, ExecutionContext<BukkitSource> context) throws ImperatException {
         // Implementation
     }
 }

@@ -291,7 +291,7 @@ command.subCommand("give", CommandUsage.<BukkitSource>builder()
 ```java
 command.preProcessor(new CommandPreProcessor<BukkitSource>() {
     @Override
-    public void process(Context<BukkitSource> context) throws ImperatException {
+    public void process(Imperat<BukkitSource> imperat, Context<BukkitSource> context, CommandUsage<BukkitSource> usage) throws ImperatException {
         // Pre-execution logic
         if (!context.source().hasPermission("myplugin.admin")) {
             throw new SourceException("Insufficient permissions");
@@ -301,7 +301,7 @@ command.preProcessor(new CommandPreProcessor<BukkitSource>() {
 
 command.postProcessor(new CommandPostProcessor<BukkitSource>() {
     @Override
-    public void process(ResolvedContext<BukkitSource> context) throws ImperatException {
+    public void process(Imperat<BukkitSource> imperat, ExecutionContext<BukkitSource> context) throws ImperatException {
         // Post-execution logic
         System.out.println("Command executed by: " + context.source().getName());
     }
