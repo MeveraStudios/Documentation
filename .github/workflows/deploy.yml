@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages with Version Update
+name: Deploy to GitHub Pages
 
 on:
   push:
