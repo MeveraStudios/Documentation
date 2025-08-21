@@ -68,6 +68,11 @@ Imperat automatically determines the usage type based on your parameter annotati
 - **MAIN**: At least one required parameter
 :::
 
+:::note
+Imperat is designed to parse nested class components without any limits.
+You can create nested classes to represent other root commands or even subcommands of the parent root class.
+:::
+
 ## Classic Approach
 
 For advanced use cases or when you need more control over the command creation process, Imperat also provides a classic builder approach using `Command.create()`.

@@ -33,11 +33,11 @@ const sidebars = {
           items: [
             'Imperat/basics/Command Creation',
             'Imperat/basics/Subcommands',
+            'Imperat/basics/Error-Handler',
+            'Imperat/basics/Suggestions',
             'Imperat/basics/Parameter-Type',
             'Imperat/basics/Annotations Deep Dive',
             'Imperat/basics/Dependency Injection',
-            'Imperat/basics/Error-Handler',
-            'Imperat/basics/Suggestions',
           ],
         },
         {
@@ -49,10 +49,10 @@ const sidebars = {
           },
           items: [
             'Imperat/advanced/Classic Commands',
+            'Imperat/advanced/Context Resolver',
+            'Imperat/advanced/Source Resolver',
             'Imperat/advanced/Command Help',
             'Imperat/advanced/Processors',
-            'Imperat/advanced/Source Resolver',
-            'Imperat/advanced/Context Resolver',
             'Imperat/advanced/Return Resolvers',
             'Imperat/advanced/Customizing Imperat',
           ],
@@ -81,7 +81,7 @@ const sidebars = {
           items: [
             'Imperat/extra/CommandTree',
           ],
-        },
+        }
       ],
     },
   ],

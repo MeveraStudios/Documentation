@@ -96,10 +96,6 @@ Now let's create a simple arena parameter type:
 ```java
 public final class ArenaParameterType extends BaseParameterType<PlatformSource, Arena> {
     
-    public ArenaParameterType() {
-        super(Arena.class);
-    }
-
     @Override
     public @Nullable Arena resolve(
         ExecutionContext<PlatformSource> context,
@@ -315,7 +311,7 @@ For advanced use cases, you might need a parameter type that consumes **multiple
 public final class LocationRangeParameterType extends BaseParameterType<BukkitSource, LocationRange> {
     
     public LocationRangeParameterType() {
-        super(LocationRange.class);
+        super();
     }
 
     @Override
@@ -332,7 +328,7 @@ public final class LocationRangeParameterType extends BaseParameterType<BukkitSo
             throw new InvalidLocationRangeException("Missing end location for range. Usage: <x1,y1,z1> <x2,y2,z2>");
         }
         
-        String nextInput = inputStream.next(); // Get next raw argument
+        String nextInput = inputStream.nextInput(); // Get next raw argument
         Location endLocation = parseLocation(context, nextInput);
         
         return new LocationRange(startLocation, endLocation);
@@ -445,7 +441,7 @@ public class RegionCommand {
 
 ### Key Points for Complex Resolution:
 
-1. **Stream Control**: Use `inputStream.next()` to consume additional arguments
+1. **Stream Control**: Use `inputStream.nextInput()` to consume additional arguments
 2. **Validation**: Always check `inputStream.hasNext()` before advancing
 3. **Clear Error Messages**: Provide specific format examples in exceptions
 4. **Smart Suggestions**: Context-aware suggestions based on current player location

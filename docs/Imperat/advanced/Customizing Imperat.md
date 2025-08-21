@@ -609,6 +609,22 @@ public class StatusCommand {
 For comprehensive information on return resolvers, see [Return Resolvers](Return%20Resolvers.md).
 :::
 
+
+### `helpCoordinator()`
+This option allows you to define how the core-components of the new Help API (since v2.0.0)
+interact with each other to render a help, by allowing you to inject your own instance of `HelpCoordinator`
+You can create a help coordinator instance by calling `HelpCoordinator#create`
+Here's a quick example:
+```java
+BukkitImperat.builder(plugin)
+    .helpCoordinator(
+        HelpCoordinator.create((layoutManager)-> {
+            layoutManager.registerPipeline(..., ..., ...);
+        })
+    )
+    .build();
+```
+
 ### Advanced Configuration
 
 #### `applyOnConfig(Consumer<ImperatConfig<S>> configConsumer)`
@@ -693,7 +709,9 @@ BukkitImperat imperat = BukkitImperat.builder(plugin)
 | `globalDefaultUsage` | `CommandUsage.builder()` | Empty usage builder |
 | `preProcessors` | Chain with permission and cooldown | Default pre-processing |
 | `postProcessors` | Empty chain | No post-processing |
+| `helpCoordinator` | default-coordinator | Default coordinator with default layout pipelines |
 | `returnResolver` | No default resolvers | No return value handling |
+
 
 :::tip Configuration Order
 The order of configuration methods doesn't matter - you can call them in any sequence. The builder pattern allows for flexible and readable configuration.
