@@ -77,7 +77,11 @@ public final class BalanceCommand {
 
 ### Constructor Injection
 
-You can also inject dependencies through constructor parameters:
+You can also inject dependencies through constructor parameters.
+:::caution
+Injecting dependency through a constructor may not work when you have subcommand classes, whether inner-classes or external classes.
+It's always preferred to use the `@Dependency`.
+:::
 
 ```java
 @Command("admin")

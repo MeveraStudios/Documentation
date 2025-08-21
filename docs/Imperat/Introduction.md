@@ -10,7 +10,7 @@ import TabItem from '@theme/TabItem';
 import LatestVersion from '../../src/components/LatestVersion';
 import LatestVersionBlock from '../../src/components/LatestVersionBlock';
 
-<p align="center"><img src="https://raw.githubusercontent.com/MeveraStudios/Imperat/refs/heads/master/logo.png" /></p><br/>
+<p align="center"><img src="https://raw.githubusercontent.com/MeveraStudios/Imperat/refs/heads/master/assets/logo.png" /></p><br/>
 # Introduction
 Imperat is a powerful command dispatching framework, it allows you to create 
 commands and converts them into the form of multiple data-condensed objects like `Command`,  `CommandUsage` and `CommandParameter`
@@ -238,7 +238,6 @@ Creation of an instance of your `PlatformImperat` depends mainly on which platfo
 you are using.
 :::
 
-
 # Creation of Commands
 There's mainly 2 ways of creating commands:
 - [Annotations Command API](basics/Command%20Creation.md) 
@@ -292,6 +291,71 @@ public class YourPlugin extends JavaPlugin {
   }
 
 }
+```
+
+# Basic Execution Flow
+It's essential to know how the basic flow of executing a command using Imperat.<br/>
+It will help you grasp the concept of `Context`
+
+## Key Execution Steps:
+
+1. **Parse Command** - Convert raw input into structured Context object
+2. **Permission Check** - Verify source has permission for root command
+3. **Tree Traversal** - Find matching usage path through command tree via `CommandTree#contextMatch()`
+4. **Usage Permission** - Check permissions for the specific usage found
+5. **Pre-Processing** - Execute global and command-specific pre-processor
+6. **Argument Resolution** - Convert raw strings into typed values according to the type of their parameters using `ParameterValueAssigner`, then inject the values into the `ExecutionContext`.
+7. **Command Execution** - Invoke your actual command method with resolved parameters
+8. **Post-Processing** - Execute global and command-specific post-processors
+9. **Result** - Return success or failure wrapped in `ExecutionResult`
+
+:::info[NOTICE]
+ Any step can throw exceptions (`PermissionDeniedException`, `InvalidSyntaxException`, etc.) which are caught and converted to failed `ExecutionResult` objects.
+:::
+
+### Execution flowchart
+
+```mermaid
+flowchart TD
+    Start([User executes command]) --> Parse[Parse command line into Context]
+    Parse --> CmdPermCheck{Check root command permission}
+    
+    CmdPermCheck -->|No Permission| PermError1[Throw PermissionDeniedException]
+    CmdPermCheck -->|Has Permission| TreeTraversal[contextMatch - Traverse command tree]
+    
+    TreeTraversal --> SearchResult{Search Result?}
+    SearchResult -->|PAUSE| PermError2[Throw PermissionDeniedException]
+    SearchResult -->|UNKNOWN/INCOMPLETE| SyntaxError[Throw InvalidSyntaxException]
+    SearchResult -->|COMPLETE| UsagePermCheck{Check usage permission}
+    
+    UsagePermCheck -->|No Permission| PermError3[Throw PermissionDeniedException]
+    UsagePermCheck -->|Has Permission| GlobalPreProc[Run Global Pre-processors]
+    
+    GlobalPreProc --> CmdPreProc[Run Command-specific Pre-processors]
+    CmdPreProc --> CreateExecCtx[Create ExecutionContext]
+    CreateExecCtx --> ArgResolve[resolvedContext.resolve - Convert raw strings to typed parameters]
+    
+    ArgResolve --> Execute[usage.execute - Call your command method]
+    Execute --> GlobalPostProc[Run Global Post-processors]
+    GlobalPostProc --> CmdPostProc[Run Command-specific Post-processors]
+    CmdPostProc --> Success[Return ExecutionResult.success]
+    
+    PermError1 --> HandleError[Handle Exception]
+    PermError2 --> HandleError
+    PermError3 --> HandleError
+    SyntaxError --> HandleError
+    HandleError --> Failure[Return ExecutionResult.failure]
+    
+    %% Styling
+    classDef errorClass fill:#ffebee,stroke:#c62828,stroke-width:2px,color:#000,font-size:15px
+    classDef successClass fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px,color:#000,font-size:15px
+    classDef processClass fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000,font-size:15px
+    classDef decisionClass fill:#fff3e0,stroke:#ef6c00,stroke-width:2px,color:#000,font-size:15px
+    
+    class PermError1,PermError2,PermError3,SyntaxError,HandleError,Failure errorClass
+    class Success successClass
+    class Parse,TreeTraversal,GlobalPreProc,CmdPreProc,CreateExecCtx,ArgResolve,Execute,GlobalPostProc,CmdPostProc processClass
+    class CmdPermCheck,SearchResult,UsagePermCheck decisionClass
 ```
 
 # Customizing Imperat

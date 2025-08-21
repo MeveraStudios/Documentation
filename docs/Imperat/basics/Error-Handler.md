@@ -235,6 +235,13 @@ Imperat provides a comprehensive set of built-in exception classes that handle v
 |-----------|------|---------|----------------|
 | `SelfHandledException` | Base | Base class for custom exceptions | When custom exceptions extend this class and implement their own handling logic |
 
+:::info[Info]
+Any error being thrown during the triggering of a processor, its going to be wrapped around a `ProcessorException`.
+While exception thrown during the processor runtime, will be the CAUSE of the `ProcessorException` being thrown.
+Moreover, `ProcessorException` DOES NOT HAVE a handler for it, it just exists as a layer or a wrap marking the exception thrown to be 
+during the runtime of a processor (whether PRE or POST).
+:::
+
 ## Summary
 
 The `ThrowableHandler` component provides a comprehensive way to handle exceptions in the Imperat framework:

@@ -316,14 +316,14 @@ at the same command depth level
 This setting **only** affects optional parameters. Required parameters are always suggested regardless of this configuration.
 :::
 
-### `handleExecutionMiddleOptionalSkipping(boolean handle)`
+### `handleMiddleOptionalArgSkipping(boolean handle)`
 Controls whether Imperat should handle the skipping of consecutive optional arguments **during execution** with no respect for the order of optional arguments.
 
 **Default:** `false`
 
 ```java
 BukkitImperat.builder(plugin)
-    .handleExecutionMiddleOptionalSkipping(true)
+    .handleMiddleOptionalArgSkipping(true)
     .build();
 ```
 
@@ -702,7 +702,7 @@ BukkitImperat imperat = BukkitImperat.builder(plugin)
 | `contextFactory` | `ContextFactory.defaultFactory()` | Default context factory |
 | `defaultSuggestionResolver` | `(context, input) -> Collections.emptyList()` | No suggestions |
 | `overlapOptionalParameterSuggestions` | `false` | No overlap in suggestions |
-| `handleExecutionMiddleOptionalSkipping` | `false` | Respect order of optional arguments during execution |
+| `handleMiddleOptionalArgSkipping` | `false` | Respect order of optional arguments during execution |
 | `defaultAttachmentMode` | `AttachmentMode.UNSET` | Default attachment mode for subcommands |
 | `usageVerifier` | `UsageVerifier.typeTolerantVerifier()` | Type-tolerant verification |
 | `helpProvider` | No default system | No help provider configured |
