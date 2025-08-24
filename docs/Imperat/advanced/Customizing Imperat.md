@@ -62,7 +62,7 @@ BukkitImperat.builder(plugin)
 ```
 
 :::tip
-For more details on permission handling, see [Error-Handler](../basics/Error-Handler.md#PermissionDeniedException%20Example).
+For more details on permission handling, see [Error-Handler](../basics/Error-Handler.md#permissiondeniedexception-example).
 :::
 
 #### `autoPermissionAssignMode(boolean modeToggle)`

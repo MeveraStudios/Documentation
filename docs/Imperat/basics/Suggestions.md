@@ -180,7 +180,7 @@ Command<BukkitSource> giveCommand = Command.<BukkitSource>create("give")
 
 ### 2. For Parameter Types
 
-Apply suggestions to **all parameters of a specific type** by creating a custom parameter type. This approach is covered in detail in [Parameter Types](Parameter-Type.md#getSuggestionResolver-method).
+Apply suggestions to **all parameters of a specific type** by creating a custom parameter type. This approach is covered in detail in [Parameter Types](Parameter-Type.md#3-getsuggestionresolver-method).
 
 **Example**: If you have a custom `Arena` class, you can provide suggestions for **every** arena parameter across your entire plugin:
 
