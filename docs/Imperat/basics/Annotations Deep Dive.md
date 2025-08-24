@@ -779,19 +779,9 @@ If the number entered by the command source/sender is below the min or exceeds t
 Defines a flag parameter that requires a value:
 
 ```java
-@Command("silent")
-public void command(BukkitSource source, @Flag("silent") boolean silent) {
-    // Usage: /command -silent true
-    if (silent) {
-        source.reply("Silent mode enabled");
-    } else {
-        source.reply("Silent mode disabled");
-    }
-}
-
 @Command("broadcast")
 public void broadcastCommand(BukkitSource source, @Flag("prefix") String prefix, @Greedy String message) {
-    // Usage: /broadcast -prefix [Admin] Hello everyone
+    // Usage: /broadcast [-prefix <value>] [Admin] Hello everyone
     String finalMessage = prefix != null ? prefix + " " + message : message;
     Bukkit.broadcastMessage(finalMessage);
 }
@@ -802,15 +792,6 @@ public void broadcastCommand(BukkitSource source, @Flag("prefix") String prefix,
 Defines a switch parameter (boolean flag):
 
 ```java
-@Command("silent")
-public void command(BukkitSource source, @Switch({"silent", "s"}) boolean silent) {
-    // Usage: /command -silent or /command -s
-    if (silent) {
-        source.reply("Silent mode enabled");
-    } else {
-        source.reply("Silent mode disabled");
-    }
-}
 
 @Command("kick")
 public void kickCommand(BukkitSource source, @Named("player") Player player, @Switch({"silent", "s"}) boolean silent, @Optional @Named("reason") String reason) {
@@ -866,57 +847,6 @@ public final class BanCommand {
     }
 }
 ```
-
-### @Help
-
-The `@Help` annotation specifies a custom help provider for a command. This allows you to create custom help functionality that extends beyond the default help system, where you are able to specify a [HelpProvider](../advanced/Command%20Help.md) **per command**.
-
-#### Usage
-
-```java
-@Command("admin")
-@Help(CustomAdminHelpProvider.class)
-@Permission("admin.command")
-public final class AdminCommand {
-    
-    @Usage
-    public void defaultUsage(BukkitSource source) {
-        source.reply("Admin commands available");
-    }
-    
-    @SubCommand("ban")
-    public void banPlayer(BukkitSource source, @Named("player") Player player) {
-        // Ban implementation
-    }
-}
-
-// Custom help provider implementation
-public final class CustomAdminHelpProvider implements HelpProvider<BukkitSource> {
-    
-    @Override
-    public void provideHelp(Context<BukkitSource> context) {
-        var source = context.source();
-        source.reply("=== Admin Commands ===");
-        source.reply("/admin ban <player> - Ban a player");
-        source.reply("/admin kick <player> - Kick a player");
-        source.reply("/admin mute <player> - Mute a player");
-        source.reply("=====================");
-    }
-}
-```
-
-#### When to Use
-
-- **Custom Help Format**: When you want a specific help format for certain commands
-- **Conditional Help**: When help content should change based on user permissions or context
-- **Rich Help Content**: When you need to include additional information beyond command descriptions
-- **Platform-Specific Help**: When help should be formatted differently for different platforms
-
-:::info Help Provider
-The help provider class must implement `HelpProvider<S>` where `S` is your source type (e.g., `BukkitSource`). The `provideHelp` method receives the command context and can access the source, parameters, and other contextual information.
-
-**Note**: The `@Help` annotation can only be used on classes and methods, not on parameters.
-:::
 
 ## Comprehensive Example
 

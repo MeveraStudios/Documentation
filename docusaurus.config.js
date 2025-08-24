@@ -95,6 +95,11 @@ const config = {
             label: 'Imperat',
           },
           {
+            to: '/Scofi',
+            position: 'left',
+            label: 'Scofi',
+          },
+          {
             href: 'https://github.com/MeveraStudios',
             label: 'GitHub',
             position: 'right',
@@ -118,6 +123,10 @@ const config = {
               {
                 label: 'Imperat',
                 to: '/Imperat',
+              },
+              {
+                label: 'Scofi',
+                to: '/Scofi',
               },
             ],
           },

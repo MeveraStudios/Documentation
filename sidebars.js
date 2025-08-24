@@ -84,6 +84,18 @@ const sidebars = {
         }
       ],
     },
+
+    {
+      type: 'category',
+      label: 'Scofi',
+      link: {
+        type: 'doc',
+        id: 'Scofi/Introduction',
+      },
+      items: [
+        'Scofi/Animations'
+      ],
+    }
   ],
 };
 
