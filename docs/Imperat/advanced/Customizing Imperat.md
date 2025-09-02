@@ -36,17 +36,6 @@ BukkitImperat.builder(plugin)
     .build();
 ```
 
-#### `strictCommandTree(boolean strict)`
-Sets whether the command tree should be strict. When strict, commands must match exactly.
-
-**Default:** `false`
-
-```java
-BukkitImperat.builder(plugin)
-    .strictCommandTree(true)
-    .build();
-```
-
 ### Permission System
 
 #### `permissionChecker(PermissionChecker<S> permissionChecker)`

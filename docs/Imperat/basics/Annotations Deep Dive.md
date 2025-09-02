@@ -619,12 +619,6 @@ public void command(BukkitSource source, @DefaultProvider(RandomColorProvider.cl
     // color will be provided by RandomColorProvider (random color from predefined list)
     source.reply("Selected color: " + color);
 }
-
-@Command("broadcast")
-public void broadcastCommand(BukkitSource source, @DefaultProvider(ServerTimeProvider.class) @Named("timestamp") String timestamp, @Named("message") @Greedy String message) {
-    // timestamp will be provided by ServerTimeProvider (current server time)
-    Bukkit.broadcastMessage("[" + timestamp + "] " + source.getName() + ": " + message);
-}
 ```
 
 :::danger[CRITICAL]
@@ -634,21 +628,44 @@ Make sure that any sub-class of `OptionalValueSupplier` has an empty public cons
 **Example DefaultProvider Implementation:**
 
 ```java
-public class RandomColorProvider implements OptionalValueSupplier<String> {
-    private static final String[] COLORS = {"red", "green", "blue", "yellow", "purple", "orange"};
+import net.kyori.adventure.text.format.NamedTextColor;
+import org.jetbrains.annotations.Nullable;
+import studio.mevera.imperat.command.parameters.CommandParameter;
+import studio.mevera.imperat.command.parameters.OptionalValueSupplier;
+import studio.mevera.imperat.context.ExecutionContext;
+import studio.mevera.imperat.context.Source;
+import java.util.concurrent.ThreadLocalRandom;
+
+public class RandomColorProvider implements OptionalValueSupplier {
+    //array of random minecraft colors
+    NamedTextColor[] COLORS = {
+            NamedTextColor.AQUA,
+            NamedTextColor.BLACK,
+            NamedTextColor.BLUE,
+            NamedTextColor.DARK_AQUA,
+            NamedTextColor.DARK_BLUE,
+            NamedTextColor.DARK_GRAY,
+            NamedTextColor.DARK_GREEN,
+            NamedTextColor.DARK_PURPLE,
+            NamedTextColor.DARK_RED,
+            NamedTextColor.GOLD,
+            NamedTextColor.GRAY,
+            NamedTextColor.GREEN,
+            NamedTextColor.LIGHT_PURPLE,
+            NamedTextColor.RED,
+            NamedTextColor.WHITE,
+            NamedTextColor.YELLOW
+    };
     
     @Override
-    public String get() {
-        return COLORS[new Random().nextInt(COLORS.length)];
+    public @Nullable <S extends Source> String supply(
+            ExecutionContext<S> context,
+            CommandParameter<S> parameter
+    ) {
+        int randomIndex = ThreadLocalRandom.current().nextInt(COLORS.length);
+        return COLORS[randomIndex].toString();
     }
-}
-
-public class PlayerNameProvider implements OptionalValueSupplier<String> {
-    @Override
-    public String get() {
-        // Get the name of the player who executed the command
-        return Bukkit.getPlayer(Bukkit.getOnlinePlayers().iterator().next().getUniqueId()).getName();
-    }
+    
 }
 ```
 
@@ -811,6 +828,15 @@ public void kickCommand(BukkitSource source, @Named("player") Player player, @Sw
 - **`@Flag`**: A true flag comes with an input next to it (e.g., `-yourFlag <value-input>`)
 - **`@Switch`**: A flag that gives a `boolean` value determined by its presence in the context (e.g., `-silent`)
 :::
+
+### @Format
+This method defines the format of on a specific parameter when displayed in help messages,
+It is very useful in one known scenario where yoru parameter requires more than one argument to be resolved so you would like it to be formatted into these args instead of 1 argument.
+
+Example: 
+If you have the class `Person` which requires `<name>` and `<age>` as input,
+By default it will be formatted into `<person>` (using the parameter's name), However when placing `@Format("<name> <age>")` it will be formatted into `<name>` and `<age>` to help the users understanding the requirements of executing your command's usage.
+
 
 ## Wildcard Annotations
 

@@ -87,9 +87,28 @@ The `inputStream` allows you to control the parsing flow by advancing through mu
 
 **Note**: Using `@Default` or `@DefaultProvider` annotations will override this method.
 
+### Extra Methods
+There are some extra methods that you can override to enhance your the capabilities of your custom parameter-type.
+
+#### 1. `isGreedy`
+
+This defines Whether the parameter type of your object will consume all the remaining arguments in the `resolve` method, this method helps Imperat's syntax matcher/checker algorithm to make the correct decision when parsing the input by assigning each parameter to its rightful value during execution.
+
+This method returns `false` by default. 
+
+#### 2. `getConsumedArguments`
+This method represents the number of arguments needed to be consumed/used by the method `resolve()` to create and resolve the object instance of your parameter-type.
+Its needed when you have an object that requires more than 1 argument from the input queue to be resolved into an object.
+
+This method helps the syntax/checker detect the right syntax for the input entered.
+Make sure to implement it properly when needed.
+
+
+## Practical example
+
 Now that you understand the core components, let's put them into practice by creating a complete parameter type for our `Arena` class. We'll implement all the important methods and show you exactly how each component works together to create a robust, user-friendly parameter type that handles arena resolution, provides smart suggestions, validates input, and includes proper error handling.
 
-## Step 1: Create the Parameter Type
+### Step 1: Create the Parameter Type
 
 Now let's create a simple arena parameter type:
 
@@ -114,8 +133,9 @@ public final class ArenaParameterType extends BaseParameterType<PlatformSource, 
     }
 
     @Override
-    public boolean matchesInput(String input, CommandParameter<PlatformSource> parameter) {
+    public boolean matchesInput(int rawPosition Context<PlatformSource> context, CommandParameter<PlatformSource> parameter) {
         // Check if input matches an existing arena name
+        String input = context.arguments().get(rawPosition);
         return ArenaManager.getInstance().getArena(input) != null;
     }
 
@@ -139,7 +159,7 @@ public final class ArenaParameterType extends BaseParameterType<PlatformSource, 
 }
 ```
 
-## Step 2: Register Your Parameter Type
+### Step 2: Register Your Parameter Type
 
 Tell Imperat about your custom parameter type by registering it when building your Imperat instance:
 
@@ -151,11 +171,11 @@ BukkitImperat imperat = BukkitImperat.builder(plugin)
 
 For more details on registering parameter types, see [Customizing Imperat](../advanced/Customizing%20Imperat.md#parameter-types).
 
-## Step 3: Use It in Your Commands
+### Step 3: Use It in Your Commands
 
 Now you can use `Arena` as a parameter type in your commands!
 
-### Annotations Example (Recommended):
+#### Annotations Example (Recommended):
 
 ```java
 @Command("arena")
@@ -184,7 +204,7 @@ public final class ArenaCommand {
 }
 ```
 
-### Classic Example:
+#### Classic Example:
 
 ```java
 Command<BukkitSource> arenaCommand = Command.<BukkitSource>create("arena")
@@ -335,7 +355,8 @@ public final class LocationRangeParameterType extends BaseParameterType<BukkitSo
     }
     
     @Override
-    public boolean matchesInput(String input, CommandParameter<BukkitSource> parameter) {
+    public boolean matchesInput(Stint rawPosition, Context<BukkitSource> context, CommandParameter<BukkitSource> parameter) {
+        String input = context.arguments().get(rawPosition);
         // Check if input looks like coordinates (x,y,z format)
         return input.matches("^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$");
     }
