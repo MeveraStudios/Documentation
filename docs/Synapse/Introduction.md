@@ -13,8 +13,26 @@ import LatestVersionBlock from '../../src/components/LatestVersionBlock';
 
 ## ⚡ Installation
 
-Just download the latest version of the plugin depending on the platform and put it in the plugins/mods folder of your platform
-You can always find the latest version of the plugin on here https://github.com/MeveraStudios/Synapse/releases
+The proccess is fairly simple:
+1. Download the latest `synapse-PLATFORM-*.*.jar` from the [Releases](https://github.com/MeveraStudios/Synapse/releases).
+2. Place the JAR file in your server's `plugins/` directory.
+3. Restart your server.
+4. Configure as needed.
+
+## 🏗️ Structure
+Synapse is a collection of ``Neuron``s
+
+A ``Neuron`` is what a plugin registers to add Placeholders
+
+Every ``Neuron`` has it's own ``Namespace``(s)
+
+A namespace is what defines the name(s) of that ``Neuron``!
+  
+The format of placeholders is ``${namespace.placeholder:[args1]:[arg2]:etc..}``
+These arguments can be surrounded by double quotes ("), signle quotes (') and back quotes (`)
+
+So if a Neuron with the namespace ``player`` is registred, and we register a ``health`` placeholder inside of it, this will be the placeholder format:
+``${player.health}``
 
 
 ## 🛠️ For Developers
