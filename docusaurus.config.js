@@ -100,6 +100,11 @@ const config = {
             label: 'Scofi',
           },
           {
+            to: '/Synapse',
+            position: 'left',
+            label: 'Synapse',
+          },
+          {
             href: 'https://github.com/MeveraStudios',
             label: 'GitHub',
             position: 'right',

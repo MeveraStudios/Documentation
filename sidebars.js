@@ -95,6 +95,16 @@ const sidebars = {
       items: [
         'Scofi/Animations'
       ],
+    },
+
+    {
+      type: 'category',
+      label: 'Synapse',
+      link: {
+        type: 'doc',
+        id: 'Synapse/Introduction',
+      },
+      items: []
     }
   ],
 };

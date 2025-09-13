@@ -230,7 +230,7 @@ public class ExampleHelpTheme extends BaseHelpTheme<VelocitySource, Component> {
 You don’t need to set up anything else for basic help.
 
 
-:::TIP
+:::tip
 You can easily customize what usages appear on the help by adding your own filters, by 
 implementing your own `HelpFilter<S>` where `S` is the type of the source of your platform.
 :::

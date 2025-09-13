@@ -11,40 +11,15 @@ designed to be ensure smooth development experience when creating scoreboards us
 ## Installation
 Scofi is hosted on **maven-central**, so no need to add any specific repository.
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import LatestVersionBlock from '../../src/components/LatestVersionBlock';
 
-<Tabs groupId="build-tool-scofi">
-  <TabItem value="maven" label="Maven (pom.xml)" default>
+<LatestVersionBlock 
+    owner="MeveraStudios" 
+    repo="scofi"
+    group="studio.mevera" 
+    id="scofi" 
+/>
 
-  ```xml
-  <dependency>
-    <groupId>studio.mevera</groupId>
-    <artifactId>scofi</artifactId>
-    <version>2.0.0</version>
-  </dependency>
-  ```
-
-  </TabItem>
-  <TabItem value="gradle" label="Gradle (build.gradle)">
-
-  ```groovy
-  dependencies {
-    implementation 'studio.mevera:scofi:2.0.0'
-  }
-  ```
-
-  </TabItem>
-  <TabItem value="gradle-kts" label="Gradle (build.gradle.kts)">
-
-  ```kotlin
-  dependencies {
-    implementation("studio.mevera:scofi:2.0.0")
-  }
-  ```
-
-  </TabItem>
-</Tabs>
 
 ## Integrating Scofi
 To use scofi, you need to initialize a `Scofi` instance in your `onEnable` method.
