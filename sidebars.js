@@ -104,7 +104,9 @@ const sidebars = {
         type: 'doc',
         id: 'Synapse/Introduction',
       },
-      items: []
+      items: [
+        'Synapse/Translation'
+      ],
     }
   ],
 };

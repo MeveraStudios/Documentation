@@ -11,7 +11,7 @@ import LatestVersionBlock from '../../src/components/LatestVersionBlock';
 <img src="/assets/synapse-banner.png" alt="synapse-banner" />
  A powerful, modular placeholder translation system designed for dynamic text processing across multiple platforms.
 
-## ⚡ Installation
+### ⚡ Installation
 
 The proccess is fairly simple:
 1. Download the latest `synapse-PLATFORM-*.*.jar` from the [Releases](https://github.com/MeveraStudios/Synapse/releases).
@@ -19,7 +19,24 @@ The proccess is fairly simple:
 3. Restart your server.
 4. Configure as needed.
 
-## 🏗️ Structure
+### ✨ Features
+#### Core Features
+- 🚀 High Performance: Optimized placeholder resolution with intelligent caching
+- 🔧 Modular Architecture: Clean separation between core logic and platform implementations
+- 🎯 Type Safety: Strongly typed generics ensure compile-time safety
+- ⚡ Async Processing: Non-blocking placeholder resolution with CompletableFuture support
+- 🏗️ Extensible Design: Easy to add new platforms and custom neurons
+- 📝 Rich API: Comprehensive API for both synchronous and asynchronous operations
+- 🏷️ Namespace Management: Organized placeholder categorization and conflict prevention
+- 🔄 Context-Aware Resolution: Placeholders resolved based on user context and environment
+
+#### Advanced Features
+- 🔗 Relational Placeholders: Placeholders that resolve values based on relationships between 2 Users
+- 💾 Intelligent Caching: Built-in caching mechanisms with expiration support
+- 🧪 Comprehensive Testing: Extensive test suite ensuring reliability
+- 🔙 PAPI Backward-Compatibility: In Bukkit you could just call BukkitNeuron#hookToPAPI and we will do the rest
+
+### 🏗️ Structure
 Synapse is a collection of ``Neuron``s
 
 A ``Neuron`` is what a plugin registers to add Placeholders
@@ -34,8 +51,7 @@ These arguments can be surrounded by double quotes ("), signle quotes (') and ba
 So if a Neuron with the namespace ``player`` is registred, and we register a ``health`` placeholder inside of it, this will be the placeholder format:
 ``${player.health}``
 
-
-## 🛠️ For Developers
+### 🛠️ For Developers
 
 Synapse is hosted on **maven-central**, so no need to add any specific repository.
 
