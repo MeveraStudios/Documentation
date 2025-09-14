@@ -183,3 +183,4 @@ synapse.translateAsync("${might.fail}", player)
         return result;
     })
     .thenAccept(player::sendMessage);
+```

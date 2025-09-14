@@ -23,8 +23,8 @@ This is will guide you through the installation step by step.
 ## Repository setup
 Most builds won't require special repository configuration as Imperat artifacts are hosted on **Maven Central**. However, if you need to explicitly declare it:
 
-<Tabs groupId="build-tool-repo">
-  <TabItem value="maven" label="Maven (pom.xml)" default>
+<Tabs groupId="java-build-tools">
+  <TabItem value="maven" label="Maven" default>
     ```xml
     <repositories>
       <repository>
@@ -34,14 +34,14 @@ Most builds won't require special repository configuration as Imperat artifacts 
     </repositories>
     ```
   </TabItem>
-  <TabItem value="gradle" label="Gradle (build.gradle)">
+  <TabItem value="gradle-groovy" label="Gradle (Groovy)">
     ```groovy
     repositories {
       mavenCentral()
     }
     ```
    </TabItem>
-   <TabItem value="gradle-kts" label="Gradle (build.gradle.kts)">
+   <TabItem value="gradle-kotlin" label="Gradle (Kotlin)">
     ```kotlin
     repositories {
       mavenCentral()
@@ -65,8 +65,8 @@ Before adding any platform-specific module, you **must** include the core Impera
 
 Imperat uses parameter names to generate helpful command metadata like usage examples and tab completion suggestions. However, Java doesn't preserve parameter names in the compiled bytecode by default. To enable this feature, you need to configure your build tool to preserve parameter names.
 
-<Tabs groupId="build-tool-params">
-  <TabItem value="maven" label="Maven (pom.xml)" default>
+<Tabs groupId="java-build-tools">
+  <TabItem value="maven" label="Maven" default>
     ```xml
     <build>
       <plugins>
@@ -82,7 +82,7 @@ Imperat uses parameter names to generate helpful command metadata like usage exa
     </build>
     ```
   </TabItem>
-  <TabItem value="gradle" label="Gradle (build.gradle)">
+  <TabItem value="gradle-groovy" label="Gradle (Groovy)">
     ```groovy
     tasks.withType(JavaCompile).configureEach {
         // Preserve parameter names in the bytecode
@@ -90,7 +90,7 @@ Imperat uses parameter names to generate helpful command metadata like usage exa
     }
     ```
   </TabItem>
-  <TabItem value="gradle-kts" label="Gradle (build.gradle.kts)">
+  <TabItem value="gradle-kotlin" label="Gradle (Kotlin)">
     ```kotlin
     tasks.withType<JavaCompile> {
         // Preserve parameter names in the bytecode

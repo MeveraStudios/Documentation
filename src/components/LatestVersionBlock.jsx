@@ -19,7 +19,7 @@ export default function LatestVersionBlock({ owner, repo, group, id }) {
         const kotlin = `implementation("${group}:${id}:${v}")`;
 
         return (
-          <Tabs>
+          <Tabs groupId="java-build-tools">
             <TabItem value="maven" label="Maven">
               <CodeBlock language="xml">{maven}</CodeBlock>
             </TabItem>
