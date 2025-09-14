@@ -105,7 +105,8 @@ const sidebars = {
         id: 'Synapse/Introduction',
       },
       items: [
-        'Synapse/Translation'
+        'Synapse/Translation',
+        'Synapse/Creating-Neurons',
       ],
     }
   ],

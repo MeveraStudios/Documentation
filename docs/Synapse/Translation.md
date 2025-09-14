@@ -7,7 +7,8 @@ sidebar_position: 2
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-#### 1. Obtain Synapse Instance
+## 🪨 Basic Translation
+### Obtaining Synapse Instance
 
 <Tabs groupId="synapse-platforms">
   <TabItem value="bukkit" label="Bukkit/Paper">
@@ -30,7 +31,7 @@ import TabItem from '@theme/TabItem';
   </TabItem>
 </Tabs>
 
-#### 2. Normal String Translation
+### Normal String Translation
 
 <Tabs groupId="synapse-platforms">
   <TabItem value="bukkit" label="Bukkit/Paper">
@@ -68,7 +69,7 @@ import TabItem from '@theme/TabItem';
   </TabItem>
 </Tabs>
 
-#### 3. Relational Translation (Two Users)
+### Relational Translation (Two Users)
 
 When you need placeholders that depend on relationships between two users:
 
@@ -163,7 +164,7 @@ For non-blocking placeholder resolution:
   </TabItem>
 </Tabs>
 
-#### 5. Error Handling
+### Error Handling
 
 ```java
 // Handle null or empty text
@@ -184,3 +185,127 @@ synapse.translateAsync("${might.fail}", player)
     })
     .thenAccept(player::sendMessage);
 ```
+
+## 🎨 Adventure MiniMessage Integration
+
+Synapse provides seamless integration with Adventure's MiniMessage for rich text formatting. All platform implementations automatically support MiniMessage tag resolution.
+
+### Using Synapse with MiniMessage
+
+<Tabs groupId="synapse-platforms">
+  <TabItem value="bukkit" label="Bukkit/Paper">
+
+```java
+// Get the MiniMessage instance with Synapse placeholders
+MiniMessage miniMessage = MiniMessage.builder()
+    .tags(TagResolver.resolver(
+        TagResolver.standard(),
+        BukkitSynapse.get().asTagResolver()
+    ))
+    .build();
+
+// Parse text with both placeholders and MiniMessage formatting
+Component component = miniMessage.deserialize(
+    "<gold>Hello <player_name>! You have <green><player_balance></green> coins!",
+    Audience.audience(player)
+);
+
+// Send to player
+player.sendMessage(component);
+```
+
+  </TabItem>
+  <TabItem value="bungee" label="BungeeCord">
+
+```java
+// Get the MiniMessage instance with Synapse placeholders  
+MiniMessage miniMessage = MiniMessage.builder()
+    .tags(TagResolver.resolver(
+        TagResolver.standard(),
+        BungeeSynapse.get().asTagResolver()
+    ))
+    .build();
+
+// Parse and send
+Component component = miniMessage.deserialize(
+    "<yellow>Welcome to <server_name>! Online: <blue><server_online></blue>",
+    Audience.audience(player)
+);
+
+player.sendMessage(component);
+```
+
+  </TabItem>
+  <TabItem value="velocity" label="Velocity">
+
+```java
+// Get the MiniMessage instance with Synapse placeholders
+MiniMessage miniMessage = MiniMessage.builder()
+    .tags(TagResolver.resolver(
+        TagResolver.standard(), 
+        VelocitySynapse.get().asTagResolver()
+    ))
+    .build();
+
+// Parse and send
+Component component = miniMessage.deserialize(
+    "<gradient:blue:purple>Hello <player_name>!</gradient> Server: <server_name>",
+    Audience.audience(player)
+);
+
+player.sendMessage(component);
+```
+
+  </TabItem>
+</Tabs>
+
+### Tag Format Differences
+
+When using Synapse with MiniMessage, placeholders use **underscore notation** instead of dot notation:
+
+- **Traditional Synapse**: `${player.name}` 
+- **MiniMessage Tags**: `<player_name>`
+
+The namespace and placeholder name are joined with underscores, and empty namespaces work as expected:
+
+```java
+// Neuron with namespace "player"
+register("balance", context -> getBalance(context.user()));
+// Usage: <player_balance>
+
+// Neuron with empty namespace ""  
+register("server_name", () -> getServerName());
+// Usage: <server_name>
+```
+
+### Advanced MiniMessage Features
+
+**Placeholders with Arguments:**
+```java
+// Register placeholder that accepts arguments
+register("top_player", context -> {
+    String[] args = context.arguments();
+    int position = args.length > 0 ? Integer.parseInt(args[0]) : 1;
+    return getTopPlayer(position);
+});
+
+// Usage in MiniMessage
+Component msg = miniMessage.deserialize(
+    "Top player: <yellow><top_player:1></yellow>",
+    Audience.audience(player)
+);
+```
+
+**Combining with Other Tag Resolvers:**
+```java
+MiniMessage miniMessage = MiniMessage.builder()
+    .tags(TagResolver.resolver(
+        TagResolver.standard(),
+        BukkitSynapse.get().asTagResolver(),
+        Placeholder.parsed("custom", "Custom Value"),
+        // Other custom resolvers...
+    ))
+    .build();
+```
+
+This integration allows you to leverage the full power of MiniMessage's formatting capabilities while seamlessly incorporating dynamic placeholder values from Synapse!

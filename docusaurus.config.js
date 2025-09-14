@@ -133,6 +133,10 @@ const config = {
                 label: 'Scofi',
                 to: '/Scofi',
               },
+              {
+                label: 'Synapse',
+                to: '/Synapse',
+              },
             ],
           },
           {
