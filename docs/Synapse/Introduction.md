@@ -56,11 +56,17 @@ So if a Neuron with the namespace ``player`` is registred, and we register a ``h
 Synapse is hosted on **maven-central**, so no need to add any specific repository.
 
 <Tabs groupId="synapse-platforms">
-  <TabItem value="bukkit" label="Bukkit/Paper">
-  
-  The Synapse class in this is case is: ``BukkitSynapse``
-
-  And of course the Neuron class will be ``BukkitNeuron``
+  <TabItem 
+    value="bukkit" 
+    label={
+      <>
+        <img src="/assets/bukkit.png" alt="Bukkit Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Bukkit
+      </>
+    }
+  >
+  - The Synapse class in this is case is: ``BukkitSynapse``
+  - And of course the Neuron class will be ``BukkitNeuron``
     <LatestVersionBlock 
       owner="MeveraStudios" 
       repo="Synapse" 
@@ -68,11 +74,17 @@ Synapse is hosted on **maven-central**, so no need to add any specific repositor
       id="synapse-bukkit" 
     />
   </TabItem>
-  <TabItem value="bungee" label="BungeeCord">
-  
-  The Synapse class in this is case is: ``BungeeSynapse``
-
-  And of course the Neuron class will be ``BungeeNeuron``
+  <TabItem 
+    value="bungee" 
+    label={
+      <>
+        <img src="/assets/bungeecord.png" alt="BungeeCord Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 4 }} />
+        BungeeCord
+      </>
+    }
+  >
+  - The Synapse class in this is case is: ``BungeeSynapse``
+  - And of course the Neuron class will be ``BungeeNeuron``
     <LatestVersionBlock 
       owner="MeveraStudios" 
       repo="Synapse" 
@@ -80,11 +92,17 @@ Synapse is hosted on **maven-central**, so no need to add any specific repositor
       id="synapse-bungee" 
     />
   </TabItem>
-  <TabItem value="velocity" label="Velocity">
-  
-  The Synapse class in this is case is: ``VelocitySynapse``
-
-  And of course the Neuron class will be ``VelocityNeuron``
+  <TabItem 
+    value="velocity" 
+    label={
+      <>
+        <img src="/assets/velocity_logo.svg" alt="Velocity Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Velocity
+      </>
+    }
+  >
+  - The Synapse class in this is case is: ``VelocitySynapse``
+  - And of course the Neuron class will be ``VelocityNeuron``
     <LatestVersionBlock 
       owner="MeveraStudios" 
       repo="Synapse" 
