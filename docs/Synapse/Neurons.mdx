@@ -160,22 +160,30 @@ public class PlayerNeuron extends BukkitNeuron {
     public PlayerNeuron(Plugin plugin) {
         super(plugin, Namespace.of("player"));
         
-        // Basic contextual placeholder
+        // Basic contextual placeholder - works with any CommandSender
         register("name", context -> context.user().getName());
+        
+        // Player-specific placeholder using requirePlayer()
+        register("health", context -> {
+            Player player = context.user().requirePlayer();
+            return String.format("%.1f", player.getHealth());
+        });
         
         // Placeholder with argument handling
         register("stats", context -> {
+            Player player = context.user().requirePlayer();
             String[] args = context.arguments();
             if (args.length > 0) {
                 Statistic stat = Statistic.valueOf(args[0].toUpperCase());
-                return String.valueOf(context.user().origin().getStatistic(stat));
+                return String.valueOf(player.getStatistic(stat));
             }
             return "No statistic specified";
         });
         
         // Location-based placeholder
         register("world", context -> {
-            Location loc = context.user().origin().getLocation();
+            Player player = context.user().requirePlayer();
+            Location loc = player.getLocation();
             return loc.getWorld().getName();
         });
     }
@@ -186,6 +194,9 @@ public class PlayerNeuron extends BukkitNeuron {
 ```java
 String name = synapse.translate("Hello ${player.name}!", player);
 // Result: "Hello Steve!"
+
+String health = synapse.translate("Health: ${player.health}", player);
+// Result: "Health: 20.0"
 
 String stat = synapse.translate("Deaths: ${player.stats:DEATHS}", player);
 // Result: "Deaths: 5"
@@ -208,12 +219,23 @@ public class RelationNeuron extends BukkitNeuron {
             return name1.equals(name2) ? "yes" : "no";
         });
         
-        // Distance between players
+        // Distance between players - requires both to be players
         registerRelational("distance", context -> {
-            Location loc1 = context.user().origin().getLocation();
-            Location loc2 = context.other().origin().getLocation();
+            Player player1 = context.user().requirePlayer();
+            Player player2 = context.other().requirePlayer();
+            
+            Location loc1 = player1.getLocation();
+            Location loc2 = player2.getLocation();
             double distance = loc1.distance(loc2);
             return String.format("%.2f", distance);
+        });
+        
+        // Mixed example - check if users are in same world
+        registerRelational("same_world", context -> {
+            Player player1 = context.user().requirePlayer();
+            Player player2 = context.other().requirePlayer();
+            
+            return player1.getWorld().equals(player2.getWorld()) ? "yes" : "no";
         });
     }
 }
@@ -227,7 +249,9 @@ String same = synapse.translate("Same name: ${rel.same_name}", player1, player2)
 String distance = synapse.translate("Distance: ${rel.distance} blocks", player1, player2);
 // Result: "Distance: 15.67 blocks"
 ```
+
 ## Advanced Placeholder Options
+
 ### Static Placeholder Options
 
 Static placeholders support refresh and async options:
@@ -434,8 +458,8 @@ public class PAPICompatibleNeuron extends BukkitNeuron {
     
     private void registerPlaceholders() {
         register("player_balance", context -> {
-            // Your placeholder logic here
-            return getBalance(context.user().origin());
+            Player player = context.user().requirePlayer();
+            return String.valueOf(getBalance(player));
         });
     }
 }
@@ -474,7 +498,8 @@ public class ServerInfoNeuron extends BukkitNeuron {
         
         // Contextual placeholders
         register("player_world", context -> {
-            World world = context.user().origin().getWorld();
+            Player player = context.user().requirePlayer();
+            World world = player.getWorld();
             return world != null ? world.getName() : "unknown";
         });
         
@@ -485,24 +510,27 @@ public class ServerInfoNeuron extends BukkitNeuron {
             options.cache(true);
             options.cacheTTL(10, TimeUnit.SECONDS);
         });
+
+        // Placeholder with arguments - using method reference for cleaner code
+        register("world_info", this::getWorldInfo);
+    }
+    
+    private String getWorldInfo(Context<BukkitUser> context) {
+        String[] args = context.arguments();
+        if (args.length == 0) {
+            return "Specify: players, entities, or chunks";
+        }
         
-        // Placeholder with arguments
-        register("world_info", context -> {
-            String[] args = context.arguments();
-            if (args.length == 0) {
-                return "Specify: players, entities, or chunks";
-            }
-            
-            World world = context.user().origin().getWorld();
-            if (world == null) return "No world";
-            
-            return switch (args[0].toLowerCase()) {
-                case "players" -> String.valueOf(world.getPlayers().size());
-                case "entities" -> String.valueOf(world.getEntities().size());
-                case "chunks" -> String.valueOf(world.getLoadedChunks().length);
-                default -> "Invalid option: " + args[0];
-            };
-        });
+        Player player = context.user().requirePlayer();
+        World world = player.getWorld();
+        if (world == null) return "No world";
+        
+        return switch (args[0].toLowerCase()) {
+            case "players" -> String.valueOf(world.getPlayers().size());
+            case "entities" -> String.valueOf(world.getEntities().size());
+            case "chunks" -> String.valueOf(world.getLoadedChunks().length);
+            default -> "Invalid option: " + args[0];
+        };
     }
 }
 ```
