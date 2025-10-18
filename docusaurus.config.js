@@ -173,8 +173,8 @@ const config = {
       },
       algolia: {
         appId: '60D19IKM2J',
-        apiKey: '84d1524809ed9f3f2f92d2a88571ed7b',
-        indexName: 'velix',
+        apiKey: '63bbb535a48bf9ffd55646b4e15f510a',
+        indexName: 'mevera',
       }
     }),
 };
