@@ -65,14 +65,24 @@ Synapse is hosted on **maven-central**, so no need to add any specific repositor
       </>
     }
   >
-  - The Synapse class in this is case is: ``BukkitSynapse``
-  - And of course the Neuron class will be ``BukkitNeuron``
+  • First of all, we add it to our ``plugin.yml``
+    ```yaml
+    name: "ExamplePlugin"
+    version: 1.0.0
+    main: com.example.Plugin
+    softdepend:
+    - Synapse
+    ```
+  • And then to our build tool!
     <LatestVersionBlock 
       owner="MeveraStudios" 
       repo="Synapse" 
       group="studio.mevera" 
       id="synapse-bukkit" 
     />
+  • The Synapse class in this is case is: ``BukkitSynapse``
+
+  • And of course the Neuron class will be ``BukkitNeuron``
   </TabItem>
   <TabItem 
     value="bungee" 
@@ -83,14 +93,24 @@ Synapse is hosted on **maven-central**, so no need to add any specific repositor
       </>
     }
   >
-  - The Synapse class in this is case is: ``BungeeSynapse``
-  - And of course the Neuron class will be ``BungeeNeuron``
+  • First of all, we add it to our ``plugin.yml``/``bungee.yml``
+    ```yaml
+    name: "ExamplePlugin"
+    version: 1.0.0
+    main: com.example.Plugin
+    softdepend:
+    - Synapse
+    ```
+  • And then to our build tool!
     <LatestVersionBlock 
       owner="MeveraStudios" 
       repo="Synapse" 
       group="studio.mevera" 
       id="synapse-bungee" 
     />
+  • The Synapse class in this is case is: ``BungeeSynapse``
+
+  • And of course the Neuron class will be ``BungeeNeuron``
   </TabItem>
   <TabItem 
     value="velocity" 
@@ -101,13 +121,27 @@ Synapse is hosted on **maven-central**, so no need to add any specific repositor
       </>
     }
   >
-  - The Synapse class in this is case is: ``VelocitySynapse``
-  - And of course the Neuron class will be ``VelocityNeuron``
+
+  • First of all, we add it to our ``@Plugin`` dependencies
+  ```java
+  @Plugin(
+    id = "myfirstplugin",
+    name = "My Plugin",
+    version = "0.1.0",
+    dependencies = {
+      @Dependency(id = "synapse", optional = true)
+    }
+  )
+  ```
+  • And then to our build tool!
     <LatestVersionBlock 
       owner="MeveraStudios" 
       repo="Synapse" 
       group="studio.mevera" 
       id="synapse-velocity" 
     />
+  • The Synapse class in this is case is: ``VelocitySynapse``
+  
+  • And of course the Neuron class will be ``VelocityNeuron``
   </TabItem>
 </Tabs>
