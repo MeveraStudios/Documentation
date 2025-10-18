@@ -90,8 +90,7 @@ After creating your neuron, register it with Synapse:
 ```java
 @Override
 public void onEnable() {
-    BukkitSynapse synapse = BukkitSynapse.get();
-    synapse.registerNeuron(new MyCustomNeuron(this));
+    new MyCustomNeuron(this).register();
 }
 ```
 
@@ -101,8 +100,7 @@ public void onEnable() {
 ```java
 @Override
 public void onEnable() {
-    BungeeSynapse synapse = BungeeSynapse.get();
-    synapse.registerNeuron(new MyCustomNeuron(this));
+    new MyCustomNeuron(this).register();
 }
 ```
 
@@ -112,8 +110,7 @@ public void onEnable() {
 ```java
 @Subscribe
 public void onProxyInitialization(ProxyInitializeEvent event) {
-    VelocitySynapse synapse = VelocitySynapse.get();
-    synapse.registerNeuron(new MyCustomNeuron(pluginContainer));
+    new MyCustomNeuron(this).register();
 }
 ```
 
