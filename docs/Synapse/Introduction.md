@@ -13,7 +13,7 @@ import LatestVersionBlock from '../../src/components/LatestVersionBlock';
 
 ### ⚡ Installation
 
-The proccess is fairly simple:
+The process is fairly simple:
 1. Download the latest `synapse-PLATFORM-*.*.jar` from the [Releases](https://github.com/MeveraStudios/Synapse/releases).
 2. Place the JAR file in your server's `plugins/` directory.
 3. Restart your server.
@@ -34,7 +34,7 @@ The proccess is fairly simple:
 - 🔗 Relational Placeholders: Placeholders that resolve values based on relationships between 2 Users
 - 💾 Intelligent Caching: Built-in caching mechanisms with expiration support
 - 🧪 Comprehensive Testing: Extensive test suite ensuring reliability
-- 🔙 PAPI Backward-Compatibility: In Bukkit you could just call BukkitNeuron#hookToPAPI and we will do the rest
+- 🔙 PAPI Backward-Compatibility: In Bukkit, you can simply call BukkitNeuron#hookToPAPI and we will do the rest
 
 ### 🏗️ Structure
 Synapse is a collection of ``Neuron``s
@@ -46,9 +46,9 @@ Every ``Neuron`` has it's own ``Namespace``(s)
 A namespace is what defines the name(s) of that ``Neuron``!
   
 The format of placeholders is ``${namespace.placeholder:[args1]:[arg2]:etc..}``
-These arguments can be surrounded by double quotes ("), signle quotes (') and back quotes (`)
+These arguments can be surrounded by double quotes ("), single quotes (') and back quotes (`)
 
-So if a Neuron with the namespace ``player`` is registred, and we register a ``health`` placeholder inside of it, this will be the placeholder format:
+So if a Neuron with the namespace ``player`` is registered, and we register a ``health`` placeholder inside of it, this will be the placeholder format:
 ``${player.health}``
 
 ### 🛠️ For Developers

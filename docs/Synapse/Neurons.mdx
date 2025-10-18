@@ -12,6 +12,7 @@ import TabItem from '@theme/TabItem';
 
 Neurons are the core components of Synapse that process and resolve placeholders. This guide covers everything you need to know about creating custom neurons and registering different types of placeholders.
 
+---
 ## Understanding Neurons
 
 A **Neuron** is a platform-specific placeholder processor that:
@@ -117,6 +118,7 @@ public void onProxyInitialization(ProxyInitializeEvent event) {
   </TabItem>
 </Tabs>
 
+---
 ## Types of Placeholders
 
 ### 1. Static Placeholders
@@ -250,6 +252,7 @@ String distance = synapse.translate("Distance: ${rel.distance} blocks", player1,
 // Result: "Distance: 15.67 blocks"
 ```
 
+---
 ## Advanced Placeholder Options
 
 ### Static Placeholder Options
@@ -324,6 +327,7 @@ registerRelational("friendship_level", context -> {
 - Different user pairs create separate cache entries
 - Expensive relationship calculations benefit most from caching
 
+---
 ## Option Usage Examples
 
 ### Performance Optimization Scenarios
@@ -441,6 +445,7 @@ public class RootNeuron extends BukkitNeuron {
 }
 ```
 
+---
 ## PlaceholderAPI Integration (Bukkit Only)
 
 For Bukkit, you can easily integrate with PlaceholderAPI:
@@ -465,6 +470,7 @@ public class PAPICompatibleNeuron extends BukkitNeuron {
 }
 ```
 
+---
 ## Complete Working Example
 
 Here's a complete example of a feature-rich neuron:
@@ -540,3 +546,46 @@ This neuron provides placeholders like:
 - `${server.online}` - Online player count (cached)
 - `${server.player_world}` - Current player's world
 - `${server.world_info:players}` - Players in current world
+
+## 🔧 Troubleshooting
+
+### Placeholder Not Resolving
+
+**Problem:** `${custom.placeholder}` returns unchanged
+
+**Solutions:**
+1. Verify the neuron is registered: `new MyNeuron(this).register();`
+2. Check namespace spelling matches exactly
+3. Ensure placeholder is registered in the neuron
+4. Check server logs for registration errors
+
+### Player-Only Placeholder Fails with Console
+
+**Problem:** Exception when console uses player-specific placeholder
+
+**Solution:** Use `requirePlayer()` - it handles the error automatically:
+```java
+register("health", context -> {
+    Player player = context.user().requirePlayer(); // Throws exception if not player
+    return String.format("%.1f", player.getHealth());
+});
+```
+
+### Placeholder Returns Stale Data
+
+**Problem:** Cached placeholder shows old value
+
+**Solutions:**
+1. Reduce cache TTL: `options.cacheTTL(30, TimeUnit.SECONDS);`
+2. Disable caching: `options.cache(false);`
+3. Use refresh for static placeholders: `options.refresh(true);`
+
+### Async Placeholder Blocking Server
+
+**Problem:** Server freezes when translating
+
+**Solution:** Use `translateAsync()` for expensive operations:
+```java
+synapse.translateAsync("${database.query}", player)
+    .thenAccept(player::sendMessage);
+```

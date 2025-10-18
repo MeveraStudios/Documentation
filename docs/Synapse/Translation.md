@@ -7,6 +7,29 @@ sidebar_position: 2
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
+---
+## 📝 Placeholder Syntax
+
+Synapse uses a flexible placeholder format:
+```
+${namespace.placeholder}
+${namespace.placeholder:arg1}
+${namespace.placeholder:arg1:arg2}
+${namespace.placeholder:"quoted arg":arg2}
+```
+
+**Examples:**
+- `${player.name}` - Simple placeholder
+- `${player.stats:DEATHS}` - With argument
+- `${server.world_info:players}` - Named argument
+- `${custom.message:"Hello World"}` - Quoted argument
+
+**Argument Quoting:**
+Arguments can be surrounded by:
+- Double quotes: `"argument"`
+- Single quotes: `'argument'`
+- Back quotes: `` `argument` ``
+---
 ## 🪨 Basic Translation
 ### Obtaining Synapse Instance
 
@@ -309,3 +332,21 @@ MiniMessage miniMessage = MiniMessage.builder()
 ```
 
 This integration allows you to leverage the full power of MiniMessage's formatting capabilities while seamlessly incorporating dynamic placeholder values from Synapse!
+
+---
+## 💡 Best Practices
+
+### Performance
+- Use `translateAsync()` for expensive operations (database queries, API calls)
+- Cache frequently-used translations if possible
+- Avoid translating in tight loops
+
+### Error Handling
+- Always handle `CompletableFuture` exceptions in async operations
+- Check for null/empty strings before translating
+- Invalid placeholders return unchanged - validate your placeholder names
+
+### User Experience
+- Provide fallback messages for failed translations
+- Consider using placeholder defaults for optional data
+- Test placeholders with different user contexts (players, console, etc.)
