@@ -107,6 +107,17 @@ const sidebars = {
       items: [
         'Synapse/Translation',
         'Synapse/Creating-Neurons',
+        {
+          type: 'category',
+          label: 'Placeholders',
+          items: [
+            'Synapse/Placeholders/Static-Placeholders',
+            'Synapse/Placeholders/Contextual-Placeholders',
+            'Synapse/Placeholders/Relational-Placeholders',
+          ],
+        },
+        'Synapse/Examples',
+        'Synapse/Troubleshooting',
       ],
     }
   ],
