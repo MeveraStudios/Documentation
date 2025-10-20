@@ -116,6 +116,7 @@ const sidebars = {
             'Synapse/Placeholders/Relational-Placeholders',
           ],
         },
+        'Synapse/Type-Handlers',
         'Synapse/Examples',
         'Synapse/Troubleshooting',
       ],
