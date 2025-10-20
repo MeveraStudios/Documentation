@@ -28,13 +28,13 @@ public class ServerInfoNeuron extends BukkitNeuron {
         register("bukkit_version", () -> Bukkit.getBukkitVersion());
         
         // Dynamic placeholders with caching
-        register("online", () -> String.valueOf(Bukkit.getOnlinePlayers().size()),
+        register("online", () -> Bukkit.getOnlinePlayers().size(),
             options -> {
                 options.cache(true);
                 options.cacheTTL(5, TimeUnit.SECONDS);
             });
         
-        register("max_players", () -> String.valueOf(Bukkit.getMaxPlayers()));
+        register("max_players", () -> Bukkit.getMaxPlayers());
         
         // Contextual placeholders
         register("player_world", context -> {
@@ -55,7 +55,7 @@ public class ServerInfoNeuron extends BukkitNeuron {
         register("world_info", this::getWorldInfo);
     }
     
-    private String getWorldInfo(Context<BukkitUser> context) {
+    private Object getWorldInfo(Context<BukkitUser> context) {
         String[] args = context.arguments();
         if (args.length == 0) {
             return "Specify: players, entities, or chunks";
@@ -66,9 +66,9 @@ public class ServerInfoNeuron extends BukkitNeuron {
         if (world == null) return "No world";
         
         return switch (args[0].toLowerCase()) {
-            case "players" -> String.valueOf(world.getPlayers().size());
-            case "entities" -> String.valueOf(world.getEntities().size());
-            case "chunks" -> String.valueOf(world.getLoadedChunks().length);
+            case "players" -> world.getPlayers().size();
+            case "entities" -> world.getEntities().size();
+            case "chunks" -> world.getLoadedChunks().length;
             default -> "Invalid option: " + args[0];
         };
     }

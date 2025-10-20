@@ -21,6 +21,32 @@ A **Neuron** is a platform-specific placeholder processor that:
 - Provides context-aware placeholder processing
 - Supports both synchronous and asynchronous operations
 
+## Namespace Management
+Namespaces help organize placeholders and avoid naming conflicts. When creating a neuron, you can define one or more namespaces that it will handle.
+
+### Single Namespace
+
+```java
+public class SimpleNeuron extends BukkitNeuron {
+    public SimpleNeuron(Plugin plugin) {
+        super(plugin, Namespace.of("simple"));
+        // Accessible as: ${simple.placeholder}
+    }
+}
+```
+
+### Multiple Namespaces
+
+```java
+public class MultiNeuron extends BukkitNeuron {
+    public MultiNeuron(Plugin plugin) {
+        super(plugin, Namespace.of("multi", "m", "multiple"));
+        // Accessible as: ${multi.placeholder}, ${m.placeholder}, or ${multiple.placeholder}
+    }
+}
+```
+
+---
 ## Creating Your First Neuron
 
 <Tabs groupId="synapse-platforms">
@@ -117,42 +143,6 @@ public void onProxyInitialization(ProxyInitializeEvent event) {
 
   </TabItem>
 </Tabs>
-
----
-## Namespace Management
-
-### Single Namespace
-
-```java
-public class SimpleNeuron extends BukkitNeuron {
-    public SimpleNeuron(Plugin plugin) {
-        super(plugin, Namespace.of("simple"));
-        // Accessible as: ${simple.placeholder}
-    }
-}
-```
-
-### Multiple Namespaces
-
-```java
-public class MultiNeuron extends BukkitNeuron {
-    public MultiNeuron(Plugin plugin) {
-        super(plugin, Namespace.of("multi", "m", "multiple"));
-        // Accessible as: ${multi.placeholder}, ${m.placeholder}, or ${multiple.placeholder}
-    }
-}
-```
-
-### Empty Namespace (Root Level)
-
-```java
-public class RootNeuron extends BukkitNeuron {
-    public RootNeuron(Plugin plugin) {
-        super(plugin, Namespace.of(""));
-        // Accessible as: ${placeholder} (no namespace prefix)
-    }
-}
-```
 
 ---
 ## PlaceholderAPI Integration (Bukkit Only)
