@@ -106,7 +106,7 @@ const sidebars = {
       },
       items: [
         'Synapse/Translation',
-        'Synapse/Creating-Neurons',
+        'Synapse/Neurons',
         {
           type: 'category',
           label: 'Placeholders',
