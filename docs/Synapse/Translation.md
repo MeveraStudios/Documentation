@@ -34,19 +34,57 @@ Arguments can be surrounded by:
 ### Obtaining Synapse Instance
 
 <Tabs groupId="synapse-platforms">
-  <TabItem value="bukkit" label="Bukkit/Paper">
+  <TabItem 
+    value="hytale" 
+    label={
+      <>
+        <img src="/assets/hytale.png" alt="Hytale Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Hytale
+      </>
+    }
+  >
+    For Hytale:
+        ```java
+        HytaleSynapse synapse = HytaleSynapse.get();
+        ```
+  </TabItem>
+  <TabItem 
+    value="bukkit" 
+    label={
+      <>
+        <img src="/assets/bukkit.png" alt="Bukkit Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Bukkit/Paper
+      </>
+    }
+  >
     For Bukkit:
         ```java
         BukkitSynapse synapse = BukkitSynapse.get();
         ```
   </TabItem>
-  <TabItem value="bungee" label="BungeeCord">
+  <TabItem 
+    value="bungee" 
+    label={
+      <>
+        <img src="/assets/bungeecord.png" alt="BungeeCord Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 4 }} />
+        BungeeCord
+      </>
+    }
+  >
     For Bungee:
         ```java
         BungeeSynapse synapse = BungeeSynapse.get();
         ```
   </TabItem>
-  <TabItem value="velocity" label="Velocity">
+  <TabItem 
+    value="velocity" 
+    label={
+      <>
+        <img src="/assets/velocity_logo.svg" alt="Velocity Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Velocity
+      </>
+    }
+  >
     For Velocity:
         ```java
         VelocitySynapse synapse = VelocitySynapse.get();
@@ -57,7 +95,36 @@ Arguments can be surrounded by:
 ### Normal String Translation
 
 <Tabs groupId="synapse-platforms">
-  <TabItem value="bukkit" label="Bukkit/Paper">
+  <TabItem 
+    value="hytale" 
+    label={
+      <>
+        <img src="/assets/hytale.png" alt="Hytale Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Hytale
+      </>
+    }
+  >
+    ```java
+    // Using a User object
+    HytaleUser user = synapse.asUser(player);
+    String result = synapse.translate("Hello ${player.name}!", user);
+    
+    // Using origin object directly
+    String result = synapse.translate("Hello ${player.name}!", player);
+    
+    // With multiple placeholders
+    String message = synapse.translate("${player.name} has ${player.health} health in ${player.world}", player);
+    ```
+  </TabItem>
+  <TabItem 
+    value="bukkit" 
+    label={
+      <>
+        <img src="/assets/bukkit.png" alt="Bukkit Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Bukkit/Paper
+      </>
+    }
+  >
     ```java
     // Using a User object
     BukkitUser user = synapse.asUser(player);
@@ -70,7 +137,15 @@ Arguments can be surrounded by:
     String message = synapse.translate("${player.name} has ${player.health} health in ${player.world}", player);
     ```
   </TabItem>
-  <TabItem value="bungee" label="BungeeCord">
+  <TabItem 
+    value="bungee" 
+    label={
+      <>
+        <img src="/assets/bungeecord.png" alt="BungeeCord Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 4 }} />
+        BungeeCord
+      </>
+    }
+  >
     ```java
     // Using a User object
     BungeeUser user = synapse.asUser(proxiedPlayer);
@@ -80,7 +155,15 @@ Arguments can be surrounded by:
     String result = synapse.translate("Hello ${player.name}!", proxiedPlayer);
     ```
   </TabItem>
-  <TabItem value="velocity" label="Velocity">
+  <TabItem 
+    value="velocity" 
+    label={
+      <>
+        <img src="/assets/velocity_logo.svg" alt="Velocity Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Velocity
+      </>
+    }
+  >
     ```java
     // Using a User object
     VelocityUser user = synapse.asUser(player);
@@ -97,7 +180,37 @@ Arguments can be surrounded by:
 When you need placeholders that depend on relationships between two users:
 
 <Tabs groupId="synapse-platforms">
-  <TabItem value="bukkit" label="Bukkit/Paper">
+  <TabItem 
+    value="hytale" 
+    label={
+      <>
+        <img src="/assets/hytale.png" alt="Hytale Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Hytale
+      </>
+    }
+  >
+    ```java
+    // Compare two players
+    String comparison = synapse.translate("${compare.distance} blocks apart", player1, player2);
+    
+    // Using origin objects directly
+    String result = synapse.translate("${compare.isSame}", player1, player2);
+    
+    // Using User objects
+    HytaleUser user1 = synapse.asUser(player1);
+    HytaleUser user2 = synapse.asUser(player2);
+    String result = synapse.translate("${compare.level}", user1, user2);
+    ```
+  </TabItem>
+  <TabItem 
+    value="bukkit" 
+    label={
+      <>
+        <img src="/assets/bukkit.png" alt="Bukkit Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Bukkit/Paper
+      </>
+    }
+  >
     ```java
     // Compare two players
     String comparison = synapse.translate("${compare.distance} blocks apart", player1, player2);
@@ -111,7 +224,15 @@ When you need placeholders that depend on relationships between two users:
     String result = synapse.translate("${compare.level}", user1, user2);
     ```
   </TabItem>
-  <TabItem value="bungee" label="BungeeCord">
+  <TabItem 
+    value="bungee" 
+    label={
+      <>
+        <img src="/assets/bungeecord.png" alt="BungeeCord Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 4 }} />
+        BungeeCord
+      </>
+    }
+  >
     ```java
     // Compare two proxied players
     String comparison = synapse.translate("${compare.server}", player1, player2);
@@ -122,7 +243,15 @@ When you need placeholders that depend on relationships between two users:
     String result = synapse.translate("${compare.ping}", user1, user2);
     ```
   </TabItem>
-  <TabItem value="velocity" label="Velocity">
+  <TabItem 
+    value="velocity" 
+    label={
+      <>
+        <img src="/assets/velocity_logo.svg" alt="Velocity Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Velocity
+      </>
+    }
+  >
     ```java
     // Compare two velocity players
     String comparison = synapse.translate("${compare.server}", player1, player2);
@@ -140,7 +269,15 @@ When you need placeholders that depend on relationships between two users:
 For non-blocking placeholder resolution:
 
 <Tabs groupId="synapse-platforms">
-  <TabItem value="bukkit" label="Bukkit/Paper">
+  <TabItem 
+    value="hytale" 
+    label={
+      <>
+        <img src="/assets/hytale.png" alt="Hytale Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Hytale
+      </>
+    }
+  >
     ```java
     // Simple async translation
     synapse.translateAsync("Loading ${database.players} players...", player)
@@ -163,7 +300,46 @@ For non-blocking placeholder resolution:
         });
     ```
   </TabItem>
-  <TabItem value="bungee" label="BungeeCord">
+  <TabItem 
+    value="bukkit" 
+    label={
+      <>
+        <img src="/assets/bukkit.png" alt="Bukkit Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Bukkit/Paper
+      </>
+    }
+  >
+    ```java
+    // Simple async translation
+    synapse.translateAsync("Loading ${database.players} players...", player)
+        .thenAccept(result -> player.sendMessage(result))
+        .exceptionally(throwable -> {
+            player.sendMessage("Failed to load: " + throwable.getMessage());
+            return null;
+        });
+    
+    // With custom executor
+    Executor customExecutor = Executors.newFixedThreadPool(4);
+    synapse.translateAsync("${expensive.calculation}", player, customExecutor)
+        .thenAccept(player::sendMessage);
+    
+    // Async relational translation
+    synapse.translateAsync("${compare.stats}", player1, player2)
+        .thenAccept(result -> {
+            player1.sendMessage(result);
+            player2.sendMessage(result);
+        });
+    ```
+  </TabItem>
+  <TabItem 
+    value="bungee" 
+    label={
+      <>
+        <img src="/assets/bungeecord.png" alt="BungeeCord Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 4 }} />
+        BungeeCord
+      </>
+    }
+  >
     ```java
     // Simple async translation
     synapse.translateAsync("Server status: ${server.status}", player)
@@ -174,7 +350,15 @@ For non-blocking placeholder resolution:
         .thenAccept(result -> player.sendMessage(new TextComponent(result)));
     ```
   </TabItem>
-  <TabItem value="velocity" label="Velocity">
+  <TabItem 
+    value="velocity" 
+    label={
+      <>
+        <img src="/assets/velocity_logo.svg" alt="Velocity Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Velocity
+      </>
+    }
+  >
     ```java
     // Simple async translation
     synapse.translateAsync("Network info: ${network.players}", player)
@@ -211,12 +395,20 @@ synapse.translateAsync("${might.fail}", player)
 
 ## 🎨 Adventure MiniMessage Integration
 
-Synapse provides seamless integration with Adventure's MiniMessage for rich text formatting. All platform implementations automatically support MiniMessage tag resolution.
+Synapse provides seamless integration with Adventure's MiniMessage for rich text formatting. Platform implementations that support Adventure automatically provide MiniMessage tag resolution.
 
 ### Using Synapse with MiniMessage
 
 <Tabs groupId="synapse-platforms">
-  <TabItem value="bukkit" label="Bukkit/Paper">
+  <TabItem 
+    value="bukkit" 
+    label={
+      <>
+        <img src="/assets/bukkit.png" alt="Bukkit Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Bukkit/Paper
+      </>
+    }
+  >
 
 ```java
 // Get the MiniMessage instance with Synapse placeholders
@@ -238,7 +430,15 @@ player.sendMessage(component);
 ```
 
   </TabItem>
-  <TabItem value="bungee" label="BungeeCord">
+  <TabItem 
+    value="bungee" 
+    label={
+      <>
+        <img src="/assets/bungeecord.png" alt="BungeeCord Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 4 }} />
+        BungeeCord
+      </>
+    }
+  >
 
 ```java
 // Get the MiniMessage instance with Synapse placeholders  
@@ -259,7 +459,15 @@ player.sendMessage(component);
 ```
 
   </TabItem>
-  <TabItem value="velocity" label="Velocity">
+  <TabItem 
+    value="velocity" 
+    label={
+      <>
+        <img src="/assets/velocity_logo.svg" alt="Velocity Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Velocity
+      </>
+    }
+  >
 
 ```java
 // Get the MiniMessage instance with Synapse placeholders

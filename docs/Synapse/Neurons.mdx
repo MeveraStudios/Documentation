@@ -50,7 +50,42 @@ public class MultiNeuron extends BukkitNeuron {
 ## Creating Your First Neuron
 
 <Tabs groupId="synapse-platforms">
-  <TabItem value="bukkit" label="Bukkit/Paper">
+  <TabItem 
+    value="hytale" 
+    label={
+      <>
+        <img src="/assets/hytale.png" alt="Hytale Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Hytale
+      </>
+    }
+  >
+
+```java
+public class MyCustomNeuron extends HytaleNeuron {
+    
+    public MyCustomNeuron(JavaPlugin plugin) {
+        super(plugin, Namespace.of("custom"));
+        registerPlaceholders();
+    }
+    
+    private void registerPlaceholders() {
+        // Register your placeholders here
+        register("hello", "Hello World!");
+        register("server_name", () -> HytaleServer.get().getName());
+    }
+}
+```
+
+  </TabItem>
+  <TabItem 
+    value="bukkit" 
+    label={
+      <>
+        <img src="/assets/bukkit.png" alt="Bukkit Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Bukkit/Paper
+      </>
+    }
+  >
 
 ```java
 public class MyCustomNeuron extends BukkitNeuron {
@@ -69,7 +104,15 @@ public class MyCustomNeuron extends BukkitNeuron {
 ```
 
   </TabItem>
-  <TabItem value="bungee" label="BungeeCord">
+  <TabItem 
+    value="bungee" 
+    label={
+      <>
+        <img src="/assets/bungeecord.png" alt="BungeeCord Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 4 }} />
+        BungeeCord
+      </>
+    }
+  >
 
 ```java
 public class MyCustomNeuron extends BungeeNeuron {
@@ -87,7 +130,15 @@ public class MyCustomNeuron extends BungeeNeuron {
 ```
 
   </TabItem>
-  <TabItem value="velocity" label="Velocity">
+  <TabItem 
+    value="velocity" 
+    label={
+      <>
+        <img src="/assets/velocity_logo.svg" alt="Velocity Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Velocity
+      </>
+    }
+  >
 
 ```java
 public class MyCustomNeuron extends VelocityNeuron {
@@ -112,7 +163,33 @@ public class MyCustomNeuron extends VelocityNeuron {
 After creating your neuron, register it with Synapse:
 
 <Tabs groupId="synapse-platforms">
-  <TabItem value="bukkit" label="Bukkit/Paper">
+  <TabItem 
+    value="hytale" 
+    label={
+      <>
+        <img src="/assets/hytale.png" alt="Hytale Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Hytale
+      </>
+    }
+  >
+
+```java
+@Override
+public void start() {
+    new MyCustomNeuron(this).register();
+}
+```
+
+  </TabItem>
+  <TabItem 
+    value="bukkit" 
+    label={
+      <>
+        <img src="/assets/bukkit.png" alt="Bukkit Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Bukkit/Paper
+      </>
+    }
+  >
 
 ```java
 @Override
@@ -122,7 +199,15 @@ public void onEnable() {
 ```
 
   </TabItem>
-  <TabItem value="bungee" label="BungeeCord">
+  <TabItem 
+    value="bungee" 
+    label={
+      <>
+        <img src="/assets/bungeecord.png" alt="BungeeCord Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 4 }} />
+        BungeeCord
+      </>
+    }
+  >
 
 ```java
 @Override
@@ -132,7 +217,15 @@ public void onEnable() {
 ```
 
   </TabItem>
-  <TabItem value="velocity" label="Velocity">
+  <TabItem 
+    value="velocity" 
+    label={
+      <>
+        <img src="/assets/velocity_logo.svg" alt="Velocity Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Velocity
+      </>
+    }
+  >
 
 ```java
 @Subscribe

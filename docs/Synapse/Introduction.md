@@ -57,6 +57,32 @@ Synapse is hosted on **maven-central**, so no need to add any specific repositor
 
 <Tabs groupId="synapse-platforms">
   <TabItem 
+    value="hytale" 
+    label={
+      <>
+        <img src="/assets/hytale.png" alt="Hytale Logo" style={{ height: 20, marginRight: 6, position: "relative", top: 2 }} />
+        Hytale
+      </>
+    }
+  >
+  • First of all, we add it to our ``manifist.json``
+    ```json
+    "OptionalDependencies": {
+      "Synapse": ">=1.0.0"
+    }
+    ```
+  • And then to our build tool!
+    <LatestVersionBlock 
+      owner="MeveraStudios" 
+      repo="Synapse" 
+      group="studio.mevera" 
+      id="synapse-hytale" 
+    />
+  • The Synapse class in this is case is: ``HytaleSynapse``
+
+  • And of course the Neuron class will be ``HytaleNeuron``
+  </TabItem>
+  <TabItem 
     value="bukkit" 
     label={
       <>
