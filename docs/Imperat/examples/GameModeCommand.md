@@ -90,5 +90,7 @@ public void onEnable() {
     imperat = BukkitImperat.builder(this)
                 .parameterType(GameMode.class, new ParameterGameMode())
                 .build();
+
+    imperat.registerCommand(new GameModeCommand())
 }
 ```
