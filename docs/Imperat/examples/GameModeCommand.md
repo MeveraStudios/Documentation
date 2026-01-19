@@ -5,54 +5,41 @@ sidebar_position: 12
 
 This is a simple example of how you could create a gamemode command in minecraft **(using bukkit)**, along with its shortcuts (e.g: `/gms`, `/gmc`).
 Before creating our command class, let's create a preprocess to make sure our gamemode command can be run by players only, We can easily do that by declaring the source as `Player`.
-
 Now let's write our command class:
-```java
 
+```java
 @Command({"gamemode", "gm"})
-@Permission("lobby.gamemode")
+@Permission("server.gamemode")
+@Description("Change player gamemode")
 public class GameModeCommand {
 
     @Usage
-    public void defUsage(
+    public void mainUsage(
             Player source,
-            @NotNull @Named("gamemode") GameMode gameMode,
-            @Optional @Nullable @Named("player") Player other
+            @Named("mode") GameMode gameMode,
+            @Default("me") @Named("target") Player target
     ) {
-        // /gamemode <gamemode> [player]
-        Player target = other == null ? source.asPlayer() : other;
+        // Handle: /gamemode <mode> [target]
         target.setGameMode(gameMode);
-
-        LobbyCore.sendPrefixed(target, "&bYour gamemode has been set to &f&l" + capitalize(gameMode.name()));
-        if(other != null) {
-            LobbyCore.sendPrefixed(source.asPlayer(), "&7You have set &2" + other.getName() + "&7's gamemode to &2" + capitalize(gameMode.name()));
+        
+        source.sendMessage("Gamemode updated to " + gameMode.name());
+        if (target != source) {
+            target.sendMessage("Your gamemode was updated by " + source.getName());
         }
     }
-
+    
+    // Independent root aliases.
     @Command("gmc")
-    public void gmc(Player source, @Optional @Named("player") Player target) {
-        defUsage(source, GameMode.CREATIVE, target);
+    @Permission("server.gamemode.creative")
+    public void creative(Player source, @Default("me") @Named("target") Player target) {
+        mainUsage(source, GameMode.CREATIVE, target);
     }
-
+    
     @Command("gms")
-    public void gms(Player source, @Optional @Named("player") Player target) {
-        defUsage(source, GameMode.SURVIVAL, target);
+    @Permission("server.gamemode.survival")
+    public void survival(Player source, @Default("me") @Named("target") Player target) {
+        mainUsage(source, GameMode.SURVIVAL, target);
     }
-
-    @Command("gma")
-    public void gma(Player source, @Optional @Named("player") Player target) {
-        defUsage(source, GameMode.ADVENTURE, target);
-    }
-
-    @Command("gmsp")
-    public void gmsp(Player source, @Optional @Named("player") Player target) {
-        defUsage(source, GameMode.SPECTATOR, target);
-    }
-
-    private static String capitalize(String str) {
-        return str.substring(0, 1).toUpperCase() + str.substring(1);
-    }
-
 }
 ```
 
