@@ -53,7 +53,11 @@ So if a Neuron with the namespace ``player`` is registered, and we register a ``
 
 ### 🛠️ For Developers
 
-Synapse is hosted on **maven-central**, so no need to add any specific repository.
+Synapse is hosted on **Maven Central**.
+
+**For Gradle users:** You need to add `mavenCentral()` to your repositories block.
+
+**For Maven users:** Maven Central is already included by default, so no repository configuration is needed.
 
 <Tabs groupId="synapse-platforms">
   <TabItem 
