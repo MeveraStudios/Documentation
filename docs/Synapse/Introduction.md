@@ -15,7 +15,7 @@ import LatestVersionBlock from '../../src/components/LatestVersionBlock';
 
 The process is fairly simple:
 1. Download the latest `synapse-PLATFORM-*.*.jar` from the [Releases](https://github.com/MeveraStudios/Synapse/releases).
-2. Place the JAR file in your server's `plugins/` directory.
+2. Place the JAR file in your server's `plugins/` (or `mods/` if you're on hytale) directory.
 3. Restart your server.
 4. Configure as needed.
 
@@ -72,7 +72,7 @@ Synapse is hosted on **Maven Central**.
   • First of all, we add it to our ``manifist.json``
     ```json
     "OptionalDependencies": {
-      "Synapse": ">=1.0.0"
+      "studio.mevera:Synapse": ">=1.0.0"
     }
     ```
   • And then to our build tool!
