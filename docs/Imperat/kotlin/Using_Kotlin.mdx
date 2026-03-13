@@ -1,0 +1,161 @@
+ # Dependencies
+
+Gradle (Kotlin DSL):
+
+```kotlin
+dependencies {
+    implementation("studio.mevera:imperat-core:<version>")
+    implementation("studio.mevera:imperat-bukkit:<version>") // or your platform
+
+    // Required for Kotlin features
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    // Required for suspend commands
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+}
+```
+
+**Why:**
+
+* `kotlin-reflect` → required so Imperat can read **default parameter values and Kotlin metadata**.
+* `kotlinx-coroutines` → required for **suspend command execution**.
+
+# Imperat Initialization (Kotlin Mode)
+
+When using Kotlin features, you **must enable Kotlin parsing mode**.
+
+You also must provide a **CoroutineScope** if you want suspend commands.
+
+```kotlin
+class MyPlugin : JavaPlugin() {
+
+    lateinit var imperat: BukkitImperat
+
+    override fun onEnable() {
+
+        imperat = BukkitImperat.builder(this)
+            .setCommandParsingMode(CommandParsingMode.KOTLIN)
+            // Optional, if you want to use suspend functions
+            .setCoroutineScope(CoroutineScope(SupervisorJob() + Dispatchers.Default))
+            .build()
+
+        imperat.registerCommand(ExampleCommand())
+    }
+}
+```
+
+Important notes:
+
+* `setCommandParsingMode(CommandParsingMode.KOTLIN)`
+  Enables Kotlin reflection support so **default parameters and other Kotlin features work**.
+
+* `setCoroutineScope(...)`
+  Required for **suspend commands**.
+  Internally **all suspend commands execute inside `launch`** using this scope.
+
+# Basic Kotlin Command Example
+
+In Kotlin you can rely on **default parameter values** instead of Imperat's `@Default`.
+
+```kotlin
+@Command(["gamemode", "gm"])
+@Permission("server.gamemode")
+class GameModeCommand {
+
+    @Execute
+    fun changeGamemode(
+        player: Player,
+        @Named("mode") mode: GameMode,
+        @Named("target") target: Player = player
+    ) {
+
+        target.gameMode = mode
+        player.sendMessage("Gamemode updated to ${mode.name}")
+
+        if (target != player) {
+            target.sendMessage("Your gamemode was updated by ${player.name}")
+        }
+    }
+}
+```
+
+Command usage:
+
+```
+/gamemode <mode> [target]
+```
+
+Kotlin handles the optional parameter because:
+
+```kotlin
+target: Player = player
+```
+
+# Kotlin Suspend Command Example
+
+Imperat supports **asynchronous commands** via Kotlin coroutines.
+
+```kotlin
+@Command(["profile"])
+class ProfileCommand {
+
+    @Execute
+    suspend fun profile(
+        player: Player,
+        @Named("target") target: Player = player
+    ) {
+
+        // pretend this is a database call
+        val stats = loadPlayerStats(target)
+
+        player.sendMessage("Stats for ${target.name}: $stats")
+    }
+
+    private suspend fun loadPlayerStats(player: Player): String {
+        delay(200) // simulate IO
+        return "Kills: 52, Wins: 9"
+    }
+}
+```
+
+Execution model:
+
+```
+imperatScope.launch {
+    suspendCommand()
+}
+```
+
+# Kotlin Subcommands Example
+
+```kotlin
+@Command(["rank"])
+class RankCommand {
+
+    @SubCommand("create")
+    fun create(
+        sender: CommandSender,
+        name: String,
+        weight: Int = 0
+    ) {
+        sender.sendMessage("Created rank $name with weight $weight")
+    }
+
+    @SubCommand("delete")
+    suspend fun delete(
+        sender: CommandSender,
+        name: String
+    ) {
+        delay(100)
+        sender.sendMessage("Deleted rank $name")
+    }
+}
+```
+
+Usage:
+
+```
+/rank create admin
+/rank create admin 10
+/rank delete admin
+```
